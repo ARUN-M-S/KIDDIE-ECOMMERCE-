@@ -326,6 +326,7 @@ getdailySales:()=>{
     resolve(dailySale)
   })
 },
+// ===================================GetCategorywisesale==========================
 
 getCatSales:()=>{
   return new Promise(async(resolve,reject)=>{
@@ -374,7 +375,60 @@ getCatSales:()=>{
     resolve(catSales)
   })
 },
-
+// ======================================Monthysale==========================
+getMonthlySales:()=>{
+  return new Promise(async(resolve,reject)=>{
+    let monthlySale = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $unwind: "$products"
+      },
+      {
+        $match:{
+          "products.status": "Delivered"
+        }
+      },
+      {
+        $group:{
+          _id: {$dateToString: {format: "%Y-%m",date:"$date"}},
+          totalAmount: {$sum:"$products.subTotal"},
+          count:{$sum:1}
+        }
+      },
+      {
+        $sort: {_id:-1}
+      },
+     
+    ]).toArray()
+    resolve(monthlySale)
+  })
+},
+// =======================================YearlySales====================
+getYearlySales:()=>{
+  return new Promise(async(resolve,reject)=>{
+    let yearlySale = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $unwind: "$products"
+      },
+      {
+        $match:{
+          "products.status": "Delivered"
+        }
+      },
+      {
+        $group:{
+          _id: {$dateToString: {format: "%Y",date:"$date"}},
+          totalAmount: {$sum:"$products.subTotal"},
+          count:{$sum:1}
+        }
+      },
+      {
+        $sort: {_id:-1}
+      },
+     
+    ]).toArray()
+    resolve(yearlySale)
+  })
+},
 getTopSelling:()=>{
   return new Promise(async(resolve,reject)=>{
     let topSelling = await db.get().collection(collections.ORDER_COLLECTION).aggregate([

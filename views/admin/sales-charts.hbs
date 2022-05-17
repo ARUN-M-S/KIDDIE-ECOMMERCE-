@@ -1,0 +1,226 @@
+
+{{!-- =============================salesreport======================== --}}
+<div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+     <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart2"></canvas>
+      </div>
+    </div>
+       <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart3"></canvas>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  
+<script>
+
+$( document ).ready(function() {
+    $.ajax({
+        url: '/admin/getChartDatess',
+        method: 'get',
+        success:async(chartDatas)=>{
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartDatas.daysOfWeek,
+                    datasets: [{
+                        label: 'Weekly Sales Report',
+                        data: chartDatas.dailyAmt,
+                        backgroundColor: [
+                              'rgba(255, 30, 100, 1)',
+                    'rgba(54, 100, 235, 1)',
+                    'rgba(255, 106, 86, 1)',
+                    'rgba(0, 192, 192, 1)',
+                    'rgba(153, 40, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(40, 100, 255, 1)',
+                             'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)' 
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            
+                        },
+                    }
+                }
+            });
+
+           
+
+        }
+    })
+
+})
+
+
+
+     $(document).ready(function () {
+        $.ajax({
+            url: '/admin/getChartDatess',
+            method: 'get',
+            success:async(chartDatas)=>{
+            const ctx = document.getElementById('myChart2').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartDatas.months,
+                    datasets: [{
+                        label: 'Monthly Sales Report',
+                        data: chartDatas.montlyAmt,
+                        backgroundColor: [
+                              'rgba(255, 30, 100, 1)',
+                    'rgba(54, 100, 235, 1)',
+                    'rgba(255, 106, 86, 1)',
+                    'rgba(0, 192, 192, 1)',
+                    'rgba(153, 40, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                        ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+        })
+
+    })
+     $(document).ready(function () {
+        $.ajax({
+            url: '/admin/getChartDatess',
+            method: 'get',
+             success:async(chartDatas)=>{
+            const ctx = document.getElementById('myChart3').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartDatas.year,
+                    datasets: [{
+                        label: 'Monthly Sales Report',
+                        data: chartDatas.yearlyAmt,
+                        backgroundColor: [
+                              'rgba(255, 30, 100, 1)',
+                    'rgba(54, 100, 235, 1)',
+                    'rgba(255, 106, 86, 1)',
+                    'rgba(0, 192, 192, 1)',
+                    'rgba(153, 40, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                        ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+        })
+
+    })
+      </script>
+
+
+
+
+
+{{!-- ===============================salesreport================================ --}}
+     </div>
+     
+     
+  </section>
+
+  <script>
+   let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".sidebarBtn");
+sidebarBtn.onclick = function() {
+  sidebar.classList.toggle("active");
+  if(sidebar.classList.contains("active")){
+  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+}else
+  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+}
+ </script>
+
+ <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      .chartMenu {
+        width: 100vw;
+        height: 5rem;
+        background: #ffffff;
+        color: #ffffff;
+      }
+      .chartMenu p {
+        padding: 10px;
+        font-size: 20px;
+      }
+      .chartCard {
+        margin-top: -11rem;
+        width: 100vw;
+        height: calc(100vh - 40px);
+        background:#ffffff;
+        display: flex;
+      padding-top: 120px;
+        align-items: center;
+       
+      }
+      .chartBox {
+         margin-left: 2rem;
+        width: 50rem;
+
+        border-radius: 20px;
+        border: solid 3px rgb(0, 0, 0);
+        background: #ffffff;
+      }
+    </style>
+
+</body>
+</html>
+

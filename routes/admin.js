@@ -47,10 +47,14 @@ router.get("/", verifyLogin,async function (req, res, next) {
 
 
 router.get('/getChartDates',async(req,res)=>{
+  console.log("chartDatas");
   let dailySales = await adminHelper.getdailySales()
   let catSales = await adminHelper.getCatSales()
-  console.log(dailySales);
-  
+
+ 
+
+
+ 
   let dailyAmt = []
   let daysOfWeek = []
   let catSaleAmount = []
@@ -58,16 +62,17 @@ router.get('/getChartDates',async(req,res)=>{
   
   
 
-  // mapping daily sales amount
-  dailySales.map(daily=>{
-    dailyAmt.push(daily.totalAmount)
-  })
+ 
+// mapping daily sales amount
+dailySales.map(daily=>{
+  dailyAmt.push(daily.totalAmount)
+})
 
 
-  // mapping daily sales dates
-  dailySales.map(daily=>{
-    daysOfWeek.push(daily._id) //Array of days in a week
-  })
+// mapping daily sales dates
+dailySales.map(daily=>{
+  daysOfWeek.push(daily._id) //Array of days in a week
+})
 
   
   // mapping category name and category amount
@@ -411,10 +416,7 @@ router.post("/add-product", verifyLogin, function (req, res, next) {
 
 // find subcategory
 router.get("/find-subcategory", verifyLogin, function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   productHelper.getSubcategory(req.query).then((response) => {
     res.send(response);
   });
@@ -422,10 +424,7 @@ router.get("/find-subcategory", verifyLogin, function (req, res, next) {
 
 // View products
 router.get("/view-product", verifyLogin, function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   productHelper.getAllProducts().then((response) => {
     if (response) {
       res.render("admin/view-products", {
@@ -462,40 +461,10 @@ router.post("/delete-product", verifyLogin, function (req, res, next) {
   });
 });
 
-// delete product variant
-// router.post("/delete-variant", verifyLogin, function (req, res, next) {
-//   productHelper.getOneProduct(req.body.id).then((result) => {
-//     productHelper.deleteProduct(req.body.id).then((response) => {
-//       if (response) {
-//         // To delete each product images
-//         for (i = 1; i <= 4; i++) {
-//           fs.unlink(
-//             `./public/images/product-images/${req.body.id}_${i}.webp`,
-//             (err) => {
-//               if (err) {
-//                 console.log(err);
-//               } else {
-//                 console.log("product image is deleted.");
-//               }
-//             }
-//           );
-//         }
-//         res.redirect("/admin/view-product");
-//       } else {
-//         console.log("Couldn't delete product images[no response]");
-//         res.redirect("/admin/view-product");
-//       }
-//     });
-//   });
-// });
-
 // get edit product page
 var productEditMsg;
 router.get("/edit-product/", verifyLogin, function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   productHelper.getOneProduct(req.query.id).then((result) => {
     if (result) {
       adminHelper.getBrand().then((allBrand) => {
@@ -603,10 +572,7 @@ router.post("/edit-product/", verifyLogin, function (req, res, next) {
 
 // Get view user page
 router.get("/view-users", verifyLogin, (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   adminHelper.getUsers().then((response) => {
     if (response) {
       res.render("admin/view-users", {
@@ -643,10 +609,7 @@ router.post("/unblock-user", verifyLogin, (req, res) => {
 
 // Get blocked users list page
 router.get("/blocked-users", verifyLogin, (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   adminHelper.getBlockedUsers().then((response) => {
     if (response) {
       res.render("admin/blocked-users", {
@@ -661,10 +624,7 @@ router.get("/blocked-users", verifyLogin, (req, res, next) => {
 
 // BANNER MANAGEMENT
 router.get("/manage-banner", verifyLogin, async (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let allBanner = await adminHelper.getBanner();
   res.render("admin/manage-banner", {
     title: "Banner Management",
@@ -721,10 +681,7 @@ router.post("/manage-banner/", verifyLogin, function (req, res, next) {
 
 // Get order management page
 router.get("/manage-orders", verifyLogin, (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   adminHelper.viewOrders().then((response) => {
     if (response) {
       res.render("admin/order-management", {
@@ -803,10 +760,7 @@ router.post("/delete-product-offer", verifyLogin,async (req, res, next) => {
 
 // Get category offer management page
 router.get("/category-offer", verifyLogin,async (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   let allCategory = await adminHelper.getCategory()
   let offerList = await productHelper.getCategoryOffer()
   res.render("admin/category-offer", {
@@ -834,10 +788,7 @@ router.post("/delete-category-offer", verifyLogin,async (req, res, next) => {
 
 // Get coupon offer management page
 router.get("/coupon-offer", verifyLogin,async (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let couponList = await productHelper.getCouponOffer()
   res.render("admin/coupon-offer", {
     title: "Coupon Management",
@@ -873,10 +824,7 @@ router.post("/delete-coupon", verifyLogin,async (req, res, next) => {
 
 // Get sales report
 router.get("/sales-report", verifyLogin,async (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let fromDate = new Date(req.query.fromDate)
   let tillDate = new Date(req.query.tillDate)
   let salesReport = await productHelper.getSalesReport(fromDate,tillDate)
@@ -890,10 +838,7 @@ router.get("/sales-report", verifyLogin,async (req, res, next) => {
 
 // Get stock report
 router.get("/stock-report", verifyLogin,async (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let stockReport = await productHelper.getStockReport()
   res.render("admin/stock-report", {
     title: "Sales Report",
@@ -907,10 +852,7 @@ router.get("/stock-report", verifyLogin,async (req, res, next) => {
 // Get user report
 router.get("/user-report", verifyLogin,async (req, res, next) => {
 
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   
   let userReport = await adminHelper.getUserReport()
 
@@ -935,7 +877,76 @@ router.post("/add-curosel", (req, res) => {
     res.render("admin/add-category");
   });
 });
+router.get("/sales-charts", verifyLogin,async (req, res, next) => {
 
+  
+  
+  res.render("admin/sales-charts")
+});
+
+// ====================================salesChart===================
+router.get('/getChartDatess', verifyLogin, async(req,res)=>{
+  console.log("arunms");
+  let dailySales = await adminHelper.getdailySales();
+  let catSales = await adminHelper.getCatSales();
+  let monthlySale = await adminHelper.getMonthlySales();
+  let yearlySale = await adminHelper.getYearlySales();
+
+  let yearlyAmt = []
+  let year = []
+  let montlyAmt = []
+  let months = []
+  let dailyAmt = []
+  let daysOfWeek = []
+  let catSaleAmount = []
+  let categoryName = []
+  
+  
+
+
+   // mapping yearlysales amount
+   yearlySale.map(daily=>{
+    yearlyAmt.push(daily.totalAmount)
+  })
+
+
+  // mapping yearlysales dates
+  yearlySale.map(daily=>{
+    year.push(daily._id) //Array of days in a week
+  })
+
+  // mapping daily sales amount
+  dailySales.map(daily=>{
+    dailyAmt.push(daily.totalAmount)
+  })
+
+
+  // mapping daily sales dates
+  dailySales.map(daily=>{
+    daysOfWeek.push(daily._id) //Array of days in a week
+  })
+
+   // mapping montly sales amount
+ monthlySale.map(daily=>{
+  montlyAmt.push(daily.totalAmount)
+})
+
+
+// mapping montly sales dates
+monthlySale.map(daily=>{
+  months.push(daily._id) //Array of days in a week
+})
+console.log(months,"dailySaless");
+  // mapping category name and category amount
+  catSales.map(cat=>{
+    categoryName.push(cat._id)
+    catSaleAmount.push(cat.totalAmount)
+  })
+
+console.log(dailyAmt,"daily amount");
+
+  res.json({daysOfWeek,dailyAmt,categoryName,catSaleAmount,montlyAmt, months,yearlyAmt,year})
+})
 
 
 module.exports = router;

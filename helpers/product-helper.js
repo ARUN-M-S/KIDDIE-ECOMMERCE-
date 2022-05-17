@@ -94,12 +94,15 @@ module.exports = {
     return new Promise(async (resolve,reject)=>{
       let today = Date(Date.now());
       let date = today.toString();
+      console.log(date,"new Date");
       var dt = new Date(date);
-      dt.setDate( dt.getDate() - 2 );
+      dt.setDate( dt.getDate() - 1 );
+      newDate=dt.toString();
+      console.log(newDate,"this is my date");
       
       console.log(dt,"new arrivels");
-      let allProducts = await db.get().collection(collections.PRODUCT_COLLECTION).find({productVariants:{$elemMatch:{offer:{$gt:30}}}}).toArray()
-      
+      let allProducts = await db.get().collection(collections.PRODUCT_COLLECTION).find({Date:{$gt:newDate}}).limit(8).toArray()
+      console.log(allProducts,"New Products ");
       resolve(allProducts)
     })
   },

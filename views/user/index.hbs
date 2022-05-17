@@ -164,15 +164,15 @@
 
 <div class="container pt-3 pb-3" style="">
         <div class="row">
-            {{#each offerProducts}}
+            {{#each newArrivels}}
             <div class="col-md-3 col-sm-6 " style="margin-bottom: 2rem;">
                 <div class="product-grid">
                     <div class="product-image">
                         <a  class="image">
                            <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
                         </a>
-                        <span class="product-discount-label" style="width: max-content;">{{this.productVariants.0.offer}}%
-                            off</span>
+                        {{!-- <span class="product-discount-label" style="width: max-content;">{{this.productVariants.0.offer}}%
+                            off</span> --}}
                         <ul class="product-links">
                             
                             <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i

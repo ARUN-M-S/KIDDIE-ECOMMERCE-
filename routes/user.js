@@ -58,7 +58,8 @@ router.get("/", verifyLogin, async (req, res, next) => {
       carousel,
       category,
       offerProducts,
-      brands
+      brands,
+      newArrivels
     });
   })});
   cartMsg = null;
