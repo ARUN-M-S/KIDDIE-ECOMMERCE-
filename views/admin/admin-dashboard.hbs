@@ -1,0 +1,291 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link
+rel="stylesheet"
+href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css"
+/>
+
+<div class="row">
+    <div class="report-card col">
+        <div class="card bg-light">
+            <div class="card-body flex flex-col">
+            <!-- top -->
+            <div class="flex flex-row justify-between items-center">
+                <div class="text-indigo-700 fad fa-chart-line fs-3"></div>
+                <span
+                class="rounded-full text-white badge bg-teal-400 text-xs"
+                >
+                
+                <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                </span>
+            </div>
+            <!-- end top -->
+
+            <!-- bottom -->
+            <div class="mt-8">
+                <h1 class="h5 num-4"></h1>
+                <p class="fs-5">Total Revenue</p>
+                <span class="fs-4">{{totalRevenue}}</span>
+
+            </div>
+            <!-- end bottom -->
+            </div>
+        </div>
+            <div
+              class="
+                footer
+                bg-white
+                p-1
+                mx-4
+                border border-t-0
+                rounded rounded-t-none
+              "
+            >
+            </div>
+        </div>
+    <div class="report-card col">
+        <div class="card bg-light">
+            <div class="card-body flex flex-col">
+            <!-- top -->
+            <div class="flex flex-row justify-between items-center">
+                <div class="text-danger fad fa-store fs-3"></div>
+                <span
+                class="rounded-full text-white badge bg-teal-400 text-xs"
+                >
+                
+                <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                </span>
+            </div>
+            <!-- end top -->
+
+            <!-- bottom -->
+            <div class="mt-8">
+                <h1 class="h5 num-4"></h1>
+                <p class="fs-5">Delivered Orders</p>
+                <span class="fs-4">{{deliveredOrders}}</span>
+
+            </div>
+            <!-- end bottom -->
+            </div>
+        </div>
+            <div
+              class="
+                footer
+                bg-white
+                p-1
+                mx-4
+                border border-t-0
+                rounded rounded-t-none
+              "
+            >
+            </div>
+        </div>
+    <div class="report-card col">
+        <div class="card bg-light">
+            <div class="card-body flex flex-col">
+            <!-- top -->
+            <div class="flex flex-row justify-between items-center">
+                <div class="h6 text-warning fs-3 fad fa-sitemap"></div>
+                <span
+                class="rounded-full text-white badge bg-teal-400 text-xs"
+                >
+                
+                <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                </span>
+            </div>
+            <!-- end top -->
+
+            <!-- bottom -->
+            <div class="mt-8">
+                <h1 class="h5 num-4"></h1>
+                <p class="fs-5">Total Products</p>
+                <span class="fs-4">{{totalProducts}}</span>
+
+            </div>
+            <!-- end bottom -->
+            </div>
+        </div>
+            <div
+              class="
+                footer
+                bg-white
+                p-1
+                mx-4
+                border border-t-0
+                rounded rounded-t-none
+              "
+            >
+            </div>
+        </div>
+    <div class="report-card col">
+        <div class="card bg-light">
+            <div class="card-body flex flex-col">
+            <!-- top -->
+            <div class="flex flex-row justify-between items-center">
+                <div class="text-success fs-3 fad fa-users"></div>
+                <span
+                class="rounded-full text-white badge bg-teal-400 text-xs"
+                >
+                
+                <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                </span>
+            </div>
+            <!-- end top -->
+
+            <!-- bottom -->
+            <div class="mt-8">
+                <h1 class="h5 num-4"></h1>
+                <p class="fs-5">Total Users</p>
+                <span class="fs-4">{{totalUsers}}</span>
+            </div>
+            <!-- end bottom -->
+            </div>
+        </div>
+            <div
+              class="
+                footer
+                bg-white
+                p-1
+                mx-4
+                border border-t-0
+                rounded rounded-t-none
+              "
+            >
+            </div>
+        </div>
+</div>
+
+    <div class="row my-5">
+        <div class="col-md-5">
+            <h2>Weekly Sales</h2>
+            <canvas id="weeklySalesChart" class='' width="300" height="250"></canvas>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <h2>Subcategory Wise Sales</h2>
+            <canvas id="categorySales" class='' width="200" height="200"></canvas>
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-success table-hover" id="topSelling" style="box-shadow: 2px 3px 15px;">
+                <legend class="fs-2 fw-bold">Best Selling Products</legend>
+                <thead>
+                    <tr>
+                    <th scope="col">SL.No</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each topSelling}}
+                        <tr>
+                        <td> {{@index}} </td>
+                        <td> {{this._id}} </td>
+                        <td>{{this.totalQty}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-danger table-hover col-md-6" id="stockOut" style="box-shadow: 2px 3px 15px;">
+                <legend class="fs-2 fw-bold">Less Stock Products</legend>
+                <thead>
+                    <tr>
+                    <th scope="col">SL.No</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each stockOut}}
+                        <tr>
+                        <td> {{@index}} </td>
+                        <td> {{this._id}} </td>
+                        <td>{{this.stock}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+<script>
+
+$( document ).ready(function() {
+    $.ajax({
+        url: '/admin/getChartDates',
+        method: 'get',
+        success:async(chartDatas)=>{
+            const ctx = document.getElementById('weeklySalesChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartDatas.daysOfWeek,
+                    datasets: [{
+                        label: 'Weekly Sales Report',
+                        data: chartDatas.dailyAmt,
+                        backgroundColor: [
+                            'rgba(0, 50, 235, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(40, 100, 255, 1)',
+                            {{!-- 'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)' --}}
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            
+                        },
+                    }
+                }
+            });
+
+            const ctx3 = document.getElementById('categorySales').getContext('2d');
+            const myChart3 = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: chartDatas.categoryName,
+                datasets: [{
+                    label: 'Category Wise Sales',
+                    data: chartDatas.catSaleAmount,
+                backgroundColor: [
+                    'rgba(255, 30, 100, 1)',
+                    'rgba(54, 100, 235, 1)',
+                    'rgba(255, 106, 86, 1)',
+                    'rgba(0, 192, 192, 1)',
+                    'rgba(153, 40, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        });
+
+        }
+    })
+
+})
+
+
+</script>

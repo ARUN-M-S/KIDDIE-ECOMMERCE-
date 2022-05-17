@@ -1,0 +1,115 @@
+<div class="text-center py-3 bg-green-200">
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Users</h1>
+    </main>
+    <div class="px-2 bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="viewUserTable">
+
+        <thead>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">USERNAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">PHONE</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {{#each allUsers}}
+            <tr>
+              <td class="align-middle">{{@index}}</td>
+              <td class="align-middle"> {{this.firstName}} </td>
+              <td class="align-middle"> {{this.email}} </td>
+              <td class="align-middle"> {{this.phone}} </td>
+              <td class="align-middle"> 
+                {{#if this.userBlocked}}
+                  Blocked
+                {{else}}
+                  Active
+                {{/if}}
+                  </td>
+              <td class="align-middle">
+                   {{#if this.userBlocked}}
+                    <a
+                    class="btn btn-success"
+                    onclick="unblockUser('{{this._id}}')"
+                  >Unblock</a>
+                  {{else}}
+                  <a
+                    class="btn btn-warning"
+                    style="width: 82px;"
+                    onclick="blockUser('{{this._id}}')"
+                  >Block</a>
+                {{/if}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div> 
+  </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+// sweet alert for block user
+  function blockUser(id){ 
+    swal({ 
+      title: "Are you sure?",
+      text:"You want to block the user?",
+      icon:"warning",
+      buttons: true,
+      dangerMode: true,
+      })
+      .then((willBlock) => {
+        if(willBlock) { 
+          $.ajax({ 
+            url:"/admin/block-user",
+            method:"POST",
+            data:{id:id},
+            success:(result)=>{ 
+              if(result.status){ 
+                swal("User Blocked Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/view-users' 
+            }
+          });
+        }
+      })
+    }
+
+// sweet alert for unblock user
+  function unblockUser(id){ 
+    swal({ 
+      title: "Are you sure?",
+      text:"You want to unblock the user?",
+      icon:"warning",
+      buttons: true,
+      dangerMode: true,
+      })
+      .then((willUnblock) => {
+        if(willUnblock) { 
+          $.ajax({ 
+            url:"/admin/unblock-user",
+            method:"POST",
+            data:{id:id},
+            success:(result)=>{ 
+              if(result.status){ 
+                swal("User unblocked Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/view-users' 
+            }
+          });
+        }
+      })
+    }
+
+</script>

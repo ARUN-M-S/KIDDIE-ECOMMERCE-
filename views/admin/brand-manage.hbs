@@ -1,0 +1,189 @@
+<div class="container col-5 mt-3 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form
+      action="/admin/addBrand"
+      class="col"
+      enctype="multipart/form-data"
+      id="addBrandForm"
+      method="post"
+    >
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 p-4 text-left font-weight-bold"
+            style="font-size: 15px;"
+          >Add New Brand</p>
+          <div class="px-3 px-4">
+            <div class="col">
+              <div class="signup__input">
+                <p>Brand Name: </p>
+                <input type="text" name="brandName" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p>Brand Logo: </p>
+                <input type="file" name="brandLogo" accept="image/*" id="logoInput" />
+                <div class="image-preview" id="imagePreview">
+                  <img src="" alt="Image Preview" class="image-preview-image">
+                  <span class="image-preview-text">Image Preview</span>
+                </div>
+              </div>
+
+              {{#if brandMsg.status}}
+                <p class="alert-success"> {{brandMsg.msg}}</p>
+              {{else}}
+                <p class="alert-danger"> {{brandMsg.msg}}</p>
+              {{/if}}
+
+
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  class="btn btn-success px-4 py-2"
+                  type="submit"
+                  style="border-radius: 30px;"
+                >
+                  ADD BRAND
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<div class="text-center py-3 bg-green-200">
+
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Brands</h1>
+    </main>
+    <div class="container bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="brandTable">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Brand Logo</th>
+            <th scope="col">Brand Name</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {{#each allBrand}}
+            <tr>
+              <td class="align-middle">{{@index}}</td>
+              <td class="align-middle"> <img src="/images/brand-logo/{{this._id}}.png" width="50px" height="50px"> </td>
+              <td class="align-middle"> {{this.brandName}} </td>
+              <td class="align-middle">
+                      <a onclick="deleteBrand('{{this.brandName}}')"  class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                      
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+    //sweet alert for delete category button
+  function deleteBrand(brand){ 
+    swal({ 
+     title: "Are you sure?",
+      text:"Do you want to delete all products of this Brand?",
+      icon:"warning",
+      buttons: {
+        cancel: "Cancel",
+        yes: {
+          text: "Yes",
+          value: true,
+        },
+        no: {
+          text: "No",
+          value: false
+          }
+      },
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+        if(willDelete===true) { 
+          $.ajax({ 
+            url:"/admin/delete-brand",
+            method:"POST",
+            data:{brandName:brand,isPro:"yes",isBrand:"yes"},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Brand and its products deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/brand' 
+            }
+          });
+        }
+        if(willDelete===false) { 
+          $.ajax({ 
+            url:"/admin/delete-brand",
+            method:"POST",
+            data:{brandName:brand,isPro:"no",isBrand:"yes"},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Brand deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/brand' 
+            }
+          });
+        }
+      })
+    }
+
+
+
+  // Image Preview For Brand Logo
+
+  const logoFile = document.getElementById('logoInput')
+const previewContainer = document.getElementById('imagePreview')
+const previewImage = previewContainer.querySelector('.image-preview-image')
+const previewDefaultText = previewContainer.querySelector('.image-preview-text')
+
+logoFile.addEventListener('change',()=>{
+  const file = logoFile.files[0]
+
+  if(file){
+    const reader = new FileReader()
+
+    previewDefaultText.style.display = 'none'
+    previewImage.style.display = 'block'
+    
+    reader.addEventListener('load', ()=>{
+      previewImage.setAttribute('src', reader.result)
+    })
+    
+    
+    reader.readAsDataURL(file)
+  }
+  else{
+    previewDefaultText.style.display = null
+    previewImage.style.display = null
+    
+    previewImage.setAttribute('src','')
+  }
+})
+</script>

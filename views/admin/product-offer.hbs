@@ -1,0 +1,221 @@
+<div class="container col-5 mt-3 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form
+      action="/admin/product-offer"
+      class="col"
+      id="addOfferForm"
+      method="post"
+    >
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 p-4 text-left font-weight-bold"
+            style="font-size: 15px;"
+          >Product Offer</p>
+          <div class="px-3 px-4">
+            <div class="col">
+              <div class="signup__input">
+                <p>Product Name: </p>
+                <select
+                    class="form-select"
+                    style="border-radius: 30px;"
+                    name="offerProduct"
+                    aria-label="Default select example"
+                    id="offerProduct"
+                  >
+                    <option selected disabled >Select</option>
+                    {{#each allProducts}}
+                      <option
+                        value="{{this.productName}}"
+                      >{{this.productName}}</option>
+                    {{/each}}
+                  </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p>Offer Percentage %: </p>
+                <input type="text" name="discount" id="discount" />
+              </div>
+            </div>
+            <div class="col row">
+              <div class="signup__input col">
+                <p>Start Date: </p>
+                <input type="date" name="startDate" id="startDate" onchange="getStartDate()" />
+              </div>
+              <div class="signup__input col">
+                <p>Expiry Date: </p>
+                <input type="date" name="expiryDate" id="expiryDate" />
+              </div>
+            </div>
+
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  class="btn btn-success px-4 py-2"
+                  type="submit"
+                  style="border-radius: 30px;"
+                >
+                  ADD OFFER
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<div class="text-center py-3 bg-green-200">
+
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Product Offers</h1>
+    </main>
+    <div class="container bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="productOfferTable">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Discount %</th>
+            <th scope="col">Original Price</th>
+            <th scope="col">Offer Price</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each offerList}}
+            <tr>
+              <td class="align-middle">{{@index}}</td>
+              <td class="align-middle"> {{this.offerProduct}} </td>
+              <td class="align-middle"> {{this.discount}} </td>
+              <td class="align-middle"> {{this.productPrice}} </td>
+              <td class="align-middle"> {{this.offerPrice}} </td>
+              <td class="align-middle"> {{this.startDate}} </td>
+              <td class="align-middle"> {{this.expiryDate}} </td>
+              <td class="align-middle">
+                <a onclick="deleteOffer('{{this.productId}}','{{this._id}}')"  class="text-danger"><i class="fas fa-trash-alt"></i></a>        
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+
+
+// ONLY NUMBERS IN price fields
+setInputFilter(document.getElementById("discount"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 60);
+});
+
+
+
+
+    //sweet alert for delete category button
+  function deleteOffer(proId,offerId){ 
+    swal({ 
+     title: "Are you sure?",
+      text:"Do you want to delete the offer?",
+      icon:"warning",
+      buttons: true,
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+        if(willDelete) { 
+          $.ajax({ 
+            url:"/admin/delete-product-offer",
+            method:"POST",
+            data:{proId,offerId},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Offer deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/product-offer' 
+            }
+          });
+        }
+      })
+    }
+
+$(function(){
+    var dtToday = new Date();
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var maxDate = year + '-' + month + '-' + day;
+    $('#startDate').attr('min', maxDate);
+});
+
+
+function getStartDate(){
+  var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate();
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+      
+  let startDate = document.getElementById('startDate').value
+  document.getElementById('expiryDate').setAttribute('min',startDate)
+
+}
+
+
+</script>

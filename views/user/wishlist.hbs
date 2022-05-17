@@ -1,0 +1,124 @@
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Wishlist</h4>
+          <div class="breadcrumb__links">
+            <a href="/">Home</a>
+            <span>Wishlist</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shop Section Begin -->
+<section class="shop spad">
+  <div class="container">
+    <div class="row">
+        {{#if wishlistMsg}}
+          
+
+<a href="/"><img style="width: 100%; min-height:80vh" src="/Home/images/Screenshot 2022-05-03 at 3.26.33 PM.png" alt=""></a>
+
+        {{/if}}
+      
+       <div class="container pb-4" style="">
+        <div class="row">
+            {{#each wishlists}}
+            <div class="col-md-3 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a onclick="productDetail('{{this.product._id}}')" class="image">
+                           <img src="/images/product-images/{{this.product._id}}/{{this.product.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        {{!-- <span class="product-discount-label" style="width: max-content;">{{this.offerpercentage}}%
+                            off</span> --}}
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="removeWishlist('{{this.product._id}}','{{../user._id}}')"><i
+                                        class="fa fa-x"></i></a></li>
+                            <li><a onclick="productDetail('{{this.product._id}}')"><i class="fa fa-search pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+          
+
+        </div>
+    </div>
+
+    </div>
+  </div>
+</section>
+<!-- Shop Section End -->
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function productDetail(id){ 
+    window.location = `/product-details?id=${id}` 
+  }
+
+
+  function removeWishlist(proId,userId){
+    $.ajax({
+      url: "/remove-wishlist",
+      method: "post",
+      data:{
+        proId,userId
+      },
+      success:async(res)=>{
+        if(res.status){
+          const Toast = await Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            }
+          })
+          await Toast.fire({
+            icon: 'success',
+            title: 'Wishlist Removed Successfully'
+          })
+          location.reload('/wishlist')
+        }
+        else{
+          location.reload('/wishlist')
+        }
+      }
+    })
+  }
+
+
+</script>

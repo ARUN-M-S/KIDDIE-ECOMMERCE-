@@ -1,0 +1,63 @@
+<div class="text-center py-3 bg-green-200">
+  <div class="">
+    <main class="">
+      <h1>Stock Report</h1>
+    </main>
+    <div class="px-2 bg-light my-5 mx-auto">
+      <table id="stockReport" class="display wrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>SL No.</th>
+                <th>Product</th>
+                <th>Stock</th>
+                <th>Sold Qty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each stockReport}}
+            <tr>
+                <td> {{@index}} </td>
+                <td>{{this._id}}</td>
+                <td>{{this.productVariants.productQuantity}}</td>
+                <td>{{this.totalQty}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </div> 
+  </div>
+</div>
+
+
+<script>
+  function getStockReports(){
+    let fromDate = document.getElementById('fromDate').value
+    let tillDate = document.getElementById('tillDate').value
+    $.ajax({
+      url: `/admin/stock-report`,
+      method: "get",
+      success:()=>{
+
+      }
+    })
+  }
+
+  $(function(){
+      var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate();
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+      $('#fromDate').attr('max', maxDate);
+      $('#tillDate').attr('max', maxDate);
+  });
+
+
+
+</script>

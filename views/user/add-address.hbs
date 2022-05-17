@@ -1,0 +1,187 @@
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="row">
+    <div class="p-3 col-md-7 centered mb-5">
+      <form action="/add-address" id="addAddressForm" method="post">
+        <div class="my-2">
+          <h3 class="text-dark p-3 text-center font-weight-bold">Add New Address</h3>
+        </div>
+        <div class="row mt-2 profile-view px-5">
+        {{#if addressMsg}}
+          <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+          >
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <strong>{{addressMsg}}</strong>
+          </div>
+          {{/if}}
+          <div class="form-check mb-3 mt-4 form-check-inline">
+            <input
+              type="radio"
+              class="btn-check"
+              name="addressType"
+              value="Home"
+              id="homeAddress"
+              autocomplete="off"
+              checked
+            />
+            <label
+              class="btn btn-outline-dark btn-sm"
+              for="homeAddress"
+            >Home</label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="addressType"
+              value="Office"
+              id="officeAddress"
+              autocomplete="off"
+            />
+            <label
+              class="btn btn-outline-dark btn-sm ms-3"
+              for="officeAddress"
+            >Office</label>
+          </div>
+
+          <div class="col-md-6"><label class="labels">Name</label><input
+              type="text"
+              name="name"
+              class="form-control"
+              placeholder="Name"
+            /></div>
+          <div class="col-md-6"><label class="labels">Mobile Number</label><input
+              type="text"
+              name="phone"
+              id="phoneNumber"
+              class="form-control"
+              placeholder="Phone"
+            /></div>
+          <div class="col-md-6 mt-1"><label class="labels">Pincode</label><input
+              type="text"
+              name="pincode"
+              id="pincode"
+              class="form-control"
+              placeholder="Pincode"
+            /></div>
+          <div class="col-md-6 mt-1"><label
+              class="labels"
+            >Locality</label><input
+              type="text"
+              name="locality"
+              class="form-control"
+              placeholder="Locality"
+            /></div>
+          <div class="col-md-12 mt-1"><label class="labels">House No./Building
+              No.</label><input
+              type="text"
+              name="houseNumber"
+              class="form-control"
+              placeholder="House No./Building No."
+            /></div>
+
+          <div class="col-md-12 mt-1"><label class="labels">Area or Street
+              Address</label><input
+              type="text"
+              name="streetAddress"
+              class="form-control"
+              placeholder="Area or Street Address"
+            /></div>
+
+          <div class="col-md-6 mt-1"><label
+              class="labels"
+            >District/Town</label><input
+              type="text"
+              name="district"
+              class="form-control"
+              placeholder="District/Town"
+            /></div>
+          <div class="col-md-6 mt-1"><label class="labels">State</label><input
+              type="text"
+              name="state"
+              class="form-control"
+              placeholder="State"
+            /></div>
+          <div class="col-md-12 text-center mt-4">
+            <button
+              class="btn btn-primary btn-lg"
+              type="submit"
+              style="font-size: 13px;"
+            >Add Address</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* user profile */ body { background: rgba(46, 157, 172, 0.507) }
+  .form-control:focus { box-shadow: none; border-color: #BA68C8 }
+  .profile-button { background: rgb(99, 39, 120); box-shadow: none; border: none
+  } .profile-button:hover { background: #682773 } .profile-button:focus {
+  background: #682773; box-shadow: none } .profile-button:active { background:
+  #682773; box-shadow: none } .back:hover { color: #682773; cursor: pointer }
+  .labels { font-size: 16px } .add-experience:hover { background: #BA68C8;
+  color: #fff; cursor: pointer; border: solid 1px #BA68C8 } .profile-div{
+  background: rgba(46, 170, 160, 0.603); box-shadow: 2px 5px 10px;
+  border-radius: 30px; } .address-fields{ background-color: rgba(51, 139, 125,
+  0.589); padding: 40px 5px; box-shadow: 2px 5px 10px; } .profile-view {
+  background-color: rgba(51, 139, 125, 0.589); padding: 40px 5px; box-shadow:
+  2px 5px 10px; }
+</style>
+
+<script>
+
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+
+
+
+    
+    // ONLY 10 NUMBERS IN PHONE FIELD
+setInputFilter(document.getElementById("phoneNumber"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+
+setInputFilter(document.getElementById("pincode"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 999999);
+});
+
+
+
+
+</script>

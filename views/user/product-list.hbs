@@ -1,0 +1,420 @@
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Shop</h4>
+          <div class="breadcrumb__links">
+            <a href="/">Home</a>
+            <span>Shop</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shop Section Begin -->
+<section class="shop spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="shop__sidebar">
+          <div class="shop__sidebar__search mb-5">
+            <form>
+              <input type="text" placeholder="Search..." onkeyup="sendData(this)" />
+              <section id="searchResult">
+                
+              </section>
+            </form>
+          </div>
+          <div class="mt-5 shop__sidebar__accordion">
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-heading">
+                  <a
+                    data-toggle="collapse"
+                    data-target="#collapseOne"
+                  >Sub Categories</a>
+                </div>
+                <div
+                  id="collapseOne"
+                  class="collapse"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body">
+                    <div class="shop__sidebar__categories">
+                      <ul class="nice-scroll">
+                        {{#each allCategory}}
+                        <li><a onclick="getSubProducts('{{this.subcategory}}')"> {{this.subcategory}} </a></li>
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-heading">
+                  <a
+                    data-toggle="collapse"
+                    data-target="#collapseTwo"
+                  >Branding</a>
+                </div>
+                <div
+                  id="collapseTwo"
+                  class="collapse"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body">
+                    <div class="shop__sidebar__brand">
+                      <ul>
+                        {{#each allBrands}}
+                          <li><a onclick="getBrandProducts('{{this.brandName}}')"> {{this.brandName}} </a></li>
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="shop__product__option">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              {{!-- <div class="shop__product__option__right">
+                <p>Sort by Price:</p>
+                <select>
+                  <option value="">Low To High</option>
+                  <option value="">High To Low</option>
+                </select>
+              </div> --}}
+            </div>
+          </div>
+        </div>
+        {{#if subProducts}}
+         <div class="container" style="">
+        <div class="row">
+            {{#each subProducts}}
+            <div class="col-md-4 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a onclick="productDetail('{{this._id}}')" class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        <span class="product-discount-label" style="width: max-content;">{{this.offerpercentage}}%
+                            off</span>
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-random pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            <div>
+
+
+                <h6 style="color: rgb(255, 0, 0);">{{offerprice}}</h6>
+
+            </div>
+
+        </div>
+    </div>
+
+        {{else}}
+
+        {{#if brandProducts}}
+         <div class="container" style="">
+        <div class="row">
+            {{#each brandProducts}}
+            <div class="col-md-4 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a onclick="productDetail('{{this._id}}')" class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        <span class="product-discount-label" style="width: max-content;">{{this.offerpercentage}}%
+                            off</span>
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-random pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            <div>
+
+
+                <h6 style="color: rgb(255, 0, 0);">{{offerprice}}</h6>
+
+            </div>
+
+        </div>
+    </div>
+{{else}}
+{{#if brandPro}}
+       <div class="container" style="">
+        <div class="row">
+            {{#each response}}
+            <div class="col-md-4 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a onclick="productDetail('{{this._id}}')" class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        {{!-- <span class="product-discount-label" style="width: max-content;">{{this.offerpercentage}}%
+                            off</span> --}}
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-search pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            <div>
+
+
+                <h6 style="color: rgb(255, 0, 0);">{{offerprice}}</h6>
+
+            </div>
+
+        </div>
+    </div>
+        {{else}}
+
+
+       <div class="container" style="">
+        <div class="row">
+            {{#each allProducts}}
+            <div class="col-md-4 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a onclick="productDetail('{{this._id}}')" class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        {{!-- <span class="product-discount-label" style="width: max-content;">{{this.offerpercentage}}%
+                            off</span> --}}
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-search pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            <div>
+
+
+                <h6 style="color: rgb(255, 0, 0);">{{offerprice}}</h6>
+
+            </div>
+
+        </div>
+    </div>
+        {{/if}}
+        {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shop Section End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+  function productDetail(id){ 
+    window.location = `/product-details?id=${id}` 
+  }
+
+  function getSubProducts(subName){
+    $.ajax({
+      url: '/getSubProducts',
+      method: 'post',
+      data: {subName},
+      success:(status)=>{
+        location.href = '/product-list'
+      }
+    })
+  }
+
+  function getBrandProducts(brand){
+    $.ajax({
+      url: `/getBrandProducts?brandName=${brand}`,
+      method: 'get',
+      success:(status)=>{
+        location.href = '/product-list'
+      }
+    })
+  }
+
+  // SEARCH PRODUCT
+
+    function sendData(e){
+      const searchResult = document.getElementById('searchResult')
+      let match = e.value.match(/^[a-zA-Z ]*/)
+      let match2 = e.value.match(/\s*/)
+
+      if(match2[0] === e.value){
+        searchResult.innerHTML = ''
+        return
+      }
+      if(match[0] === e.value){
+
+        fetch('searchProduct',{
+          method: "post",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({payload: e.value})
+        }).then(res => res.json()).then(data => {
+          let payload = data.payload
+          searchResult.innerHTML = ''
+          if(payload.length < 1){
+            searchResult.innerHTML = "<p>Sorry, Nothing Found</p>"
+            return;
+          }
+          payload.forEach((item,index)=>{
+            if(index > 0) searchResult.innerHTML += '<hr>'
+            searchResult.innerHTML += `<a onclick="productDetail('${item._id}')"> <p> ${item.productName} </p> </a>`
+          })
+          return
+        })
+      }
+
+      searchResult.innerHTML = ''
+
+    }
+
+</script>

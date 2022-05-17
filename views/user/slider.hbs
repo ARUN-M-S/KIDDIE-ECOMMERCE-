@@ -1,0 +1,160 @@
+
+<div class="container">
+  <div class="faders">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+
+  <div class="items">
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src=https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+    <div class="entry">
+      <p class="name">John Doe</p>
+      <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Smiling person" />
+      <p class="quote">"Man, I think this app freaking rocks and stuff. Dude."</p>
+    </div>
+  </div>
+</div>
+
+
+<style>
+@import url("https://fonts.googleapis.com/css?family=Muli:400,700&display=swap");
+
+body {
+  margin: 0;
+  height: calc(100vh - 8em);
+  font-family: "Muli", sans-serif;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  margin: 1.5em;
+}
+
+img {
+  width: 35%;
+  border-radius: 50%;
+}
+
+.container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  animation: carouselAnim 50s infinite alternate linear;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  width: 300px;
+  background: #fff;
+  margin: 1em;
+  padding: 0.5em;
+  border-radius: 10px;
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+@media only screen and (max-width: 768px) {
+  .items {
+    animation: carouselAnim 35s infinite alternate linear;
+  }
+  
+  @keyframes carouselAnim {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(calc(-100% + (2 * 300px)));
+    }
+  }
+}
+
+.entry p {
+  text-align: center;
+  padding: 1em;
+}
+
+.name {
+  font-weight: bold;
+}
+
+@keyframes carouselAnim {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(calc(-100% + (5 * 300px)));
+  }
+}
+
+.container .faders {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+}
+
+.faders .right,
+.faders .left {
+  background: linear-gradient(
+    to right,
+    rgba(245, 245, 245, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  width: 15%;
+  height: 100%;
+  position: absolute;
+  z-index: 200;
+}
+
+.right {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    rgba(245, 245, 245, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+</style>

@@ -1,0 +1,104 @@
+<div class="container mt-3 mb-5 d-flex justify-content-center">
+  <div class="signup__form" style="width: 550px;">
+    <div class="row">
+      <div class="col px-auto">
+        <h6 class="coupon__code text-center fs-4">LOGIN</h6>
+        <form action="/login" id="userLogin" method="post">
+
+          <div class="row px-md-5">
+            <div class="col text-center">
+              {{#if loginErr}} 
+                 <h5 class="alert alert-danger"> {{loginErr}} </h5>
+              {{/if}}
+              {{#if signupSuccess}}
+                 <h5 class="alert alert-success"> {{signupSuccess}} </h5>
+              {{/if}}
+              {{#if blockMsg}}
+                 <h5 class="alert alert-danger"> {{blockMsg}} </h5>
+              {{/if}}
+
+              <div class="signup__input">
+                <p>E-Mail<span>*</span></p>
+                <input type="text" name="email" />
+              </div>
+            </div>
+          </div>
+          <div class="px-md-5 text-center">
+            <div class="signup__input">
+              <p>Password<span>*</span></p>
+              <input type="password" id="email" name="password" />
+            </div>
+          </div>
+          <div class="px-md-3">
+
+            <div class="text-center">
+              <button
+                type="submit"
+                class="btn btn-success create_account_btn mt-3"
+              >Login</button>
+              <h5 class="text-secondary mt-3">OR</h5>
+            </div>
+          </div>
+        </form>
+        <form action="/phone-verify" id="reqOtpForm" method="post" class="mb-5">
+          <div class="row px-lg-5">
+            <div class="col text-center">
+              <div class="signup__input">
+                <p>Phone<span>*</span></p>
+                <input
+                  type="text"
+                  id="phoneNumber2"
+                  name="phone"
+                />
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                class="btn btn-secondary req_otp_btn"
+              >Reguest OTP</button>
+              <p class="signup__links mt-1"><a href="/forgot-pass">Forgot Password?</a></p>
+              <p class="signup__links mb-0"><a href="/signup">Don't Have an
+                  Account?</a></p>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  //   FILTER INPUT FIELDS
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+setInputFilter(document.getElementById("phoneNumber2"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+</script>

@@ -1,0 +1,279 @@
+<!-- Shop Details Section Begin -->
+<section class="shop-details" style="background-color: black;">
+  <div class="product__details__pic" style="background-color: black;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="product__details__breadcrumb">
+            <a href="/" style="color: white;">Home</a>
+            <span>Product Details</span>
+          </div>
+        </div>
+      </div>
+      {{#each productDetails}}
+      <div class="row">
+        <div class="col-lg-2 col-md-2">
+          <ul class="nav nav-tabs" style="border: none;" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                <div class="product__thumb__pic set-bg"
+                  data-setbg="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp">
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                <div class="product__thumb__pic set-bg"
+                  data-setbg="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_2.webp">
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                <div class="product__thumb__pic set-bg"
+                  data-setbg="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_3.webp">
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
+                <div class="product__thumb__pic set-bg"
+                  data-setbg="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_4.webp">
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt=""
+                  class="imageZoom1" />
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-2" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_2.webp" alt=""
+                  class="imageZoom2" />
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-3" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_3.webp" alt=""
+                  class="imageZoom3" />
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-4" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_4.webp" alt=""
+                  class="imageZoom4" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 mt-5">
+          <div class="product__details__content">
+            <div class="justify-content-center">
+              <div class="product__details__text">
+
+                <h4 class="mt-sm-3 mb-3" style="color: white;">{{this.productName}}</h4>
+                {{#if this.productVariants.0.offerPrice}}
+                <h3 style="color: white;">₹{{this.productVariants.0.offerPrice}}
+                  <span>{{this.productVariants.0.productPrice}}</span> {{!-- if offer price --}}
+                </h3>
+                {{else}}
+                <h3 style="color: white;">₹{{this.productVariants.0.productPrice}}
+                </h3>
+                {{/if}}
+
+
+                <div class="product__details__option__color ml-sm-3 mt-sm-4">
+
+                  <div class="product__details__tab__content__item">
+                    <h4 style="color: white;">Product Description</h4>
+
+                    <ul class="mt-3" style="font-size: 20px !important;">
+                      <li type="none" style="color: white;">
+
+                        {{!--
+                        <pre> --}}
+                          {{this.productDescription}}  
+
+                       {{!-- </pre> --}}
+
+                      </li>
+                    </ul>
+                    <div class="rating mt-sm-3">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star-o"></i>
+                    
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="product__details__cart__option mt-4">
+
+                  <div class="product__details__cart__option">
+                    {{#if this.productVariants.0.offerPrice}}
+                    <button onclick="addToCart('{{this._id}}',{{this.productVariants.0.offerPrice}})"
+                      class="primary-btn add-cart">
+                      ADD TO
+                      <i class="fas fa-cart-plus"></i>
+                    </button>
+                    {{else}}
+                    <button onclick="addToCart('{{this._id}}',{{this.productVariants.0.productPrice}})"
+                      class="primary-btn add-cart">
+                      ADD TO
+                      <i class="fas fa-cart-plus"></i>
+                    </button>
+                    {{/if}}
+                    <a href="/buy-now?proId={{this._id}}" class="primary-btn" style="background-color: #f57600;">Buy
+                      now</a>
+                    <div class="product__details__btns__option mt-sm-4">
+                      <a onclick="addToWishlist('{{this._id}}','{{../user._id}}')"
+                        style="font-size: 15px; color: white;"><i class="fa fa-heart"></i>
+                        add to wishlist</a>
+                      {{!-- <a href="#" class="mt-2" style="font-size: 15px;"><i class="fa fa-exchange"></i>
+                        Add To Compare</a> --}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+      {{/each}}
+
+
+      <div class="separator pt-5">
+  <div class="line" ></div>
+  <h2 style="color: #fff;">RELATED PRODUCTS</h2>
+  <div class="line"></div>
+</div>
+    </div>
+  </div>
+{{!-- ====================================RELATED PRODUCTS========================== --}}
+
+
+       <div class="container pb-4" style="">
+        <div class="row">
+            {{#each relatedProducts}}
+            <div class="col-md-3 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a onclick="productDetail('{{this._id}}')" class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        {{!-- <span class="product-discount-label" style="width: max-content;">{{this.offerpercentage}}%
+                            off</span> --}}
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-search pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+          
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+<style>
+ 
+ .separator{
+  display:flex;
+  align-items: center;
+}
+
+.separator .line{
+  height: 3px;
+  flex: 1;
+  background-color: rgb(246, 246, 246);
+}
+
+.separator h2{
+  padding: 0 2rem;
+}
+
+</style>
+
+
+
+</section>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link rel="stylesheet" href="/stylesheets/image-zoom.css" />
+
+<script src="/javascripts/jquery-3.3.1.min.js"></script>
+<script src="/javascripts/image-zoom.js" defer></script>
+<script src="/javascripts/image-zoom.min.js"></script>
+
+
+<script>
+
+  $(function () {
+    $('.imageZoom1').imageZoom();
+  });
+
+  $(function () {
+    $('.imageZoom2').imageZoom();
+  });
+
+  $(function () {
+    $('.imageZoom3').imageZoom();
+  });
+
+  $(function () {
+    $('.imageZoom4').imageZoom();
+  });
+</script>
+
+<script src="/javascripts/validator.js"></script>

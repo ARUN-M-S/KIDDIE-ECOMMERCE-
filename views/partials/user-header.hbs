@@ -1,0 +1,94 @@
+
+
+
+    <!---header-->
+<nav class="navbar navbar-expand-lg navbar-light bg-dark shadow">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a class="navbar-brand h1" href="/">
+      <span class="t h4" style="color: darkorange;">K</span>
+      <span class="text-white h4">IDDIE</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="
+            align-self-center
+            collapse
+            navbar-collapse
+            flex-fill
+            d-lg-flex
+            justify-content-lg-between
+          " id="navbar-toggler-success">
+      <div class="flex-fill mx-xl-5 mb-2">
+        <ul class="
+                nav
+                navbar-nav
+                d-flex
+                justify-content-between
+                mx-xl-5
+                text-center text-dark
+              ">
+          {{!-- <li class="nav-item">
+            <a class="nav-link btn-outline-danger rounded-pill px-3" href="/category-view/BOYS">BOYS</a>
+          </li> --}}
+          <li class="nav-item">
+            <a class="nav-link btn-outline-danger rounded-pill px-3" href="/" style="visibility: hidden;">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-outline-danger rounded-pill px-3" href="/" style="visibility: hidden;">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-outline-danger rounded-pill px-3" href="/product-list">SHOP</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-outline-danger rounded-pill px-3" id="cartCount "   href="/cart">CART <span
+              class="badge rounded-pill bg-warning text-dark cart-count"
+            >{{cartCount}}</span>
+            </a>
+            
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-outline-danger rounded-pill px-3" href="/wishlist">WISHLIST</a>
+          </li>
+          <div class="dropdown">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {{#if user}}
+              {{user.firstName}}
+              {{else}}
+              <i class="fas fa-user pe-2"></i>LOGIN
+              {{/if}}
+            </button>
+             <div class="dropdown-content">
+              {{#if user}}
+              <button class="btn  mr-0" disabled>{{user.email}}</button>
+                <a href="/user-profile"class='btn  mr-0'>Profile</a>
+                {{!-- <a href="/my-orders"class='btn  mr-0'>My Orderes</a> --}}
+                <a href="/logout"class='btn  mr-0'>Logout</a>
+              {{else}}
+                <a href="/signup"class='btn mr-0'>Signup</a>
+                <a href="/login"class='btn'>Login</a>
+              {{/if}}
+            </div>
+          </div>
+        </ul>
+      </div>
+
+      {{!-- <div class="navbar align-self-center d-flex">
+        <a class="nav-link" href="">
+          <i class="fab fa-facebook text-danger"></i>
+        </a>
+        <a class="nav-link" href="">
+          <i class="fab fa-instagram text-danger"></i>
+        </a>
+        <a class="nav-link" href="">
+          <i class="fab fa-youtube text-danger"></i>
+        </a>
+      </div> --}}
+    </div>
+  </div>
+</nav>
+{{!-- ====================cart============================ --}}

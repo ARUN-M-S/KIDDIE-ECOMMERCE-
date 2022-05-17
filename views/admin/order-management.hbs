@@ -1,0 +1,90 @@
+<div class="text-center py-3 bg-green-200">
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>Manage Orders</h1>
+    </main>
+    <div class="px-2 bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="orderTable">
+
+        <thead>
+          <tr>
+            <th scope="col">USERNAME</th>
+            <th scope="col">ORDER DATE</th>
+            <th scope="col">ADDRESS</th>
+            <th scope="col">PAYMENT</th>
+            <th scope="col">AMOUNT</th>
+            <th scope="col">VIEW PRODUCT</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {{#each allOrders}}
+            <tr>
+              <td class="align-middle"> {{this.deliveryDetails.name}} </td>
+              <td class="align-middle"> {{this.dateISO}} </td>
+              <td class="align-middle" style="font-size: 14px !important;">
+                {{this.deliveryDetails.houseNumber}}
+                {{this.deliveryDetails.streetAddress}}
+                {{this.deliveryDetails.locality}}
+                {{this.deliveryDetails.pincode}}
+                {{this.deliveryDetails.district}}
+                {{this.deliveryDetails.state}}
+              </td>
+              <td class="align-middle"> {{this.paymentMethod}} </td>
+              <td class="align-middle"> {{this.totalAmount}} </td>
+              <td class="">
+                <a href="/admin/ordered-products?orderId={{this._id}}&userId={{this.userId}}" class="btn btn-success btn-sm">
+                Product
+                </a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+function showProducts(orderId){
+    
+}
+
+
+function deliveryStatusUpdate(value,orderId,userId){
+
+    swal({
+        title: "Are you sure To Change Order Status ?",
+        icon: 'warning',
+        buttons: true,
+        dangerMode:true,
+    }).then((willChange)=>{
+        if(willChange){
+        $.ajax({
+            url: '/admin/status-update',
+            method: 'post',
+            data:{
+                status: value,
+                orderId: orderId,
+                userId: userId
+            },
+            success:(resp)=>{
+                swal('Status Updated Successfully',{
+                icon: "success",
+              })
+            }
+        })
+        }
+    })
+}
+
+
+function cancelOrder(prodObj,userId){
+
+}
+
+
+
+</script>

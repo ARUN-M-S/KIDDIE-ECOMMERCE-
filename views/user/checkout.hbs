@@ -1,0 +1,559 @@
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Check Out</h4>
+          <div class="breadcrumb__links">
+            <a href="/">Home</a>
+            <span>Check Out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+  <div class="container">
+    <div class="checkout__form">
+        <div class="row">
+          <div class="col-lg-8 col-md-6">
+
+            {{#if checkoutAddressMsg}}
+
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+                {{checkoutAddressMsg}}
+              </div>
+            </div>
+            {{/if}}
+
+
+            <h6 class="coupon__code text-center fs-4">BILLING DETAILS</h6>
+            <button
+              type="button"
+              class="btn btn-primary mb-4"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              data-bs-whatever="@mdo"
+            >Add New Address</button>
+            <div class="card-header fw-bold mb-2">
+              SAVED ADDRESSES
+            </div>
+            <div>
+
+            
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <form action="/add-checkout-address" method="post" id="addAddressForm2">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Add New Address</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="addressType"
+                            value="Home"
+                            id="homeAddress"
+                            autocomplete="off"
+                            checked
+                          />
+                          <label
+                            class="btn btn-outline-dark btn-sm"
+                            for="homeAddress"
+                          >Home</label>
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="addressType"
+                            value="Office"
+                            id="officeAddress"
+                            autocomplete="off"
+                          />
+                          <label
+                            class="btn btn-outline-dark btn-sm ms-3"
+                            for="officeAddress"
+                          >Office</label>
+                        </div>
+                        <div class="">
+                          <label class="labels">Name</label><input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            placeholder="Name"
+                          />
+                        </div>
+                        <div class="">
+                          <label class="labels">Mobile Number</label><input
+                            type="text"
+                            name="phone"
+                            id="phoneNumber"
+                            class="form-control"
+                            placeholder="Phone"
+                          />
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="labels">Pincode</label><input
+                              type="text"
+                              name="pincode"
+                              id="pincode"
+                              class="form-control"
+                              placeholder="Pincode"
+                            />
+                          </div>
+                          <div class="col-md-6">
+                            <label class="labels">Locality</label><input
+                              type="text"
+                              name="locality"
+                              class="form-control"
+                              placeholder="Locality"
+                            />
+                          </div>
+                        </div>
+                        <div class="">
+                          <label class="labels">House No./Building No.</label><input
+                            type="text"
+                            name="houseNumber"
+                            class="form-control"
+                            placeholder="House No./Building No."
+                          />
+                        </div>
+                        <div class="">
+                          <label class="labels">Area or Street Address</label><input
+                            type="text"
+                            name="streetAddress"
+                            class="form-control"
+                            placeholder="Area or Street Address"
+                          />
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="labels">District/Town</label><input
+                              type="text"
+                              name="district"
+                              class="form-control"
+                              placeholder="District/Town"
+                            />
+                          </div>
+
+                          <div class="col-md-6">
+                            <label class="labels">State</label><input
+                              type="text"
+                              name="state"
+                              class="form-control"
+                              placeholder="State"
+                            />
+                          </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >Cancel</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+            
+              {{#each addresses}}
+
+                <div class="card mb-3">
+                    <div class="form-check">
+                  <div class="card-header">
+
+                      <input class="form-check-input" type="radio" name="checkoutAddress" onclick="selectAddress('{{this.address.addressId}}')" id="{{this.address.addressId}}" value="{{this.address.addressId}}">
+                      <label class="form-check-label" for="{{this.address.addressId}}">
+                         {{this.address.addressType}}
+                      </label>  
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{this.address.name}}
+                      -
+                      {{this.address.phone}}</h5>
+                    <p class="card-text">{{this.address.houseNumber}}
+                      {{this.address.streetAddress}}</p>
+                    <p class="card-text">{{this.address.pincode}}</p>
+                    <p
+                      class="card-text"
+                    >{{this.address.district}},&nbsp;{{this.address.state}}</p>
+                  </div>
+                    </div>
+                </div>
+
+              {{/each}}
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="cart__discount">
+                <h6>Coupon code</h6>
+                <div id="couponMsg"></div>
+                <form action="" id="couponForm">
+                  <input type="text" id="couponCode" style="text-transform:uppercase" placeholder="Coupon code" />
+                  <button type="button" onclick="checkCoupon()">Apply</button>
+                </form>
+                
+            </div>
+            <div class="checkout__order">
+              <h4 class="order__title">Your order</h4>
+              <div class="checkout__order__products fw-bold">Product
+                <span class="fw-bold">Total</span></div>
+              <ul class="checkout__total__products" type="circle">
+                {{#each products}}
+                  <li class=""> {{this.product.productName}} <span class="fw-bold">₹ {{this.subTotal}}</span></li>
+                {{/each}}
+              </ul>
+              <ul class="checkout__total__all">
+                <li>Items Price <span>₹ {{grandTotal}}</span></li>
+                <li>Coupon Discount<span
+                    class="discount__price"
+                    id="couponDiscount"
+                  > 0 </span><span class="discount__price">₹</span></li>
+                <li class="fs-4">Total <span id="totalPrice">{{grandTotal}}</span> <span>₹</span></li>
+              </ul>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="paymentOption"
+                  id="razorpay"
+                  value="razorpay"
+                  onclick="selectPayment('razorpay')"
+                />
+                <label class="form-check-label" for="razorpay">
+                  Razorpay
+                </label>
+              </div>
+
+              <div class="form-check mt-2">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="paymentOption"
+                  id="paypal"
+                  value="paypal"
+                  onclick="selectPayment('paypal')"
+                />
+                <label class="form-check-label" for="paypal">
+                  Paypal
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="paymentOption"
+                  id="COD"
+                  value="COD"
+                  onclick="selectPayment('COD')"
+                />
+                <label class="form-check-label" for="COD">
+                  COD
+                </label>
+              </div>
+
+              <button type="button" onclick="placeOrder()" class="site-btn mt-4">PLACE ORDER</button>
+              <input type="text" id="userName" value="{{user.firstName}}" disabled hidden>
+              <input type="text" id="userPhone" value="{{user.phone}}" disabled hidden>
+              <input type="text" id="userEmail" value="{{user.email}}" disabled hidden>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+<!-- Checkout Section End -->
+<script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+
+    <!-- JS Validator -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"
+    ></script>
+
+
+<script>
+
+
+  var grandTotal = {{grandTotal}}
+  let discount
+  var code
+
+ function checkCoupon(){
+  code = document.getElementById('couponCode').value
+  code = code.toUpperCase()
+  $.ajax({
+    url: "/check-coupon",
+    method: "post",
+    data:{code},
+    success:(res)=>{
+      if(!res){
+        document.getElementById('couponForm').reset()
+        code = 'undefined'
+        document.getElementById('couponMsg').innerHTML = "This Coupon Does not Exist"
+        document.getElementById('couponMsg').style.color = "Red"
+        document.getElementById('couponDiscount').innerHTML = 0
+        discount = 0
+        document.getElementById('totalPrice').innerHTML = grandTotal
+      }
+      else if(res.isUsed){
+        document.getElementById('couponForm').reset()
+        code = 'undefined'
+        document.getElementById('couponMsg').innerHTML = "This Coupon is already used by this user"
+        document.getElementById('couponMsg').style.color = "Red"
+        document.getElementById('couponDiscount').innerHTML = 0
+        discount = 0
+        document.getElementById('totalPrice').innerHTML = grandTotal
+      }
+      else{
+        document.getElementById('couponMsg').innerHTML = "Coupon Applied Successfully"
+        document.getElementById('couponMsg').style.color = "green"
+        discount = (grandTotal*res.discount)/100
+        document.getElementById('couponDiscount').innerHTML = discount
+        document.getElementById('totalPrice').innerHTML = grandTotal-discount
+      }
+    }
+  })
+  }
+
+ var checkoutAddressId
+ var paymentMethod
+
+function selectAddress(id){
+  checkoutAddressId = id
+}
+
+var userName = document.getElementById('userName').value
+var userPhone = document.getElementById('userPhone').value
+var userEmail = document.getElementById('userEmail').value
+
+function selectPayment(payment){
+  paymentMethod = payment
+}
+
+
+function placeOrder(){
+  if(!checkoutAddressId && paymentMethod){
+     swal({
+      title: "Please Select Address to Place Order",
+      icon: 'warning',
+      dangerMode:true,
+    })
+  }
+  else if(!paymentMethod && checkoutAddressId){
+    swal({
+      title: "Please Select Payment Method to Place Order",
+      icon: 'warning',
+      dangerMode:true,
+    })
+  }
+  else if(!paymentMethod && !checkoutAddressId){
+    swal({
+      title: "Please Select Address and Payment Method to Place Order",
+      icon: 'warning',
+      dangerMode:true,
+    })
+  }
+  else{
+    $.ajax({
+      url: `/place-order?payment=${paymentMethod}&addressId=${checkoutAddressId}&disc=${discount}&code=${code}`,
+      method: 'get',
+      success:(res)=>{
+        if(res.codSuccess){
+          location.replace('/order-placed')
+        }
+        else if(res.data){
+          location.href = res.url
+        }
+        else{
+          razorpayPayment(res)
+        }
+      }
+    })
+  }
+}
+
+
+
+
+function razorpayPayment(order){
+var options = {
+    "key": "rzp_test_GT3btMNJZ1MvHn", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "GadgetZone",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+     
+
+        verifyPayment(response,order)
+
+    },
+    "prefill": {
+        "name": userName,
+        "email": userEmail,
+        "contact": userPhone
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+
+var rzp1 = new Razorpay(options);
+rzp1.open();
+
+}
+
+function verifyPayment(payment,order){
+  $.ajax({
+    url: `/verify-payment`,
+    data:{
+      payment,
+      order,
+    },
+    method: 'post',
+
+    success:(res)=>{
+      if(res.status){ 
+        location.replace('/order-placed')
+      }
+      else{
+      swal({
+        title: "Sorry, Payment Failed",
+        icon: 'warning',
+        dangerMode:true,
+        })
+        location.replace('/payment-cancel')
+      }
+    }
+  })
+}
+
+
+
+
+
+// USER ADD ADDRESS VALIDATION
+var addAddressForm2 = $("#addAddressForm2");
+addAddressForm2.validate({
+  rules: {
+    name: {
+      required: true,
+      minlength:5
+    },
+    phone: {
+      required: true,
+      minlength:10
+    },
+    pincode: {
+      required: true,
+      number: true
+    },
+    locality: {
+      required: true,
+    },
+    houseNumber: {
+      required: true,
+    },
+    streetAddress: {
+      required: true,
+    },
+    district: {
+      required: true,
+    },
+    state: {
+      required: true,
+    },
+  },
+})
+
+
+
+
+
+  function setInputFilter(textbox, inputFilter) {
+    [
+      "input",
+      "keydown",
+      "keyup",
+      "mousedown",
+      "mouseup",
+      "select",
+      "contextmenu",
+      "drop",
+    ].forEach(function (event) {
+      textbox.addEventListener(event, function () {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        } else {
+          this.value = "";
+        }
+      });
+    });
+  }
+  
+  
+  
+  
+      
+      // ONLY 10 NUMBERS IN PHONE FIELD
+  setInputFilter(document.getElementById("phoneNumber"), function (value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+  });
+  
+  setInputFilter(document.getElementById("pincode"), function (value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 999999);
+  });
+  
+  
+  
+  
+  </script>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>

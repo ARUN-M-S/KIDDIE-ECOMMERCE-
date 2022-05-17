@@ -1,0 +1,486 @@
+<section style="background-color: black; " >
+<div class="mainbody">
+     <section>
+
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                {{#each carousel}}
+                <div class="carousel-item {{this.class}}" style="padding: 0;stagePadding: 0,
+  items: 1,
+  loop:true,
+  margin:0,
+  singleItem:true,
+  nav:true">
+                    <img src="/Carousel/{{this._id}}.jpg" class="d-block w-100" style="height: 36rem;object-fit:cover;"
+                        alt="..." />
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 style="color: aliceblue;">{{this.title}}</h1>
+                        <p style="color: aliceblue;">{{this.Description}}</p>
+                    </div>
+                </div>
+                {{/each}}
+                </div>
+                {{!-- <div class="carousel-item">
+                    <img src="/images/curosel girl.jpg" class="d-block w-100 " style="height: 36rem;object-fit:cover"
+                        alt="..." />
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div> --}}
+                {{!-- <div class="carousel-item">
+                    <img src="/images/curosel shoes.jpg" class="d-block w-100 " style="height:36rem;object-fit:cover"
+                        alt="..." />
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div> --}}
+            
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!--end of Hero Section-->
+    </section>
+
+
+    {{!-- =========================curroselimagesend===================== --}}
+    <!---Categories Section-->
+ 
+  <div class="separator pt-5">
+  <div class="line" ></div>
+  <h2 style="color: #fff;">BIGGET DEAL ON TOP BRANDS</h2>
+  <div class="line"></div>
+</div>
+
+
+
+
+    {{!-- =============================================offerProducts================== --}}
+    
+ <div class="container pt-3 pb-3" style="">
+        <div class="row">
+            {{#each offerProducts}}
+            <div class="col-md-3 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a  class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        <span class="product-discount-label" style="width: max-content;">{{this.productVariants.0.offer}}%
+                            off</span>
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a onclick="productDetail('{{this._id}}')"><i class="fa fa-search pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+        
+
+        </div>
+    </div>
+{{!-- ================================================BrandLogos=============================== --}}
+
+<div class="container rollingBrands mt-5 mb-5">
+  <div class="faders">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+
+  <div class="items">
+    {{#each brands}}
+   
+    
+   
+    <div class="entry" style="height: 10rem; width: 10rem;">
+      <a href="/brand-view?id={{this.brandName}}">
+      <img src="/images/brand-logo/{{this._id}}.png" alt="Smiling person"  style="height: 10rem; width: 10rem;"/>
+      </a>
+    </div>
+   
+    {{/each}}
+   
+  </div>
+</div>
+
+
+
+
+
+
+    {{!-- ====================================products=============================== --}}
+<div class="separator pt-5">
+  <div class="line" ></div>
+  
+  <h2 style="color: #fff;">NEW ARRIVELS</h2>
+  <div class="line"></div>
+</div>
+
+
+<div class="container pt-3 pb-3" style="">
+        <div class="row">
+            {{#each offerProducts}}
+            <div class="col-md-3 col-sm-6 " style="margin-bottom: 2rem;">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a  class="image">
+                           <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" alt="">
+                        </a>
+                        <span class="product-discount-label" style="width: max-content;">{{this.productVariants.0.offer}}%
+                            off</span>
+                        <ul class="product-links">
+                            
+                            <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
+                                        class="fa fa-heart"></i></a></li>
+                            <li><a onclick="productDetail('{{this._id}}')"><i class="fa fa-search pt-1"></i></a></li>
+                        </ul>
+
+                        <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>
+                    </div>
+                    <div class="product-content">
+                        <ul class="rating">
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star"></li>
+                            <li class="fas fa-star disable"></li>
+                        </ul>
+
+                        <h3 class="title"><a href="#">{{this.productBrand}}</a></h3>
+
+                         {{#if this.productVariants.0.offerPrice}}
+
+                        <div class="price">₹{{this.productVariants.0.offerPrice}} <span> ₹{{this.productVariants.0.productPrice}}</span></div>
+                        {{else}}
+
+                         <h5 class="price">₹{{this.productVariants.0.productPrice}}</h5>
+
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+        
+
+        </div>
+    </div>
+
+  {{!-- ====================================New Arrivels=============================== --}}
+
+
+{{!-- <section class="pb-4">
+    <div class="container pt-4" >
+    <div class="row ">
+        <div class="col-6 col-md-6" >
+            <img src="/Home/profile-image/Group 18.png" alt="" style="height: 40rem; width: 40rem;">
+            <div style="border: 0;margin-top: -6rem;"><p style="font-family: 'Pacifico', cursive; color: rgb(255, 255, 255);font-size:4rem; text-align: center;">BOYS</p></div>
+        </div>
+          <div class= "col-6 col-md-6" style="margin-left: -2.1rem;">
+            <img src="/Home/profile-image/Group 19.png" style="height: 40rem;width: 40rem;" alt="">
+            <div  style="border: 0;margin-top: -6rem;"><p style="font-family: 'Pacifico', cursive; color: rgb(255, 255, 255);font-size:4rem; text-align: center;">GIRLS</p></div>
+
+        </div>
+    </div>
+    </div>
+   
+</section> --}}
+{{!-- ========================================subCategory============================ --}}
+
+
+
+
+
+
+
+    {{!-- =====================================shopnow====================== --}}
+
+    <!--services Section-->
+    <div class="container" >
+        <div class="row justify-content-center" >
+            <div class=" col- xxl-10">
+                <div class="card card-span shadow" style="border: rgb(0, 0, 0);" >
+                    <div class="card-body " style="background-color: black;">
+                        <div class="row justify-content-evenly" >
+                            <div class="col-md-3">
+                                <div
+                                    class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between">
+                                    <i class="fas fa-tags fa-3x " style="color: #ffffffb1;"></i>
+                                    <div class="d-flex d-lg-block d-xl-flex flex-center">
+                                        <h3 class="fw-bolder text-1000 mb-0" style="color: #ffffffb1;">Daily Discounts
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hr-vertical">
+                                <div
+                                    class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between">
+                                    <i class="fas fa-phone-alt fa-3x" style="color: #ffffffb1;"></i>
+                                    <div class="d-flex d-lg-block d-xl-flex flex-center">
+                                        <h3 class="fw-bolder text-1000 mb-0 " style="color: #ffffffb1;">Available on Call
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!----->
+                            <div class="col-md-3 hr-vertical">
+                                <div
+                                    class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between">
+                                    <i class="fas fa-truck fa-3x " style="color: #ffffffb1;"></i>
+                                    <div class="d-flex d-lg-block d-xl-flex flex-center">
+                                        <h3 class="fw-bolder text-1000 mb-0 " style="color: #ffffffb1;">Quick Delivery
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        </div>
+
+        {{!-- =================End of the section======================== --}}
+
+    
+    {{!-- =====================rolling section================== --}}
+    <script>
+        function addToCart(proId) {
+            $.ajax({
+                url: '/add-to-cart/' + proId,
+                method: 'get',
+                success: (response) => {
+                    if (response.status) {
+                        let count = $('#cartCount').html()
+                        count = parseInt(count) + 1
+                        $("#cartCount").html(count)
+                    }
+
+                }
+            })
+        }
+
+    </script>
+    <style>
+        .separator{
+  display:flex;
+  align-items: center;
+}
+
+.separator .line{
+  height: 9px;
+  flex: 1;
+  background-color: rgba(246, 246, 246, 0.669);
+}
+
+.separator h2{
+  padding: 0 2rem;
+}
+ 
+    </style>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+  function productDetail(id){ 
+    window.location = `/product-details?id=${id}` 
+  }
+
+  function getSubProducts(subName){
+    $.ajax({
+      url: '/getSubProducts',
+      method: 'post',
+      data: {subName},
+      success:(status)=>{
+        location.href = '/product-list'
+      }
+    })
+  }
+
+  function getBrandProducts(brand){
+    $.ajax({
+      url: `/getBrandProducts?brandName=${brand}`,
+      method: 'get',
+      success:(status)=>{
+        location.href = '/product-list'
+      }
+    })
+  }
+
+  // SEARCH PRODUCT
+
+    function sendData(e){
+      const searchResult = document.getElementById('searchResult')
+      let match = e.value.match(/^[a-zA-Z ]*/)
+      let match2 = e.value.match(/\s*/)
+
+      if(match2[0] === e.value){
+        searchResult.innerHTML = ''
+        return
+      }
+      if(match[0] === e.value){
+
+        fetch('searchProduct',{
+          method: "post",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({payload: e.value})
+        }).then(res => res.json()).then(data => {
+          let payload = data.payload
+          searchResult.innerHTML = ''
+          if(payload.length < 1){
+            searchResult.innerHTML = "<p>Sorry, Nothing Found</p>"
+            return;
+          }
+          payload.forEach((item,index)=>{
+            if(index > 0) searchResult.innerHTML += '<hr>'
+            searchResult.innerHTML += `<a onclick="productDetail('${item._id}')"> <p> ${item.productName} </p> </a>`
+          })
+          return
+        })
+      }
+
+      searchResult.innerHTML = ''
+
+    }
+
+</script>
+<style>
+
+
+@import url("https://fonts.googleapis.com/css?family=Muli:400,700&display=swap");
+
+
+
+h1 {
+  text-align: center;
+  margin: 1.5em;
+}
+
+
+
+.rollingBrands{
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  animation: carouselAnim 5s infinite alternate linear;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .items {
+    animation: carouselAnim 30s infinite alternate linear;
+  }
+ 
+  
+  @keyframes carouselAnim {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(calc(-100% + (2 * 300px)));
+    }
+  }
+}
+
+
+
+.name {
+  font-weight: bold;
+}
+
+@keyframes carouselAnim {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(calc(-100% + (5 * 300px)));
+  }
+}
+
+.container .faders {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+}
+
+.faders .right,
+.faders .left {
+  background: linear-gradient(
+    to right,
+    rgba(245, 245, 245, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  width: 10%;
+  height: 100%;
+  position: absolute;
+  z-index: 200;
+}
+
+.right {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    rgba(245, 245, 245, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+
+</style>

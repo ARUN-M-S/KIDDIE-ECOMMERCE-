@@ -1,0 +1,104 @@
+<div class="container mt-4 mb-5 d-flex justify-content-center">
+  <div class="signup__form" style="width: 550px;">
+    <form action="/signup" id="userSignupForm" method="post">
+      <div class="row">
+        <div class="col">
+          <h6 class="coupon__code text-center fs-4">SIGNUP</h6>
+
+            {{#if errorMsg}}
+              <p class="text-danger text-center">{{errorMsg}}</p>
+            {{/if}}
+
+          <div class="row px-lg-3">
+            <div class="col">
+              <div class="signup__input">
+                <p>First Name<span>*</span></p>
+                <input type="text" name="firstName" id="signupName1" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p>Last Name<span>*</span></p>
+                <input type="text" name="lastName" id="signupName2"/>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row px-lg-3">
+            <div class="col">
+              <div class="signup__input">
+                <p>Gender<span>*</span></p>
+                 <div class="form-check-inline">
+
+                  <input class="form-check-input mt-1" type="radio" value="Male" name="gender" id="flexRadioDefault1" style="height: 20px;">
+                  <label class="labels form-check-label " for="flexRadioDefault1">
+                   Male
+                </label>
+                <input class="form-check-input mt-1" value="Female" type="radio" name="gender" id="flexRadioDefault2" style="height: 20px;" checked>
+                 <label class="labels form-check-label" for="flexRadioDefault2">
+                 Female
+                  </label>
+
+                   <input class="form-check-input mt-1" value="Other" type="radio" name="gender" id="flexRadioDefault2"  style="height: 20px;" checked>
+                 <label class="labels form-check-label" for="flexRadioDefault2">
+                 Other
+                  </label>
+
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p>Your age<span>*</span></p>
+                <div class="col-lg-3"></div><input type="number" class="form-control" placeholder="enter your age" name="age"  value=""></div> 
+
+              </div>
+            </div>
+          </div>
+
+                   
+
+
+
+
+
+
+          <div class="row px-lg-3">
+            <div class="col-lg-6">
+              <div class="signup__input">
+                <p>Phone<span>*</span></p>
+                <input type="text" id="phoneNumber" name="phone"/>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="signup__input">
+                <p>Email<span>*</span></p>
+                <input type="text" name="email"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-lg-3">
+            <div class="signup__input">
+              <p>Password<span>*</span></p>
+              <input type="password" name="password" id="userPassword" />
+            </div>
+          </div>
+          <div class="px-lg-3">
+            <div class="signup__input">
+              <p>Retype Password<span>*</span></p>
+              <input type="password" name="confirmPass" id="ConfirmPassword" />
+            </div>
+            <div class="text-center">
+          <p class="signup__links"><a href="/login">Already Have an Account?</a></p>
+          <button type="submit" class="btn btn-success create_account_btn">Create Account</button>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

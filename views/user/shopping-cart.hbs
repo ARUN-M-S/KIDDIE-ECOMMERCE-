@@ -1,0 +1,152 @@
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Shopping Cart</h4>
+          <div class="breadcrumb__links">
+            <a href="/">Home</a>
+            <span>Shopping Cart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shopping Cart Section Begin -->
+<section class="shopping-cart spad">
+  <div class="container">
+    <div class="row">
+      {{#if cartMsg}}
+     <a href="/"><img style="width: 100%; min-height:100vh" src="/Home/category-image/Screenshot 2022-05-06 at 1.13.48 PM.png" alt=""></a>
+        {{else}}
+      
+      <div class="col-lg-8">
+          {{#each products}}
+          <div class="card mb-3" style="max-width: 750px;">
+            <div class="row g-0">
+              <div class="col-md-2">
+              {{#each product.productVariants}}
+                <img
+                  src="/images/product-images/{{../this.product._id}}/{{this.variantId}}_1.webp"
+                  class="img-fluid rounded-start ms-2 mt-2"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5 class="card-title">{{../this.product.productName}}</h5>
+                  {{#if this.offerPrice}}
+                    <p class="card-text fs-6"> ₹ <span id="{{../this.product._id}}MRP">{{this.offerPrice}}</span></p>
+                  {{else}}
+                    <p class="card-text fs-6"> ₹ <span id="{{../this.product._id}}MRP">{{this.productPrice}}</span></p>
+                  {{/if}}
+                  
+                </div>
+              </div>
+              {{/each}}
+              <div class="product__cart__item text-center mt-md-5 col-md-2">
+                  {{#each product.productVariants}}
+                    {{#if this.offerPrice}}
+                      <button class="count-btn me-2" id="dec-btn" onclick="changeQuantity('{{../this._id}}','{{../this.product._id}}','{{this.variantId}}','{{this.productQuantity}}','{{this.offerPrice}}',-1)">-</button>
+                        <span id="{{../this.product._id}}{{this.variantId}}">{{../this.quantity}}</span>
+                      <button class="count-btn ms-2" id="inc-btn" onclick="changeQuantity('{{../this._id}}','{{../this.product._id}}','{{this.variantId}}','{{this.productQuantity}}','{{this.offerPrice}}',1)">+</button>
+                      <p class="card-text mt-3 mb-4 font-weight-bold">₹ <span id="{{this.variantId}}">{{../this.subTotal}}</span></p>
+                    {{else}}
+                      <button class="count-btn me-2" id="dec-btn" onclick="changeQuantity('{{../this._id}}','{{../this.product._id}}','{{this.variantId}}','{{this.productQuantity}}','{{this.productPrice}}',-1)">-</button>
+                        <span id="{{../this.product._id}}{{this.variantId}}">{{../this.quantity}}</span>
+                      <button class="count-btn ms-2" id="inc-btn" onclick="changeQuantity('{{../this._id}}','{{../this.product._id}}','{{this.variantId}}','{{this.productQuantity}}','{{this.productPrice}}',1)">+</button>
+                      <p class="card-text mt-3 mb-4 font-weight-bold">₹ <span id="{{this.variantId}}">{{../this.subTotal}}</span></p>
+                    {{/if}}
+             
+              </div>
+              <div class="col-md-2">
+                <div class="card-body mt-md-4 text-center align-middle">
+                  <a onclick="deleteCartProduct('{{../this._id}}','{{../this.product._id}}','{{this.variantId}}')" class="text-danger"> <i class="fas fa-trash-alt fs-4"></i> </a> 
+                </div>
+                  {{/each}}
+              </div>
+            </div>
+          </div>
+        {{/each}}
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="continue__btn">
+              <a href="/">Continue Shopping</a>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="continue__btn update__btn">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="cart__total">
+          <h6>Cart total</h6>
+          <ul>
+            <li>Items Price <span id="itemTotal"> {{grandTotal}} </span><span> ₹ </span></li>
+            <li class="fs-4">Total <span id="grandTotal"> {{grandTotal}}</span> <span>₹</span> </li>
+          </ul>
+          <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</section>
+<!-- Shopping Cart Section End -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+function changeQuantity(cartId,proId,variantId,stock,price,count){
+  stock = parseInt(stock)
+  price = parseInt(price)
+  count = parseInt(count)
+  let itemTotal = parseInt(document.getElementById('itemTotal').innerHTML)
+  let grandTotal = parseInt(document.getElementById('grandTotal').innerHTML)
+  let subTotal = parseInt(document.getElementById(variantId).innerHTML)
+  let quantity = parseInt(document.getElementById(proId+variantId).innerHTML)
+  let mrp = document.getElementById(proId+'MRP').innerHTML
+  let currSub = (quantity+count)*price
+  
+  if(quantity==1 && count==-1){
+    document.getElementById('dec-btn').setAttribute('disabled')
+  }
+
+  if(quantity>=stock && count==1){
+    Swal.fire('Sorry,Out of Stock!!')
+  }
+  else{
+  $.ajax({
+    url: '/change-quantity',
+    data: {
+      cartId:cartId,
+      product: proId,
+      count:count,
+      quantity: quantity,
+      productTotal:currSub,
+      price:mrp
+    },
+    method: 'post',
+    success:(response)=>{
+      if(response.removeProduct){
+        location.reload()
+      }
+      else {
+        document.getElementById(proId+variantId).innerHTML = quantity+count
+        document.getElementById(variantId).innerHTML = (quantity+count)*price
+        document.getElementById("itemTotal").innerHTML = itemTotal + (price*count)
+        document.getElementById("grandTotal").innerHTML = (itemTotal + (price*count))
+      }
+    }
+  })
+  }
+}
+
+
+</script>

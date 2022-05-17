@@ -1,0 +1,35 @@
+<div class="text-center py-3 bg-green-200">
+  <div class="">
+    <main class="">
+      <h1>User Report</h1>
+    </main>
+    <div class="px-2 bg-light my-5 mx-auto">
+      <table id="userReport" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>SL No.</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
+                <th>E-Mail</th>
+                <th>Total Order</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each userReport}}
+            <tr>
+                <td> {{@index}} </td>
+                <td>{{this._id}}</td>
+                <td>{{this.lastName}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.totalAmount}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </div> 
+  </div>
+</div>
+
+

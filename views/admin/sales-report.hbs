@@ -1,0 +1,129 @@
+<div class="container col-5 mt-3 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form id="salesReportForm">
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 p-4 text-left font-weight-bold"
+            style="font-size: 15px;"
+          >Sales Report</p>
+          <div class="px-3 px-4">
+            <div class="col row">
+              <div class="signup__input col">
+                <p>From Date: </p>
+                <input type="date" name="fromDate" id="fromDate" onchange="getFromDate()" />
+              </div>
+              <div class="signup__input col">
+                <p>Till Date: </p>
+                <input type="date" name="tillDate" id="tillDate" />
+              </div>
+            </div>
+
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  class="btn btn-success px-4 py-2"
+                  onclick="getReports()"
+                  style="border-radius: 30px;"
+                >
+                  View Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{{#if salesReport}}
+<div class="text-center py-3 bg-green-200">
+  <div class="">
+    <main class="">
+      <h1>Sales Report</h1>
+    </main>
+    <div class="px-2 bg-light my-5 mx-auto">
+      <table id="stockReport" class="display wrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>SL No.</th>
+                <th>Product</th>
+                <th>Sold Qty</th>
+                <th>Selling Price</th>
+                <th>Total Sale</th>
+                <th>Landing Cost</th>
+                <th>Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each salesReport}}
+            <tr>
+                <td> {{@index}} </td>
+                <td>{{this._id}}</td>
+                <td>{{this.totalQty}}</td>
+                <td>{{this.productVariants.productPrice}}</td>
+                <td>{{this.totalSale}}</td>
+                <td>{{this.productVariants.landingCost}}</td>
+                <td>{{this.profit}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </div> 
+  </div>
+</div>
+
+{{/if}}
+
+
+<script>
+  function getReports(){
+    let fromDate = document.getElementById('fromDate').value
+    let tillDate = document.getElementById('tillDate').value
+    $.ajax({
+      url: `/admin/sales-report?fromDate=${fromDate}&tillDate=${tillDate}`,
+      method: "get",
+      success:()=>{
+        
+      }
+    })
+  }
+
+  $(function(){
+      var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate();
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+      $('#fromDate').attr('max', maxDate);
+  });
+
+function getFromDate(){
+  var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate();
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+      
+  let fromDate = document.getElementById('fromDate').value
+  document.getElementById('tillDate').setAttribute('min',fromDate)
+  document.getElementById('tillDate').setAttribute('max',maxDate)
+
+}
+
+
+</script>

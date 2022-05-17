@@ -1,0 +1,220 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!-- As a heading -->
+<nav class="navbar navbar-dark bg-light">
+  <div class="container-fluid justify-content-center">
+    <span class="navbar-brand mb-0 h1 fs-3 text-secondary"> {{header}} </span>
+  </div>
+</nav>
+
+
+<div class="page-wrapper chiller-theme toggled">
+  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <i class="fas fa-bars"></i>
+  </a>
+  <nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <div class="sidebar-brand">
+        <a href="#">KIDDIE</a>
+        <div id="close-sidebar">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+      <div class="sidebar-header">
+        <div class="user-pic">
+          <img class="img-responsive img-rounded" style="height: 50px;" src="https://f0.pngfuel.com/png/136/22/profile-icon-illustration-user-profile-computer-icons-girl-customer-avatar-png-clip-art.png"
+            alt="User picture">
+        </div>
+        <div class="user-info">
+          
+            <strong><span class="user-name">Arun M Sudevan</strong>
+          </span>
+          
+          <span class="user-status">
+            <i class="fa fa-circle"></i>
+            <span>Online</span>
+          </span>
+        </div>
+      </div>
+      <!-- sidebar-search  -->
+      <div class="sidebar-menu">
+        <ul>
+          {{!-- <li class="sidebar-dropdown"> --}}
+          <li class="sidebar">
+            <a href="/admin">
+              <i class="fa fa-tachometer-alt"></i>
+              <span>Dashboard</span>
+            </a>
+            <div class="sidebar-submenu">
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-shopping-cart"></i>
+              <span>Product Management</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="/admin/view-product">View Products
+
+                  </a>
+                </li>
+                <li>
+                  <a href="/admin/add-product">Add Product</a>
+                </li>
+                <li>
+                  <a href="/admin/category">Manage Category</a>
+                </li>
+                <li>
+                  <a href="/admin/brand">Manage Brands</a>
+                </li>
+                <li>
+                  <a href="/admin/Curosel">Manage Carousel</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="far fa-gem"></i>
+              <span>User Management</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="/admin/view-users">View User</a>
+                </li>
+                <li>
+                  <a href="/admin/blocked-users">Block user</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-chart-line"></i>
+              <span>Offer Management</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="/admin/coupon-offer">Manage Coupons</a>
+                </li>
+                <li>
+                  <a href="/admin/product-offer">Product Offers</a>
+                </li>
+                <li>
+                  <a href="/admin/category-offer">Category Offers</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown2">
+            <a href="/admin/manage-orders">
+              <i class="fa fa-globe"></i>
+              <span>Order Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/manage-banner">
+              <i class="fa fa-book"></i>
+              <span>Banner Management</span>
+            </a>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="far fa-gem"></i>
+              <span>Report</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="/admin/sales-report">Sales Report</a>
+                </li>
+                <li>
+                  <a href="/admin/user-report">User Report</a>
+                </li>
+                <li>
+                  <a href="/admin/stock-report">Stocks Report</a>
+                </li>
+              </ul>
+            </div>
+          </li>  
+          <li>
+            <a href="/admin/logout">
+              <i class="fa fa-folder"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- sidebar-menu  -->
+    </div>
+  </nav>
+  <!-- sidebar-wrapper  -->
+  <main class="page-content">
+    <div class="container">
+
+
+<script>
+  //sidebar toggler
+  jQuery(function ($) {
+
+    $(".sidebar-dropdown > a").click(function() {
+  $(".sidebar-submenu").slideUp(200);
+  if (
+    $(this)
+      .parent()
+      .hasClass("active")
+  ) {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .parent()
+      .removeClass("active");
+  } else {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .next(".sidebar-submenu")
+      .slideDown(200);
+    $(this)
+      .parent()
+      .addClass("active");
+  }
+});
+
+$("#close-sidebar").click(function() {
+  $(".page-wrapper").removeClass("toggled");
+});
+$("#show-sidebar").click(function() {
+  $(".page-wrapper").addClass("toggled");
+}); 
+});
+
+
+// data tables js cdn 
+
+</script>
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"
+    ></script>
+    <script type="text/javascript">
+      console.log('data tables') $(document).ready(function() {
+      $('#usersTable').DataTable(); } );
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>

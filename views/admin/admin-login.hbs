@@ -1,0 +1,55 @@
+<div class="container d-flex justify-content-center">
+  <div class="signup__form mt-5 align-middle" style="width: 550px;">
+    <div class="row">
+      <div class="col px-auto">
+        <h6 class="coupon__code text-center fs-4">LOGIN</h6>
+        <form action="/admin/login" id="adminLogin" method="post">
+
+          <div class="row px-md-5">
+            <div class="col text-center">
+
+                  {{#if loginErr}}
+              <div
+                class="alert alert-warning alert-dismissible fade show"
+                role="alert"
+              >
+                
+                  <strong>
+                    {{loginErr}}
+                  </strong>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                ></button>
+              </div>
+                  {{/if}}
+
+              <div class="signup__input">
+                <p>E-Mail<span>*</span></p>
+                <input type="text" name="email" />
+              </div>
+            </div>
+          </div>
+          <div class="px-md-5 text-center">
+            <div class="signup__input">
+              <p>Password<span>*</span></p>
+              <input type="password" name="pass" />
+            </div>
+          </div>
+          <div class="px-md-3">
+
+            <div class="text-center">
+
+              <button
+                type="submit"
+                class="btn-success create_account_btn mt-3 mb-5"
+              >Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

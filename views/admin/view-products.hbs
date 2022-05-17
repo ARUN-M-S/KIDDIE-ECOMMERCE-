@@ -1,0 +1,88 @@
+<div class="text-center py-3 bg-green-200">
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Products</h1>
+    </main>
+    <div class="px-2 bg-light row my-5 mx-auto">
+        <a href="/admin/add-product" class="btn bg-gray-400 col-2 ms-4 my-4">Add Product</a>
+      <table class="table table-striped" id="viewProducts">
+           {{#if productEditMsg.status}}
+                <p class="alert-success text-center"> {{productEditMsg.msg}}</p>
+              {{else}}
+                {{#if productEditMsg.imageErr}}
+                  <p class="alert-danger text-center"> {{productEditMsg.imageErr}}</p>
+                {{else}}
+                  <p class="alert-danger text-center"> {{productEditMsg.msg}}</p>
+                {{/if}}
+            {{/if}}
+        <thead>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">PRODUCT</th>
+            <th scope="col">CATEGORY</th>
+            <th scope="col">SUBCATEGORY</th>
+            <th scope="col">BRAND</th>
+            <th scope="col">VARIANT</th>
+            <th scope="col">ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {{#each allProducts}}
+            <tr>
+              <td class="align-middle">{{@index}}</td>
+              <td class="align-middle"> <img src="/images/product-images/{{this._id}}/{{this.productVariants.0.variantId}}_1.webp" width="50px" height="50px">{{this.productName}} </td>
+              <td class="align-middle"> {{this.productCategory}} </td>
+              <td class="align-middle"> {{this.productSubcategory}} </td>
+              <td class="align-middle"> {{this.productBrand}} </td>
+              <td class="align-middle">
+                {{#each productVariants}}
+                  <span class="font-bold">Price: </span> <span> {{this.productPrice}} </span> <br>
+                  <span class="font-bold">Quantity: </span>  <span>{{this.productQuantity}}  </span> <br>
+              {{/each}}
+                  </td>
+              <td class="align-middle">
+                      <a onclick="deleteProduct('{{this._id}}','{{this.productVariants.0.variantId}}')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                      <a href="/admin/edit-product?id={{this._id}}&variantId={{this.productVariants.0.variantId}}" class="text-primary ms-2"><i class="far fa-edit"></i></a>
+                      {{!-- <a href="/admin/add-variant?id={{this._id}}" class="text-primary ms-2"><i class="far fa-plus-square"></i></a> --}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div> 
+  </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+// sweet alert for delete product button
+  function deleteProduct(id,varId){ 
+    swal({ 
+      title: "Are you sure?",
+      text:"Once deleted, you will not be able to recover this Product!",
+      icon:"warning",
+      buttons: true,
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+        if(willDelete) { 
+          $.ajax({ 
+            url:"/admin/delete-product",
+            method:"POST",
+            data:{id:id,varId:varId},
+            success:(result)=>{ 
+              if(result.status){
+                swal("User deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/view-product' 
+            }
+          });
+        }
+      })
+    }
+
+</script>

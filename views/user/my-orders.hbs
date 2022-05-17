@@ -1,0 +1,153 @@
+<section class=" gradient-custom">
+    <div class="container " style="min-height: 100vh;">
+        <div class="row d-flex justify-content-center mt-3">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card" style="border-radius: 10px;border-color: white;">
+                    <div class="card-header px-4 py-3" style="border-color: white;">
+                        <h5 class="text-muted mb-0">Thanks for your Order, <span
+                                style="color: #ffffff;">{{user.name}}</span>!</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0" style="color: #ffffff;">Your Orders</p>
+
+                        </div>
+                        <div class="card mb-4" style="border-color: white;">
+                             {{#if allOrders}}
+                            {{#each allOrders}}
+                            <div class="card-body mt-2" id="card" style="">
+                                <div class="row">
+                    <div class="col-md-1"><img src="/images/product-images/{{this.product._id}}/{{this.product.productVariants.variantId}}_1.webp" class="media-object img-thumbnail" /></div>
+
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class=" mb-0"><strong>Address:<br></strong>{{deliveryDetails.houseNumber}},
+                                            {{deliveryDetails.streetAddress}}
+                                            {{deliveryDetails.locality}},
+                  
+                                        </p>
+                                    </div>
+                                       <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                        <p class=" mb-0"><strong>QTY:<br></strong>{{this.quantity}}
+                                            
+
+                                        </p>
+                                    </div>
+                                      <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class=" mb-0"><strong>Sub Total:<br></strong>₹{{this.subTotal}}
+                                            
+
+                                        </p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                       {{#if this.cancelled}}
+                                                                            <p class=" mb-0"><strong class="text text-danger">{{this.status}}<br></strong>
+
+                                {{else}}
+                                                                            <p class=" mb-0"><strong class="text text-success">{{this.status}}<br></strong>
+
+                                {{/if}}
+                                    </div>
+                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class=" mb-0"><strong>Payment Method:<br></strong>{{this.paymentMethod}}
+                                            
+
+                                        </p>
+                                    </div>
+                                    
+ 
+
+                                    <div class="col-md-1 text-center  justify-content-center align-items-center mt-3">
+                                        
+                                        {{#if this.cancelled}}
+                                        
+                                        {{else}}
+                                        {{#if this.delivered}}
+<a type="button" class="btn btn-success text-light  "
+                                            style="margin-top: 1rem; width:7.4rem ;">RETURN</a>
+                                        {{else}}
+                                        <a onclick="cancelOrder('{{this._id}}','{{this.product._id}}')" type="button" class="btn btn-danger text-light  "
+                                            style="margin-top: 1rem; width:7.4rem ;">CANCEL</a>
+
+                                        {{/if}}
+                                         {{/if}}
+
+                                    </div>
+
+                                </div>
+
+                                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                                <div class="row d-flex align-items-center">
+
+
+                                </div>
+                            </div>
+
+                            {{/each}}
+                            {{else}}
+                            <div class="col-md-6 my-5 text-center centered">
+                <div class="card">
+                <div class="card-header bg-light">
+                    <i class="fa fa-shopping-bag fs-2 my-2" aria-hidden="true"></i>
+                </div>
+                <div class="card-body bg-dark text-white">
+                    <h2 class="card-title mt-4"> EMPTY ORDER </h2>
+                    <p class="card-title mt-4"> Please Order Something... </p>
+                    <a href="/" class="btn btn-light text-dark my-4">Continue Shopping</a>
+                </div>
+                </div>
+            </div>
+                            {{/if}}
+                        </div>
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    #card {
+        background-color: #b8c6db;
+        background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+
+    }
+</style>
+
+<script>
+    function cancelOrder(orderId,proId){
+        swal({
+        title: "Are you sure to cancel this product ?",
+        icon: 'warning',
+        buttons: true,
+        dangerMode:true,
+    }).then((willCancel)=>{
+        if(willCancel){
+            $.ajax({
+                url: '/cancel-product',
+                data: {
+                    orderId: orderId,
+                    proId: proId
+                },
+                method: 'post',
+                success:(resp)=>{
+                    if(resp.status){
+                        swal({
+                            title: "Success!",
+                            text: "Ordered Cancelled Successfully",
+                            icon: "success",
+                        }).then(()=>{
+                            location.href = '/my-orders'
+                        })
+                    }
+                }
+            })
+        }
+    })
+    }
+</script>

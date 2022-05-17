@@ -1,0 +1,161 @@
+<div class="container mt-3 mb-5 d-flex justify-content-center">
+  <div class="signup__form" style="width: 550px;">
+    <div class="row">
+      <div class="col px-auto">
+        <h6 class="coupon__code text-center fs-4">Verify OTP</h6>
+        {{!-- <form action="/otp-verify"> --}}
+          <h3 class="alert-danger text-center otperror" id="error">Invalid OTP</h3>
+          <div class="row px-lg-5 px-sm-2">
+            <div class="row text-center">
+              <h6 class="mb-4">Enter the OTP send to your Phone {{OtpPhone}}</h6>
+              <div class="otp__input col ms-3">
+                <input type="text" maxlength="1" id="num1" onkeyup="clickevent(event,'','num1','num2')" />
+              </div>
+              <div class="otp__input col">
+                <input type="text" maxlength="1" id="num2" onkeyup="clickevent(event,'num1','num2','num3')"/>
+              </div>
+              <div class="otp__input col">
+                <input type="text" maxlength="1" id="num3" onkeyup="clickevent(event,'num2','num3','num4')"/>
+              </div>
+              <div class="otp__input col">
+                <input type="text" maxlength="1" id="num4" onkeyup="clickevent(event,'num3','num4','')"/>
+              </div>
+               <input class="m-2 text-center form-control rounded" type="text" id="phonenumber2" name="phonenumber" value="{{OtpPhone}}" hidden />
+                
+            </div>
+          </div>
+
+          <div class="text-center">
+            <p class="signup__links mb-0" id="countdownOTP"><a href=""></a></p>
+            <button
+              class="btn btn-success create_account_btn mt-3"
+               onclick="otpform()"
+            >Verify</button>
+            <p class="signup__links my-4"><a href="/resendotp" id="resendOtp" class="isDisabled">Resend OTP?</a></p>
+          </div>
+        {{!-- </form> --}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+
+//   FILTER INPUT FIELDS
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+
+
+
+// ONLY NUMBERS FOR OTP PAGE
+setInputFilter(document.getElementById("num1"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9);
+});
+setInputFilter(document.getElementById("num2"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9);
+});
+setInputFilter(document.getElementById("num3"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9);
+});
+setInputFilter(document.getElementById("num4"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9);
+});
+
+
+  function otpform(){
+    
+    var first = document.getElementById("num1").value;
+    var second = document.getElementById("num2").value;
+    var third = document.getElementById("num3").value;
+    var fourth = document.getElementById("num4").value;
+
+    var otpnumber = `${first}${second}${third}${fourth}`
+    var phoneNumber = document.getElementById("phonenumber2").value;
+
+$.ajax({
+    url:'/forgot-otp?phonenumber='+phoneNumber+'&otpnumber='+otpnumber,
+    method:'get',
+    success:(response)=>{
+        if(response){
+            window.location.replace("/reset-password");
+        }else{
+            document.getElementById("error").classList.remove("otperror");
+        }
+    }
+})
+
+
+}
+
+</script>
+
+<script type="text/javascript">
+  function clickevent(e, pre, curr, next) {
+  var length = document.getElementById(curr).value.length;
+  var maxlength = document.getElementById(curr).getAttribute("maxlength");
+  if (maxlength == length) {
+    if (next !== "") {
+      document.getElementById(next).focus();
+    }
+  }
+  if (e.key === "Backspace") {
+    if (pre !== "") {
+      document.getElementById(pre).focus();
+    }
+  }
+}
+
+const startMin = 2;
+let time = startMin * 60;
+
+const countEl = document.getElementById("countdownOTP");
+const resendOtp = document.getElementById("resendOtp");
+
+let count = setInterval(updateCount, 1000);
+function updateCount() {
+  let min = Math.floor(time / 60);
+  let sec = time % 60;
+
+  sec = sec < 10 ? "0" + sec : sec;
+
+  countEl.innerHTML = `${min} : ${sec}`;
+
+  if (sec == 0 && min == 0) {
+    clearInterval(count);
+    countEl.innerHTML = "";
+    resendOtp.classList.remove("isDisabled");
+  }
+
+  time--;
+}
+
+
+</script>

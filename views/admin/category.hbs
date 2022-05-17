@@ -1,0 +1,269 @@
+<div class="container mt-4 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form
+      action="/admin/addCategory"
+      class="col"
+      id="addCategoryForm"
+      method="post"
+    >
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 p-4 text-left font-weight-bold"
+            style="font-size: 15px;"
+          >Add new Category</p>
+          <div class="px-3">
+            <div class="col">
+              <div class="signup__input">
+                <p>Category Name: </p>
+                <input type="text" name="category" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p>Subcategory: </p>
+                <input type="text" name="subcategory" />
+              </div>
+              {{#if catMsg.status}}
+                <p class="text-success"> {{catMsg.msg}}</p>
+              {{else}}
+                <p class="text-danger"> {{catMsg.msg}}</p>
+              {{/if}}
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  class="btn btn-success px-5 py-2"
+                  type="submit"
+                  name="lastName"
+                  id="signupName2"
+                  style="border-radius: 30px;"
+                >
+                  ADD
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <form
+      action="/admin/addSubcategory"
+      class="col"
+      id="addSubcategoryForm"
+      method="post"
+    >
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 py-4 ps-3 text-lef font-weight-bold"
+            style="font-size: 15px;"
+          >Add to Existing Category</p>
+          <div class="px-3">
+            <div class="col">
+              <div class="signup__input">
+                <p>Category Name: </p>
+
+                <select
+                  class="form-select"
+                  style="border-radius: 30px;"
+                  name="category"
+                  aria-label="Default select example"
+                >
+                  <option selected disabled>Category</option>
+                  {{#each allCategory}}
+                    <option value="{{this.category}}">{{this.category}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input mt-2">
+                <p>Subcategory: </p>
+                <input type="text" name="subcategory" />
+
+              </div>
+            </div>
+            {{#if subCatMsg.status}}
+              <p class="alert-success"> {{subCatMsg.msg}}</p>
+            {{else}}
+              <p class="alert-secondary"> {{subCatMsg.msg}}</p>
+            {{/if}}
+            <div class="col">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  class="btn btn-success px-5 py-2"
+                  type="submit"
+                  id="signupName2"
+                  style="border-radius: 30px;"
+                >
+                  ADD
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="text-center py-3 bg-green-200">
+
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Categories</h1>
+    </main>
+    <div class="container bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="categoryTable">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Category</th>
+            <th scope="col">Subcategory</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {{#each allCategory}}
+            <tr>
+              <td class="align-middle">{{@index}}</td>
+              <td class="align-middle">{{this.category}}</td>
+              <td>
+                {{#each subcategory}}
+                  <ul>
+                    <li type="square">
+                      {{this}}
+                      <a onclick="deleteSub('{{../this.category}}','{{this}}')"  class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                    </li>
+                  </ul>
+                {{/each}}
+              </td>
+              <td class="align-middle">
+                      <a onclick="deleteCat('{{this.category}}')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+// sweet alert for delete subcategory button
+  function deleteSub(catId,subId){ 
+    swal({ 
+      title: "Are you sure?",
+      text:"Do you want to delete all products under this category?",
+      icon:"warning",
+      buttons: {
+        cancel: "Cancel",
+        yes: {
+          text: "Yes",
+          value: true,
+        },
+        no: {
+          text: "No",
+          value: false
+          }
+      },
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+        if(willDelete===true) { 
+          $.ajax({ 
+            url:"/admin/delete-subcategory",
+            method:"POST",
+            data:{category:catId,subcategory:subId,isPro:"yes",item:'sub'},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Subcategory and Products deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/category' 
+            }
+          });
+        }
+        else if(willDelete===false){ 
+          $.ajax({ 
+            url:"/admin/delete-subcategory",
+            method:"POST",
+            data:{category:catId,subcategory:subId,isPro:"no",item:'sub'},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Subcategory deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/category' 
+            }
+          });
+        }
+      })
+    }
+
+
+
+    //sweet alert for delete category button
+  function deleteCat(catId){ 
+    swal({ 
+      title: "Are you sure?",
+      text:"Do you want to delete all products under this category?",
+      icon:"warning",
+      buttons: {
+        cancel: "Cancel",
+        yes: {
+          text: "Yes",
+          value: true,
+        },
+        no: {
+          text: "No",
+          value: false
+          }
+      },
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+        if(willDelete===true) { 
+          $.ajax({ 
+            url:"/admin/delete-category",
+            method:"POST",
+            data:{category:catId,isPro:"yes",item:'cat'},
+            success:(result)=>{ 
+              if(result.status){
+                swal("category and Products deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/category' 
+            }
+          });
+        }
+        else if(willDelete===false){ 
+          $.ajax({ 
+            url:"/admin/delete-category",
+            method:"POST",
+            data:{category:catId,isPro:"no",item:'cat'},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Category deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.href='/admin/category' 
+            }
+          });
+        }
+      })
+    }
+
+</script>

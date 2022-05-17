@@ -1,0 +1,467 @@
+<div class="container col-7 mt-3 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form
+      action="/admin/add-product"
+      class="col"
+      enctype="multipart/form-data"
+      id="addProductForm"
+      method="post"
+    >
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 p-md-4 text-left font-weight-bold"
+            style="font-size: 20px;"
+          >Add New Product</p>
+          <div class="px-3">
+            <div class="row">
+              
+               {{#if productAddMsg.status}}
+                <p class="text-success text-center"> {{productAddMsg.msg}}</p>
+              {{else}}
+                {{#if productAddMsg.imageErr}}
+                  <p class="text-danger text-center"> {{productAddMsg.imageErr}}</p>
+                {{else}}
+                  <p class="text-danger text-center"> {{productAddMsg.msg}}</p>
+                {{/if}}
+              {{/if}}
+
+
+              <div class="col">
+                <div class="signup__input">
+                  <p>Product Name: </p>
+                  <input type="text" name="productName" />
+                </div>
+              </div>
+              <div class="col">
+                <div class="signup__input">
+                  <p>Product Description: </p>
+                  <textarea
+                    name="productDescription"
+                    id="productDescription"
+                    cols="45"
+                    rows="5"
+                    style="resize: none; font-size: 13px;padding: 10px ; border-radius: 5px;"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="signup__input mt-4">
+                  <p>Brand: </p>
+                  <select
+                    class="form-select"
+                    style="border-radius: 30px;"
+                    name="productBrand"
+                    aria-label="Default select example"
+                    id="productBrand"
+                  >
+                    <option selected disabled >Select</option>
+                    {{#each allBrand}}
+                      <option
+                        value="{{this.brandName}}"
+                      >{{this.brandName}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="signup__input mt-4">
+                  <p>Category: </p>
+                  <select
+                    class="form-select"
+                    style="border-radius: 30px;"
+                    name="productCategory"
+                    aria-label="Default select example"
+                    id="categoryChange"
+                    onchange="catChange()"
+                  >
+                    <option selected disabled >Select</option>
+                    {{#each allCategory}}
+                      <option
+                        value="{{this.category}}"
+                      >{{this.category}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="signup__input mt-4">
+                  <p>Subcategory: </p>
+                  <select
+                    class="form-select"
+                    style="border-radius: 30px;"
+                    name="productSubcategory"
+                    id="subCategory"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Select</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="signup__input mt-3">
+                  <p>MRP: </p>
+                  <input type="text" id="productPrice" name="productPrice" />
+                </div>
+              </div>
+
+
+              <div class="col">
+                <div class="signup__input mt-3">
+                  <p>Quantity: </p>
+                  <input type="text" id="productQuantity" name="productQuantity" />
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-12">
+                <div id="image-box" style="width: 300px; height: 300px; display: none;"></div>
+                <button class="btn btn-primary mt-3"type="button" style="display: none;" id="crop-btn">Crop</button>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="mt-5">
+                  <label for="">Product Image 1</label>
+                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview1">
+                  {{!-- <div id="preview1"></div> --}}
+                  <input type="file" name="product_Image_1" id="file1" class="form-control"
+                      onchange="return fileValidation1()">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mt-5">
+                  <label for="">Product Image 2</label>
+                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview2">
+                  {{!-- <div id="preview1"></div> --}}
+                  <input type="file" name="product_Image_2" id="file2" class="form-control"
+                      onchange="return fileValidation2()">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mt-5">
+                  <label for="">Product Image 3</label>
+                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview3">
+                  {{!-- <div id="preview1"></div> --}}
+                  <input type="file" name="product_Image_3" id="file3" class="form-control"
+                      onchange="return fileValidation3()">
+                </div>
+            </div>
+            <div class="col">
+              <div class="mt-5">
+                  <label for="">Product Image 4</label>
+                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview4">
+                  {{!-- <div id="preview1"></div> --}}
+                  <input type="file" name="product_Image_4" id="file4" class="form-control"
+                      onchange="return fileValidation4()">
+              </div>
+            </div>
+            <div class="row text-center border-top my-5">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  id="confirm-btn"
+                  type="submit"
+                  class="btn btn-success px-4 py-2"
+                  style="border-radius: 30px;"
+                >
+                  ADD PRODUCT
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function catChange(){
+  var currCategory = document.getElementById('categoryChange').value
+  $.ajax({
+    url: '/admin/find-subcategory?category='+currCategory,
+    method: 'get',
+    success: (response)=>{
+      if(response){
+        let arrayCounts = response.length
+        let arrayValues = response
+        var subOptions = "<option disabled selected>Select</option>"
+        for(var i=0;i<arrayCounts;i++){
+          subOptions += "<option value='"+arrayValues[i]+"'>"+arrayValues[i]+"</option>"
+        }
+        document.getElementById('subCategory').innerHTML = subOptions
+      }
+    }
+  })
+}
+</script>
+
+<script type="text/javascript">
+
+//   FILTER INPUT FIELDS
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+
+
+// ONLY NUMBERS IN price fields
+setInputFilter(document.getElementById("productPrice"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+setInputFilter(document.getElementById("landingCost"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+setInputFilter(document.getElementById("productQuantity"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+
+
+
+
+
+
+</script>
+
+
+
+  {{!-- Image Preview1 For Add product --}}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+
+<script>
+
+    function fileValidation1() {
+        const imagebox = document.getElementById('image-box')
+        const crop_btn = document.getElementById('crop-btn')
+        var fileInput = document.getElementById('file1');
+
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.png|\.jpeg|\.JPEG|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload image files only.');
+            fileInput.value = '';
+            return false;
+        } else {
+            //Image preview
+            const img_data = fileInput.files[0]
+            const url = URL.createObjectURL(img_data)
+            imagebox.innerHTML = `<img src="${url}" id="image1" style="width:100%">`
+            const image = document.getElementById('image1')
+            document.getElementById('image-box').style.display = 'block'
+            document.getElementById('crop-btn').style.display = 'block'
+            document.getElementById('confirm-btn').style.display = 'none'
+
+            const cropper = new Cropper(image, {
+                autoCropArea: 1,
+                viewMode: 1,
+                scalable: false,
+                zoomable: false,
+                movable: false,
+                aspectRatio: 16 / 19,
+                //  preview: '.preview',
+                minCropBoxWidth: 180,
+                minCropBoxHeight: 240,
+            })
+            crop_btn.addEventListener('click', () => {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    let fileInputElement = document.getElementById('file1');
+                    let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                    let container = new DataTransfer();
+
+                    container.items.add(file);
+                    const img = container.files[0]
+                    var url = URL.createObjectURL(img)
+                    fileInputElement.files = container.files;
+                    document.getElementById('imgview1').src = url
+                    document.getElementById('image-box').style.display = 'none'
+                    document.getElementById('crop-btn').style.display = 'none'
+                    document.getElementById('confirm-btn').style.display = 'block'
+                },'image/webp',0.8);
+            });
+        }
+    }
+    function fileValidation2() {
+        const imagebox = document.getElementById('image-box')
+        const crop_btn = document.getElementById('crop-btn')
+        var fileInput = document.getElementById('file2');
+
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.png|\.jpeg|\.JPEG|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload image files only.');
+            fileInput.value = '';
+            return false;
+        } else {
+            //Image preview
+            const img_data = fileInput.files[0]
+            const url = URL.createObjectURL(img_data)
+            imagebox.innerHTML = `<img src="${url}" id="image2" style="width:100%">`
+            const image = document.getElementById('image2')
+            document.getElementById('image-box').style.display = 'block'
+            document.getElementById('crop-btn').style.display = 'block'
+            document.getElementById('confirm-btn').style.display = 'none'
+
+            const cropper = new Cropper(image, {
+                autoCropArea: 1,
+                viewMode: 1,
+                scalable: false,
+                zoomable: false,
+                movable: false,
+                aspectRatio: 16 / 19,
+                //  preview: '.preview',
+                minCropBoxWidth: 180,
+                minCropBoxHeight: 240,
+            })
+            crop_btn.addEventListener('click', () => {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    let fileInputElement = document.getElementById('file2');
+                    let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                    let container = new DataTransfer();
+
+                    container.items.add(file);
+                    const img = container.files[0]
+                    var url = URL.createObjectURL(img)
+                    fileInputElement.files = container.files;
+                    document.getElementById('imgview2').src = url
+                    document.getElementById('image-box').style.display = 'none'
+                    document.getElementById('crop-btn').style.display = 'none'
+                    document.getElementById('confirm-btn').style.display = 'block'
+                },'image/webp',0.8);
+            });
+        }
+    }
+    function fileValidation3() {
+        const imagebox = document.getElementById('image-box')
+        const crop_btn = document.getElementById('crop-btn')
+        var fileInput = document.getElementById('file3');
+
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.png|\.jpeg|\.JPEG|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload image files only.');
+            fileInput.value = '';
+            return false;
+        } else {
+            //Image preview
+            const img_data = fileInput.files[0]
+            const url = URL.createObjectURL(img_data)
+            imagebox.innerHTML = `<img src="${url}" id="image3" style="width:100%">`
+            const image = document.getElementById('image3')
+            document.getElementById('image-box').style.display = 'block'
+            document.getElementById('crop-btn').style.display = 'block'
+            document.getElementById('confirm-btn').style.display = 'none'
+
+            const cropper = new Cropper(image, {
+                autoCropArea: 1,
+                viewMode: 1,
+                scalable: false,
+                zoomable: false,
+                movable: false,
+                aspectRatio: 16 / 19,
+                //  preview: '.preview',
+                minCropBoxWidth: 180,
+                minCropBoxHeight: 240,
+            })
+            crop_btn.addEventListener('click', () => {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    let fileInputElement = document.getElementById('file3');
+                    let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                    let container = new DataTransfer();
+
+                    container.items.add(file);
+                    const img = container.files[0]
+                    var url = URL.createObjectURL(img)
+                    fileInputElement.files = container.files;
+                    document.getElementById('imgview3').src = url
+                    document.getElementById('image-box').style.display = 'none'
+                    document.getElementById('crop-btn').style.display = 'none'
+                    document.getElementById('confirm-btn').style.display = 'block'
+                },'image/webp',0.8);
+            });
+        }
+    }
+    function fileValidation4() {
+        const imagebox = document.getElementById('image-box')
+        const crop_btn = document.getElementById('crop-btn')
+        var fileInput = document.getElementById('file4');
+
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.png|\.jpeg|\.JPEG|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload image files only.');
+            fileInput.value = '';
+            return false;
+        } else {
+            //Image preview
+            const img_data = fileInput.files[0]
+            const url = URL.createObjectURL(img_data)
+            imagebox.innerHTML = `<img src="${url}" id="image4" style="width:100%">`
+            const image = document.getElementById('image4')
+            document.getElementById('image-box').style.display = 'block'
+            document.getElementById('crop-btn').style.display = 'block'
+            document.getElementById('confirm-btn').style.display = 'none'
+
+            const cropper = new Cropper(image, {
+                autoCropArea: 1,
+                viewMode: 1,
+                scalable: false,
+                zoomable: false,
+                movable: false,
+                aspectRatio: 16 / 19,
+                //  preview: '.preview',
+                minCropBoxWidth: 180,
+                minCropBoxHeight: 240,
+            })
+            crop_btn.addEventListener('click', () => {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    let fileInputElement = document.getElementById('file4');
+                    let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                    let container = new DataTransfer();
+
+                    container.items.add(file);
+                    const img = container.files[0]
+                    var url = URL.createObjectURL(img)
+                    fileInputElement.files = container.files;
+                    document.getElementById('imgview4').src = url
+                    document.getElementById('image-box').style.display = 'none'
+                    document.getElementById('crop-btn').style.display = 'none'
+                    document.getElementById('confirm-btn').style.display = 'block'
+                },'image/webp',0.8);
+            });
+        }
+    }
+
+
+</script>

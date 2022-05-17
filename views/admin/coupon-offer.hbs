@@ -1,0 +1,205 @@
+<div class="container col-5 mt-3 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form
+      action="/admin/coupon-offer"
+      class="col"
+      id="addCouponForm"
+      method="post"
+    >
+      <div class="row">
+        <div class="col">
+          <p
+            class="bg-gray-300 p-4 text-left font-weight-bold"
+            style="font-size: 15px;"  
+          >Coupon Offers</p>
+          <div class="px-3 px-4">
+            <div class="col">
+              {{#if couponMsg}} 
+                 <h5 class="alert alert-Success"> {{couponMsg}} </h5>
+              {{/if}}
+              <div class="signup__input">
+                <p>Coupon Code: </p>
+                <input type="text" name="couponCode" id="couponCode" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p>Offer Percentage %: </p>
+                <input type="text" name="discount" id="discount" />
+              </div>
+            </div>
+            <div class="col row">
+              <div class="signup__input col">
+                <p>Start Date: </p>
+                <input type="date" name="startDate" id="startDate" onchange="getStartDate()" />
+              </div>
+              <div class="signup__input col">
+                <p>Expiry Date: </p>
+                <input type="date" name="expiryDate" id="expiryDate" />
+              </div>
+            </div>
+
+            </div>
+            <div class="col">
+              <div class="signup__input">
+                <p> </p>
+                <button
+                  class="btn btn-success px-4 py-2"
+                  type="submit"
+                  style="border-radius: 30px;"
+                >
+                  ADD COUPON
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<div class="text-center py-3 bg-green-200">
+
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Coupon Offers</h1>
+    </main>
+    <div class="container bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="couponTable">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Coupon Code</th>
+            <th scope="col">Discount %</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each couponList}}
+            <tr>
+              <td class="align-middle">{{@index}}</td>
+              <td class="align-middle"> {{this.couponCode}} </td>
+              <td class="align-middle"> {{this.discount}} </td>
+              <td class="align-middle"> {{this.startDate}} </td>
+              <td class="align-middle"> {{this.expiryDate}} </td>
+              <td class="align-middle">
+                <a onclick="deleteCoupon('{{this._id}}')"  class="text-danger"><i class="fas fa-trash-alt"></i></a>        
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+
+// ONLY NUMBERS IN price fields
+setInputFilter(document.getElementById("discount"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 60);
+});
+
+
+
+
+    //sweet alert for delete category button
+  function deleteCoupon(couponId){ 
+    swal({ 
+     title: "Are you sure?",
+      text:"Do you want to delete the offer?",
+      icon:"warning",
+      buttons: true,
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+        if(willDelete) { 
+          $.ajax({ 
+            url:"/admin/delete-coupon",
+            method:"POST",
+            data:{couponId},
+            success:(result)=>{ 
+              if(result.status){
+                swal("Offer deleted Successfully", {
+                  icon: "success", 
+                });
+              } 
+              location.reload() 
+            }
+          });
+        }
+      })
+    }
+
+
+
+$(function(){
+    var dtToday = new Date();
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var maxDate = year + '-' + month + '-' + day;
+    $('#startDate').attr('min', maxDate);
+});
+
+function getStartDate(){
+  var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate();
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+      
+  let startDate = document.getElementById('startDate').value
+  document.getElementById('expiryDate').setAttribute('min',startDate)
+
+}
+
+</script>

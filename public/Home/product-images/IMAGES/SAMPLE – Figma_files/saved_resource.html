@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- saved from url=(0141)https://marketing.figma.com/?referrer=https://www.figma.com/?folder_id=53619225&editor_type=design&fuid=1093770663857208092&temp-cache-bust=1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Figma</title>
+  </head>
+  <body>
+    <script src="./tracking.min.js" async=""></script><script src="./destinations.min.js" async=""></script><script type="text/javascript" async="" src="./events.js"></script><script async="" src="./clearbit.js"></script><script src="./871885529854177" async=""></script><script async="" src="./fbevents.js"></script><script type="text/javascript" async="" src="./f.txt"></script><script type="text/javascript" async="" src="./insight.min.js"></script><script type="text/javascript" async="" src="./uwt.js"></script><script async="" src="./gtm.js"></script><script>
+      (function(){
+        const clusterName = `prod`
+
+        /**
+         * Grab referrer from query params and attempt to set on document. If we have a correct
+         * referrer reference then setup the trackers, otherwise, we need to reload.
+         */
+        const ref_match = RegExp('[?&]referrer=([^&]*)').exec(window.location.search);
+        const fakeref = ref_match ? decodeURIComponent(ref_match[1]) : "";
+        try {
+            if ('Object' in window && 'defineProperty' in Object){
+              Object.defineProperty(document,'referrer',{'get':function(){ return fakeref;}});
+            } else {
+              window.document.__defineGetter__('referrer', function () { return fakeref;});
+            }
+        } catch(e){}
+
+        debug('ref_match', ref_match);
+        debug('fakeref', fakeref);
+        // If we couldn't override the referrer, then replace the location and reload.
+        if (document.referrer !== fakeref && document.referrer !== "") {
+          location.replace(location.href);
+        } else {
+          setupEventListening();
+          addGtmIfNeeded()
+
+          // Notify parent (gatbsy site) that marketing site is ready to receive events
+          parent.postMessage({ type: 'ready' }, 'https://www.figma.com')
+        }
+
+        /**
+         * Listens for postMessages
+         */
+        function setupEventListening() {
+          debug('setting up event listening');
+          // GTM dataLayer and status.
+          window.dataLayer = [];
+          window.gtmAdded = false;
+
+          // Listen for messages from segment.ts.
+          window.addEventListener('message', function(event){
+            debug('postMessage received', event);
+
+            const originUrl = new URL(event.origin)
+            const isTrustedOrigin = /^[a-z]+\.figma\.com(:8080)?$/.test(originUrl.host) &&
+              (clusterName !== 'local' && originUrl.protocol === 'https:')
+
+            if (isTrustedOrigin) {
+              const { id, requestCallback, dataLayer } = event.data || {};
+              debug('dataLayer', dataLayer);
+
+              // We're listening to all messages and we should ignore any non-GTM related.
+              if (!dataLayer) return
+
+              let dataLayerCopy = deepClone(dataLayer)
+              if (requestCallback) {
+                dataLayerCopy.eventCallback = function() {
+                  parent.postMessage({ id, type: 'eventCallback' }, event.origin)
+                }
+                dataLayerCopy.eventTimeout = event.data.eventTimeout || 1000
+              }
+
+              // Let each tag manager handle the event.
+              handleGoogleTagManager(dataLayerCopy);
+            } else {
+              debug('Untrusted origin, no trackers activated');
+            }
+          });
+        }
+
+        function addGtmIfNeeded() {
+          const gtm_id = 'GTM-TZZ2PWQ';
+          if (!window.gtmAdded) {
+            window.gtmAdded = true;
+            debug('GTM - loading script');
+            (function (w, d, s, l, i) {
+              w[l] = w[l] || [];
+              w[l].push({
+                'gtm.start':
+                  new Date().getTime(), event: 'gtm.js'
+              });
+              var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+              j.async = true;
+              j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+              f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', gtm_id);
+          }
+        }
+
+        /**
+         * Load Google Tag Manager and push data to it.
+         */
+        function handleGoogleTagManager(dataLayer) {
+          // Push data to gtm and load if needed.
+          window.dataLayer.push(dataLayer);
+          debug('GTM - dataLayer.push()');
+          addGtmIfNeeded();
+        }
+
+        /**
+         * Helper to do 'debug' logging (only visible if you are showing 'verbose' console logs).
+         */
+        function debug (msg, data) {
+          if (console.debug) {
+            if (data) {
+              console.debug('Marketing Tracker: ' + msg, data);
+            } else {
+              console.debug('Marketing Tracker: ' + msg);
+            }
+          }
+        }
+
+        /**
+         * Helper to deep clone a simple object (for dataLayer).
+         */
+        function deepClone (obj) {
+          return JSON.parse(JSON.stringify(obj));
+        }
+      })()
+    </script>
+  
+
+
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("dataProcessingOptions",["LDU"],0,0);fbq("init","871885529854177");fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=871885529854177&amp;ev=PageView&amp;noscript=1"></noscript>
+<script type="text/javascript" id="">!function(b){var a=b.clearbit=b.clearbit||[];if(!a.initialize)if(a.invoked)b.console&&console.error&&console.error("Clearbit snippet included twice.");else{a.invoked=!0;a.methods="trackSubmit trackClick trackLink trackForm pageview identify reset group track ready alias page once off on".split(" ");a.factory=function(b){return function(){var c=Array.prototype.slice.call(arguments);c.unshift(b);a.push(c);return a}};for(b=0;b<a.methods.length;b++){var d=a.methods[b];a[d]=a.factory(d)}a.load=function(a){var b=
+document.createElement("script");b.async=!0;b.src=("https:"===document.location.protocol?"https://":"http://")+"x.clearbitjs.com/v1/"+a+"/clearbit.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a)};a.SNIPPET_VERSION="3.1.0";a.load("pk_f3fcd5d6edce1bee1e03e72bec32724c");a.page()}}(window);</script>
+	<script type="text/javascript" id="">!function(d,g,e){d.TiktokAnalyticsObject=e;var a=d[e]=d[e]||[];a.methods="page track identify instances debug on off once ready alias group enableCookie disableCookie".split(" ");a.setAndDefer=function(b,c){b[c]=function(){b.push([c].concat(Array.prototype.slice.call(arguments,0)))}};for(d=0;d<a.methods.length;d++)a.setAndDefer(a,a.methods[d]);a.instance=function(b){b=a._i[b]||[];for(var c=0;c<a.methods.length;c++)a.setAndDefer(b,a.methods[c]);return b};a.load=function(b,c){var f="https://analytics.tiktok.com/i18n/pixel/events.js";
+a._i=a._i||{};a._i[b]=[];a._i[b]._u=f;a._t=a._t||{};a._t[b]=+new Date;a._o=a._o||{};a._o[b]=c||{};c=document.createElement("script");c.type="text/javascript";c.async=!0;c.src=f+"?sdkid\x3d"+b+"\x26lib\x3d"+e;b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(c,b)};a.load("C8LB1S5MP02EUPVMJKO0");a.page()}(window,document,"ttq");</script>
+	<script type="text/javascript" id="term-e7e5d07437489" src="./t.js"></script><script src="./f(1).txt"></script><script src="./f(2).txt"></script><script src="./adsct" type="text/javascript"></script></body></html>

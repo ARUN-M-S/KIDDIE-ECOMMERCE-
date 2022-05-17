@@ -1,0 +1,92 @@
+<div class="text-center py-3 bg-green-200">
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>Ordered Products</h1>
+    </main>
+    <div class="px-2 bg-light row my-5 mx-auto">
+      <table class="table table-striped" id="orderedProducts">
+
+        <thead>
+          <tr>
+            <th scope="col">PRODUCT NAME</th>
+            <th scope="col">PRODUCT PRICE</th>
+            <th scope="col">PRODUCT QUANTITY</th>
+            <th scope="col">PRODUCT SUBTOTAL</th>
+            <th scope="col">ORDER STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {{#each products}}
+            <tr>
+              <td class="align-middle"> {{this.productName}} </td>
+              <td class="align-middle"> {{this.productPrice}} </td>
+              <td class="align-middle">{{this.quantity}}</td>
+              <td class="align-middle"> {{this.subTotal}} </td>
+              <td class="align-middle">
+                <select onchange="deliveryStatusUpdate(value,'{{this._id}}','{{this.item}}')">
+                  <option value="{{this.status}}" selected disabled>
+                    {{this.status}}
+                  </option>
+                  <option value="Pending" >
+                    Pending
+                  </option>
+                  <option value="Placed">
+                    Placed
+                  </option>
+                  <option value="Packed">
+                    Packed
+                  </option>
+                  <option value="Shipped">
+                    Shipped
+                  </option>
+                  <option value="Delivered">
+                    Delivered
+                  </option>
+                  <option value="Cancelled">
+                    Cancelled
+                  </option>
+                </select>
+
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+
+function deliveryStatusUpdate(value,orderId,proId){
+
+    swal({
+        title: "Are you sure To Change Order Status ?",
+        icon: 'warning',
+        buttons: true,
+        dangerMode:true,
+    }).then((willChange)=>{
+        if(willChange){
+        $.ajax({
+            url: '/admin/status-update',
+            method: 'post',
+            data:{
+                status: value,
+                orderId: orderId,
+                proId: proId
+            },
+            success:(resp)=>{
+                swal('Status Updated Successfully',{
+                icon: "success",
+              })
+            }
+        })
+        }
+    })
+}
+
+
+</script>

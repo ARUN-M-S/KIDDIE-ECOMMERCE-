@@ -1,0 +1,881 @@
+  <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-3 border-right">
+        <div
+          class="d-flex flex-column align-items-center text-center mt-2 p-3 py-5 profile-div"
+        >
+          <img
+            class="rounded-circle mt-5"
+            width="150px"
+            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+          />
+          <span class="font-weight-bold">{{user.firstName}} {{user.lastName}}</span>
+          <span class="text-black-50">{{user.email}}</span>
+          <span>
+            <a href="/edit-profile" class="text-primary" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i
+                class="fas fa-user-edit mt-4"
+              ></i></a>
+          </span>
+          <span class="mt-4">
+            <a href="/my-orders" class="text-dark text-decoration-none">
+              My Orders <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+            </a>
+          </span>
+          <span class="my-2">
+            <a href="" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">
+              Change Password <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </a>
+          </span>
+        </div>
+      </div>
+      
+      <div class="col-md-9 border-right">
+        <div class="p-3 col-md-8 centered mb-5">
+          {{#if profileMsg}}
+            <div
+              class="alert alert-success alert-dismissible fade show"
+              role="alert"
+            >
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <strong>{{profileMsg}}</strong>
+            </div>
+
+          {{/if}}
+
+          {{#if changePassMsg}}
+            <div
+              class="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <strong>{{changePassMsg}}</strong>
+            </div>
+
+          {{/if}}
+
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h3 class="text-dark p-3 text-center font-weight-bold">Profile</h3>
+          </div>
+          <div class="row mt-2 profile-view">
+            <div class="col-md-6"><label class="labels">First Name</label><input
+                type="text"
+                class="form-control"
+                placeholder="first name"
+                value="{{user.firstName}}"
+                disabled
+              /></div>
+            <div class="col-md-6 mt-1"><label class="labels">Last Name</label><input
+                type="text"
+                class="form-control"
+                value="{{user.lastName}}"
+                placeholder=""
+                disabled
+              /></div>
+            <div class="col-md-12 mt-1"><label class="labels">Mobile Number</label><input
+                type="text"
+                class="form-control"
+                placeholder="enter phone number"
+                value="{{user.phone}}"
+                disabled
+              /></div>
+            <div class="col-md-12 mt-1"><label class="labels">Email ID</label><input
+                type="text"
+                class="form-control"
+                placeholder="ihthisham.v@gmail.com"
+                value="{{user.email}}"
+                disabled
+              /></div>
+          </div>
+        </div>
+        <div class="p-3 col-md-8 centered mb-5">
+          <div class="p-md-3">
+            <p
+              class="bg-gray-300 font-weight-bold mt-2"
+              style="font-size: 25px;"
+            >Saved Addresses
+              <a
+                class="btn btn-outline-primary btn-sm ms-3 px-1"
+                href="/add-address"
+                style="font-size: 13px;"
+              >Add New</a>
+            </p>
+            {{#each resp}}
+            <div class="card mt-4">
+              <p class="p-1">
+                <span
+                  class="p-1"
+                  style="background-color: rgba(56, 59, 59, 0.37); font-size: 13px;"
+                > {{this.address.addressType}} </span>
+              </p>
+              
+              <div class="card-body px-1 my-0 py-0">
+                <p class="fw-bold">{{this.address.name}} {{this.address.phone}}</p>
+                <p class="text-muted" style="font-size: 14px;">
+                  {{this.address.houseNumber}} {{this.address.streetAddress}}
+                  <br />
+                  {{this.address.pincode}}
+                </p>
+                <div class="text-right text-secondary me-3 mt-0">
+                  {{this.address.district}},&nbsp;{{this.address.state}}
+                </div>
+                <div class="text-center mt-0">
+                  <a href="/edit-address?id={{this.address.addressId}}" class="">
+                    <i class="fas fa-edit text-primary"></i>
+                  </a>
+                  <a onclick="deleteAddress('{{this.address.addressId}}')">
+                    <i class="fas fa-trash text-danger ms-4"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{{!--EDIT PROFILE MODAL --}}
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <form action="/edit-profile" method="post" id="editProfileForm" enctype="multipart/form-data">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+
+            <div class="">
+              <label class="labels">First Name</label><input
+                type="text"
+                name="firstName"
+                class="form-control"
+                value="{{user.firstName}}"
+                placeholder="Last Name"
+              />
+            </div>
+            <div class="">
+              <label class="labels">Last Name</label><input
+                type="text"
+                name="lastName"
+                value="{{user.lastName}}"
+                class="form-control"
+                placeholder="Last Name"
+              />
+            </div>
+            <div class="">
+              <label class="labels">Mobile Number</label><input
+                type="text"
+                name="phone"
+                value="{{user.phone}}"
+                class="form-control"
+                placeholder="Phone"
+                id="phonenumber"
+              />
+            </div>
+
+            <div class="">
+              <label class="labels">Email</label><input
+                type="text"
+                name="email"
+                value="{{user.email}}"
+                id="email"
+                class="form-control"
+                placeholder="Phone"
+              />
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+{{!-- CHANGE PASSWORD MODAL --}}
+    <div
+      class="modal fade"
+      id="exampleModal2"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <form action="/change-password" method="post" id="changePassForm">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-secondary">
+            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+
+              <div class="">
+                <label class="labels">Current Password</label><input
+                  type="password"
+                  name="currPass"
+                  class="form-control"
+                />
+              </div>
+              <div class="">
+                <label class="labels">New Password</label><input
+                  type="password"
+                  name="newPass"
+                  class="form-control"
+                  id="newPassword"
+                />
+              </div>
+              <div class="">
+                <label class="labels">Type New Password Again</label><input
+                  type="password"
+                  name="retryNewPass"
+                  class="form-control"
+                  id="retryNewPass"
+                />
+              </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+<script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- JS Validator -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"
+    ></script>
+
+    <!-- form submission file -->
+    <script src="/javascripts/validator.js"> </script>
+
+
+<style>
+  /* user profile */ body { background: rgba(46, 157, 172, 0.507) }
+  .form-control:focus { box-shadow: none; border-color: #BA68C8 }
+  .profile-button { background: rgb(99, 39, 120); box-shadow: none; border: none
+  } .profile-button:hover { background: #682773 } .profile-button:focus {
+  background: #682773; box-shadow: none } .profile-button:active { background:
+  #682773; box-shadow: none } .back:hover { color: #682773; cursor: pointer }
+  .labels { font-size: 16px } .add-experience:hover { background: #BA68C8;
+  color: #fff; cursor: pointer; border: solid 1px #BA68C8 } .profile-div{
+  background: rgba(46, 170, 160, 0.603); box-shadow: 2px 5px 10px;
+  border-radius: 30px; } .address-fields{ background-color: rgba(51, 139, 125,
+  0.589); padding: 40px 5px; box-shadow: 2px 5px 10px; } .profile-view {
+  background-color: rgba(51, 139, 125, 0.589); padding: 40px 5px; box-shadow:
+  2px 5px 10px; }
+</style>
+
+
+<script>
+  //   FILTER INPUT FIELDS
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+  // ONLY 10 NUMBERS IN PHONE FIELD
+setInputFilter(document.getElementById("phonenumber"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+</script>
+
+
+
+<script>
+
+  // Check whether password and retype password is equal in reset password page
+
+var changePassForm = $("#changePassForm");
+changePassForm.validate({
+  rules: {
+    currPass: {
+      required: true,
+      minlength: 5,
+    },
+    newPass: {
+      required: true,
+      minlength: 5,
+    },
+    retryNewPass: {
+      minlength: 5,
+      equalTo: "#newPassword",
+    },
+  },
+});
+
+
+
+$(document).ready(function () {
+  $("#retryNewPass").on("keyup", function () {
+    var password = $("#newPass").val();
+    var confirmPassword = $("#retryNewPass").val();
+    if (password != confirmPassword)
+      $("#CheckPasswordMatch")
+        .html("Password does not match !")
+        .css("color", "red");
+    else
+      $("#CheckPasswordMatch").html("Password match !").css("color", "green");
+  });
+});
+
+
+
+</script>
+
+
+
+
+{{!-- ==============my profile============================== --}}
+<section style="background-color: #eee;">
+    <div class="container py-5">
+
+
+        <div class="row">
+
+
+
+
+
+
+
+          
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="/Home/profile-image/{{user._id}}.jpg" alt="avatar" class="rounded-circle img-fluid"
+                            style="width: 150px; height:150px">
+                               <h3 class="font-weight-bold">{{user.firstName}} {{user.lastName}}<span>
+            <a href="/edit-profile" class="text-primary" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i
+                class="fas fa-user-edit mt-4"
+              ></i></a>
+        </span></h3>
+          <span class="text-black-50">{{user.email}}</span>
+
+                        <div class="d-flex justify-content-center mb-2">
+                            <div class="container ">
+                                <button type="button" class="btn btn-dark" data-bs-toggle="modal"
+                                    data-bs-target="#myModal">Profile</button>
+                                <div class="modal" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add profile</h5>
+                                                <button type="button" class="btn-close"
+                                                    data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/profilepic" method="post" enctype="multipart/form-data">
+
+                                                    <div class="mt-3">
+
+                                                        <input type="file" name="image" placeholder="IMAGE1"
+                                                            class="form-control" id="imgView" required>
+                                                    </div>
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{!-- ===========================================password================= --}}
+
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal"
+                                data-bs-target="#myModal1">Change Password</button>
+                            <div class="modal" id="myModal1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Change Password</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/changepassword" method="post">
+                                                <input name="userId" value="{{profile._id}}" hidden>
+                                                <div class="form-outline form-white mb-4">
+                                                    <input type="password" name="password" placeholder="Old password"
+                                                        id="password" class="form-control form-control-lg" required />
+                                                    <p id="Password-error" class="error text-danger"></p>
+                                                </div>
+                                                <div class="form-outline form-white mb-4">
+                                                    <input type="password" name="newPassword" placeholder="New Password"
+                                                        id="password" class="form-control form-control-lg" required />
+                                                    <p id="Password-error" class="error text-danger"></p>
+                                                </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{!-- ======================================password================= --}}
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                          {{#if profileMsg}}
+            <div
+              class="alert alert-success alert-dismissible fade show"
+              role="alert"
+            >
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <strong>{{profileMsg}}</strong>
+            </div>
+
+          {{/if}}
+
+          {{#if changePassMsg}}
+            <div
+              class="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <strong>{{changePassMsg}}</strong>
+            </div>
+
+          {{/if}}
+                            <div class="col-sm-3">
+                                <p class="mb-0">Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.firstName}} {{user.lastName}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.email}} </p>
+
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Mobile</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.phone}} 
+                       
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Gender</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.gender}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Age</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+        <div class="row">
+
+
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+                integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
+            <div class="col-md-12 pl-5 ">
+                <div class="row ">
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="card l-bg-cherry">
+                            <a href="/cart">
+
+
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+                                    <div class="mb-4">
+                                        <h5 class="card-title mb-0" style="color: white;">Your Cart</h5>
+                                    </div>
+
+                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                        <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 25%;"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="card l-bg-blue-dark">
+                            <a href="/wishlist">
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-heart"></i></div>
+                                    <div class="mb-4">
+                                        <h5 class="card-title mb-0" style="color: white;">Your Wishilist</h5>
+                                    </div>
+
+                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                        <div class="progress-bar l-bg-green" role="progressbar" data-width="25%"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 25%;"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="card l-bg-green-dark">
+                            <a href="/orders">
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+                                    <div class="mb-4">
+                                        <h5 class="card-title mb-0" style="color: white; text-decoration: none;">Your
+                                            Orders</h5>
+                                    </div>
+
+                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                        <div class="progress-bar l-bg-orange" role="progressbar" data-width="25%"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 25%;"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="card l-bg-orange-dark">
+                            <a href="/myaddress">
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                                    <div class="mb-4">
+                                        <h5 class="card-title mb-0" style=" color: white;text-decoration: none;">Your
+                                            Adresses</h5>
+                                    </div>
+
+                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                        <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 25%;"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+        {{!-- <div class="container mt-5">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Contact
+                Us</button>
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add profile</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/profilepic" method="post" enctype="multipart/form-data">
+
+                                <div class="mt-3">
+
+                                    <input type="file" name="image" placeholder="IMAGE1" class="form-control"
+                                        id="imgView" required>
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+</section>
+
+
+<style>
+    {
+            {
+             !--======================popup=================--
+        }
+    }
+
+    .modal-header {
+        background: #F7941E;
+        color: #fff;
+    }
+
+    .required:after {
+        content: "*";
+        color: red;
+    }
+
+        {
+            {
+             !--======================popup=================--
+        }
+    }
+
+
+    .card {
+        background-color: #fff;
+        border-radius: 10px;
+        border: none;
+        position: relative;
+        margin-bottom: 30px;
+        box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1), 0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12), 0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
+    }
+
+    .l-bg-cherry {
+        background: linear-gradient(to right, #493240, #f09) !important;
+        color: #fff;
+    }
+
+    .l-bg-blue-dark {
+        background: linear-gradient(to right, #373b44, #4286f4) !important;
+        color: #fff;
+    }
+
+    .l-bg-green-dark {
+        background: linear-gradient(to right, #0a504a, #38ef7d) !important;
+        color: #fff;
+    }
+
+    .l-bg-orange-dark {
+        background: linear-gradient(to right, #a86008, #ffba56) !important;
+        color: #fff;
+    }
+
+    .card .card-statistic-3 .card-icon-large .fas,
+    .card .card-statistic-3 .card-icon-large .far,
+    .card .card-statistic-3 .card-icon-large .fab,
+    .card .card-statistic-3 .card-icon-large .fal {
+        font-size: 70px;
+    }
+
+    .card .card-statistic-3 .card-icon {
+        text-align: center;
+        line-height: 50px;
+        margin-left: 15px;
+        color: #000;
+        position: absolute;
+        right: -5px;
+        top: 20px;
+        opacity: 0.1;
+    }
+
+    .l-bg-cyan {
+        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+        color: #fff;
+    }
+
+    .l-bg-green {
+        background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
+        color: #fff;
+    }
+
+    .l-bg-orange {
+        background: linear-gradient(to right, #f9900e, #ffba56) !important;
+        color: #fff;
+    }
+
+    .l-bg-cyan {
+        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+        color: #fff;
+    }
+</style>
+
+
+
+<script>
+    var phoneError = document.getElementById('Phone-error')
+    var emailError = document.getElementById('Email-error');
+
+    function validateEmail() {
+        var email = document.getElementById('email').value;
+
+        if (email.length == 0) {
+            emailError.innerHTML = 'Email is required'
+            return false;
+        }
+        if (!email.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
+            emailError.innerHTML = 'Email invalid'
+            return false;
+        }
+        emailError.innerHTML = '<i class="fa-solid fa-circle-check text-success"></i>';
+        return true;
+    }
+    function validatePhoneNUmber() {
+        var message = document.getElementById('phoneNumber').value;
+        var required = 10;
+        var left = required - message.length;
+
+        if (left > 0) {
+            phoneError.innerHTML = left + 'more character required';
+            return false;
+        }
+
+        phoneError.innerHTML = '<i class="fa-solid fa-circle-check text-success"></i>';
+        return true;
+    }
+
+
+</script>
+  
