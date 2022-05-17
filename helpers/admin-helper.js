@@ -361,6 +361,55 @@ getCatSales:()=>{
         $project:{
           quantity:1,
           subTotal:1,
+          category: "$orderedProducts.productCategory"
+        }
+      },
+      {
+        $group:{
+          _id: "$category",
+          totalAmount: {$sum:"$subTotal"},
+          count:{$sum:1}
+        }
+      }
+    ]).toArray()
+    resolve(catSales)
+  })
+},
+// =================================================categorywise sales===============
+
+getsubCatSales:()=>{
+  return new Promise(async(resolve,reject)=>{
+    let catSales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $unwind: "$products"
+      },
+      {
+        $match:{
+          "products.status": "Delivered"
+        }
+      },
+      {
+        $project:{
+          item: "$products.item",
+          quantity: "$products.quantity",
+          subTotal: "$products.subTotal"
+        }
+      },
+      {
+        $lookup:{
+          from: collections.PRODUCT_COLLECTION,
+          localField: "item",
+          foreignField: "_id",
+          as: "orderedProducts"
+        }
+      },
+      {
+        $unwind: "$orderedProducts"
+      },
+      {
+        $project:{
+          quantity:1,
+          subTotal:1,
           category: "$orderedProducts.productSubcategory"
         }
       },

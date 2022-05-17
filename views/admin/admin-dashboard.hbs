@@ -156,12 +156,13 @@ href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css"
 
     <div class="row my-5">
         <div class="col-md-5">
-            <h2>Weekly Sales</h2>
-            <canvas id="weeklySalesChart" class='' width="300" height="250"></canvas>
+             <h2>Subcategory Wise Sales</h2>
+           
+            <canvas id="CategorySales" class='' width="200" height="200"></canvas>
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-5">
-            <h2>Subcategory Wise Sales</h2>
+             <h2>Category Wise Sales</h2>
             <canvas id="categorySales" class='' width="200" height="200"></canvas>
         </div>
     </div>
@@ -221,39 +222,47 @@ $( document ).ready(function() {
         url: '/admin/getChartDates',
         method: 'get',
         success:async(chartDatas)=>{
-            const ctx = document.getElementById('weeklySalesChart').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: chartDatas.daysOfWeek,
-                    datasets: [{
-                        label: 'Weekly Sales Report',
-                        data: chartDatas.dailyAmt,
-                        backgroundColor: [
-                            'rgba(0, 50, 235, 1)',
-                        ],
-                        borderColor: [
-                            'rgba(40, 100, 255, 1)',
-                            {{!-- 'rgba(255, 99, 132, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)' --}}
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            
-                        },
-                    }
-                }
-            });
-
             const ctx3 = document.getElementById('categorySales').getContext('2d');
+            const myChart3 = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: chartDatas.category,
+                datasets: [{
+                    label: 'Category Wise Sales',
+                    data: chartDatas.categoryAmount,
+                backgroundColor: [
+                    'RGB(197, 20, 141)',
+                    'RGB(74, 100, 25)',
+                    'rgba(255, 106, 86, 1)',
+                    'rgba(0, 192, 192, 1)',
+                    'rgba(153, 40, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        });
+
+        }
+        
+    })
+
+})
+
+$( document ).ready(function() {
+    $.ajax({
+        url: '/admin/getChartDates',
+        method: 'get',
+        success:async(chartDatas)=>{
+            const ctx3 = document.getElementById('CategorySales').getContext('2d');
             const myChart3 = new Chart(ctx3, {
             type: 'pie',
             data: {
@@ -283,6 +292,7 @@ $( document ).ready(function() {
         });
 
         }
+        
     })
 
 })

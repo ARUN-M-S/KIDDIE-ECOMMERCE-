@@ -139,6 +139,8 @@
     <link rel="stylesheet" href="/stylesheets/style-2.css" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="/stylesheets/style-1.css" />
+  {{else if arun}}
+
   {{else}}
     <link rel="stylesheet" href="/stylesheets/style.css" />
   {{/if}}
@@ -162,6 +164,7 @@
       {{else}}
       {{#if admin}}
         {{>admin-header}}
+        
       {{else}}
         {{> user-header}}
       {{/if}}
@@ -210,6 +213,7 @@
   {{#if admin}}
     {{!-- Admin JS --}}
     <script src="javascripts/scripts-2.js"></script>
+    <script src="javascripts/jquery-3.3.1.min.js"></script>
     
   {{else}}
     {{!-- main JS --}}

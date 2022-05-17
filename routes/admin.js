@@ -48,42 +48,36 @@ router.get("/", verifyLogin,async function (req, res, next) {
 
 router.get('/getChartDates',async(req,res)=>{
   console.log("chartDatas");
-  let dailySales = await adminHelper.getdailySales()
+  
+  let subCatSales = await adminHelper.getsubCatSales()
   let catSales = await adminHelper.getCatSales()
 
  
 
 
- 
-  let dailyAmt = []
-  let daysOfWeek = []
+  let categoryAmount = []
+  let category = []
   let catSaleAmount = []
   let categoryName = []
   
   
 
  
-// mapping daily sales amount
-dailySales.map(daily=>{
-  dailyAmt.push(daily.totalAmount)
-})
 
-
-// mapping daily sales dates
-dailySales.map(daily=>{
-  daysOfWeek.push(daily._id) //Array of days in a week
-})
-
+  catSales.map(cat=>{
+    category.push(cat._id)
+    categoryAmount.push(cat.totalAmount)
+  })
   
   // mapping category name and category amount
-  catSales.map(cat=>{
+  subCatSales.map(cat=>{
     categoryName.push(cat._id)
     catSaleAmount.push(cat.totalAmount)
   })
 
 
 
-  res.json({daysOfWeek,dailyAmt,categoryName,catSaleAmount})
+  res.json({categoryName,catSaleAmount,category,categoryAmount})
 })
 
 
@@ -708,10 +702,7 @@ router.post("/status-update", verifyLogin, (req, res) => {
 });
 
 router.get("/ordered-products", verifyLogin, (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let orderId = req.query.orderId;
   let userId = req.query.userId;
   let proId = req.query.proId;
@@ -841,10 +832,11 @@ router.get("/stock-report", verifyLogin,async (req, res, next) => {
   
   let stockReport = await productHelper.getStockReport()
   res.render("admin/stock-report", {
-    title: "Sales Report",
+    title: "STOCK Report",
     admin: true,
-    header: "SALES REPORT",
-    stockReport
+    header: "STOCK REPORT",
+    stockReport,
+    
   });
 });
 
@@ -881,7 +873,7 @@ router.get("/sales-charts", verifyLogin,async (req, res, next) => {
 
   
   
-  res.render("admin/sales-charts")
+  res.render("admin/sales-charts",{admin:true})
 });
 
 // ====================================salesChart===================
