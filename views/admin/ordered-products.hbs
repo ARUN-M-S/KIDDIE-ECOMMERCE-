@@ -24,7 +24,7 @@
               <td class="align-middle">{{this.quantity}}</td>
               <td class="align-middle"> {{this.subTotal}} </td>
               <td class="align-middle">
-                <select onchange="deliveryStatusUpdate(value,'{{this._id}}','{{this.item}}')">
+                <select onchange="deliveryStatusUpdate(value,'{{this._id}}','{{this.item}}',)">
                   <option value="{{this.status}}" selected disabled>
                     {{this.status}}
                   </option>
@@ -61,7 +61,7 @@
 
 
 
-function deliveryStatusUpdate(value,orderId,proId){
+function deliveryStatusUpdate(value,orderId,proId,userId){
 
     swal({
         title: "Are you sure To Change Order Status ?",
@@ -76,7 +76,8 @@ function deliveryStatusUpdate(value,orderId,proId){
             data:{
                 status: value,
                 orderId: orderId,
-                proId: proId
+                proId: proId,
+                
             },
             success:(resp)=>{
                 swal('Status Updated Successfully',{

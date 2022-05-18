@@ -134,7 +134,7 @@ router.post("/signup", (req, res, next) => {
 //==================================== login get=========================
 var blockMsg;
 router.get("/login", (req, res, next) => {
- 
+
   if (req.session.user?.loggedIn) {
     res.redirect("/");
   } else {
@@ -152,6 +152,9 @@ router.get("/login", (req, res, next) => {
 
 //================================== Userlogin post=============================
 router.post("/login", (req, res, next) => {
+
+
+
   userHelper.loginUser(req.body).then((response) => {
     if (response.status) {
       if (!response.user.userBlocked) {
@@ -172,15 +175,17 @@ router.post("/login", (req, res, next) => {
 //=========================== phone number page post=========================
 var OtpPhone;
 router.post("/phone-verify", function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   var phone = req.body.phone;
   req.session.mob = phone; //mobile otp login number storing in session
   phone = phone.toString();
+
+ 
+
+
   userHelper.phoneCheck(phone).then((response) => {
     if (response.userExist) {
+      
       client.verify
         .services(serviceSid)
         .verifications.create({
@@ -189,7 +194,7 @@ router.post("/phone-verify", function (req, res, next) {
         })
         .then((ress) => {
           OtpPhone = phone;
-          res.render("otp-verify", { OtpPhone });
+          res.render("user/otp-verify", { OtpPhone });
         });
     } else {
       req.session.userLoginErr = "Invalid Phone Number";
@@ -633,11 +638,7 @@ router.post("/add-buynow-address", verifyBlock, function (req, res, next) {
 var code
 router.get("/place-order", verifyBlock, async function (req, res, next) {
 
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
-
+  
   let discount
   code = req.query.code
   let grandTotal = await userHelper.getGrandTotal(req.session.user._id);
@@ -683,8 +684,8 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
             payment_method: "paypal",
           },
           redirect_urls: {
-            return_url: "http://www.gadgetzone.site/success",
-            cancel_url: "http://www.gadgetzone.site/cancel",
+            return_url: "http://localhost:3000/success",
+            cancel_url: "http://localhost:3000/cancel",
           },
           transactions: [
             {
@@ -737,10 +738,7 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
 // place order in buynow page
 var isBuyNow
 router.get("/place-order-buynow", verifyBlock, async function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let proId = req.query.proId
   let products
   let grandTotal
@@ -910,10 +908,7 @@ router.post("/verify-payment", verifyBlock, function (req, res, next) {
 });
 
 router.get("/order-placed", verifyBlock, async function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   res.render("user/order-placed", { title: "KIDDIE", user: req.session.user });
 });
 
@@ -1035,7 +1030,7 @@ router.get("/add-address", verifyBlock, function (req, res, next) {
   res.render("user/add-address", {
     title: "KIDDIE",
     user: req.session.user,
-    allStates,
+   
     addressMsg,
   });
   addressMsg = null;
@@ -1075,7 +1070,7 @@ router.get("/edit-address", verifyBlock, function (req, res, next) {
     res.render("user/edit-address", {
       title: "KIDDIE",
       user: req.session.user,
-      allStates,
+      
       addressMsg,
       address: resp,
     });

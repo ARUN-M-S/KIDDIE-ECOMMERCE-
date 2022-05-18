@@ -431,8 +431,9 @@ module.exports = {
 
       let orderObj = {
         deliveryDetails:{
-            addressType: address.addressType,
+            
             name: address.name,
+            email:address.email,
             phone: address.phone,
             houseNumber: address.houseNumber,
             streetAddress: address.streetAddress,
@@ -773,6 +774,7 @@ module.exports = {
                   streetAddress: data.streetAddress,
                   district: data.district,
                   state: data.state,
+                  email:data.email,
                 },
               },
             }
@@ -887,7 +889,7 @@ return new Promise(async (resolve,reject)=>{
         },
         
       ]).toArray()  
-      
+      console.log(oneAddress,"address for order 891");
       resolve(oneAddress);
     })
   },
@@ -903,7 +905,7 @@ return new Promise(async (resolve,reject)=>{
         },
         {
           $set: {
-            "address.$.addressType": data.addressType,
+            "address.$.email": data.email,
             "address.$.name": data.name,
             "address.$.phone": data.phone,
             "address.$.pincode": data.pincode,

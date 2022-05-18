@@ -3,6 +3,7 @@ var router = express.Router();
 var session = require("express-session");
 const adminHelper = require("../helpers/admin-helper");
 const productHelper = require("../helpers/product-helper");
+var nodemailer = require('nodemailer');
 
 
 // file system
@@ -51,9 +52,6 @@ router.get('/getChartDates',async(req,res)=>{
   
   let subCatSales = await adminHelper.getsubCatSales()
   let catSales = await adminHelper.getCatSales()
-
- 
-
 
   let categoryAmount = []
   let category = []
@@ -688,13 +686,48 @@ router.get("/manage-orders", verifyLogin, (req, res, next) => {
   });
 });
 
-router.post("/status-update", verifyLogin, (req, res) => {
+router.post("/status-update", verifyLogin,async (req, res) => {
   let status = req.body.status;
   let orderId = req.body.orderId;
   let proId = req.body.proId;
+  console.log(orderId,"userMail is Here line 694 in admin.js");
+  
+  let userEmail= await adminHelper.userEmail(orderId);
+ email=userEmail[0].deliveryDetails.email
+  
   adminHelper.deliveryStatusUpdate(status, orderId, proId).then((resp) => {
     if (response) {
       res.json({ status: true });
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'arunmsudevan@gmail.com',
+      pass: 'MACBOOKm123456789'
+    }
+  });
+  
+  var mailOptions = {
+    from: 'arunmsudevan@gmail.com',
+    to: email,
+    subject: 'Delivery Status',
+    text: 'That was easy! poda'
+    
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+
+
+
+
+
     } else {
       res.json({ status: false });
     }
@@ -940,5 +973,8 @@ console.log(dailyAmt,"daily amount");
   res.json({daysOfWeek,dailyAmt,categoryName,catSaleAmount,montlyAmt, months,yearlyAmt,year})
 })
 
+router.get("/hello",(req,res)=>{
+  res.render("admin/emailStatus",{adin:false,user:false})
+})
 
 module.exports = router;

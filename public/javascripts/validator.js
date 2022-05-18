@@ -283,6 +283,9 @@ addAddressForm.validate({
     state: {
       required: true,
     },
+    email: {
+      required: true,
+    },
   },
 })
 

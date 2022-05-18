@@ -23,34 +23,7 @@
             <strong>{{addressMsg}}</strong>
           </div>
           {{/if}}
-          <div class="form-check mb-3 mt-4 form-check-inline">
-            <input
-              type="radio"
-              class="btn-check"
-              name="addressType"
-              value="Home"
-              id="homeAddress"
-              autocomplete="off"
-              checked
-            />
-            <label
-              class="btn btn-outline-dark btn-sm"
-              for="homeAddress"
-            >Home</label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              name="addressType"
-              value="Office"
-              id="officeAddress"
-              autocomplete="off"
-            />
-            <label
-              class="btn btn-outline-dark btn-sm ms-3"
-              for="officeAddress"
-            >Office</label>
-          </div>
+         
 
           <div class="col-md-6"><label class="labels">Name</label><input
               type="text"
@@ -79,6 +52,13 @@
               name="locality"
               class="form-control"
               placeholder="Locality"
+            /></div>
+            <div class="col-md-12 mt-1"><label class="labels">Email for Delivery Status
+              </label><input
+              type="email"
+              name="email"
+              class="form-control"
+              placeholder="Email"
             /></div>
           <div class="col-md-12 mt-1"><label class="labels">House No./Building
               No.</label><input

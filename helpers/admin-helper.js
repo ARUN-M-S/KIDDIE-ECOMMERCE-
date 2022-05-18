@@ -602,10 +602,18 @@ getUserReport:()=>{
         }
       }
     ]).toArray()
+    console.log(userReport ,"user Report is here line 605");
     resolve(userReport)
   })
-}
-
+},
+userEmail:(orderId)=>{
+  return new Promise(async(resolve,reject)=>{
+    let userMail= await db.get().collection(collections.ORDER_COLLECTION).find({_id:objectId(orderId)}).toArray()
+      console.log(userMail,"line 612");
+      resolve(userMail)
+  
+    
+})}
 
 
 };

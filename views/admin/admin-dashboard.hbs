@@ -168,50 +168,6 @@ href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css"
     </div>
     
 
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table table-success table-hover" id="topSelling" style="box-shadow: 2px 3px 15px;">
-                <legend class="fs-2 fw-bold">Best Selling Products</legend>
-                <thead>
-                    <tr>
-                    <th scope="col">SL.No</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each topSelling}}
-                        <tr>
-                        <td> {{@index}} </td>
-                        <td> {{this._id}} </td>
-                        <td>{{this.totalQty}}</td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <table class="table table-danger table-hover col-md-6" id="stockOut" style="box-shadow: 2px 3px 15px;">
-                <legend class="fs-2 fw-bold">Less Stock Products</legend>
-                <thead>
-                    <tr>
-                    <th scope="col">SL.No</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each stockOut}}
-                        <tr>
-                        <td> {{@index}} </td>
-                        <td> {{this._id}} </td>
-                        <td>{{this.stock}}</td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-    </div>
 
 
 

@@ -200,6 +200,7 @@
                     <p class="card-text">{{this.address.houseNumber}}
                       {{this.address.streetAddress}}</p>
                     <p class="card-text">{{this.address.pincode}}</p>
+                    <p class="card-text" hidden>{{this.address.email}}</p>
                     <p
                       class="card-text"
                     >{{this.address.district}},&nbsp;{{this.address.state}}</p>
@@ -494,6 +495,9 @@ addAddressForm2.validate({
       required: true,
     },
     state: {
+      required: true,
+    },
+     email: {
       required: true,
     },
   },
