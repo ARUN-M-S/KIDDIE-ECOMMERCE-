@@ -606,14 +606,22 @@ getUserReport:()=>{
     resolve(userReport)
   })
 },
-userEmail:(orderId)=>{
+getOrderDeatils:(id)=>{
   return new Promise(async(resolve,reject)=>{
-    let userMail= await db.get().collection(collections.ORDER_COLLECTION).find({_id:objectId(orderId)}).toArray()
-      console.log(userMail,"line 612");
+   
+    let userMail= await db.get().collection(collections.ORDER_COLLECTION).find({userId:objectId(id)}).sort({date:-1}).toArray()
+      console.log(userMail,"admin-helper612");
+      resolve(userMail)
+  
+    
+})},
+userEmail:(id)=>{
+  return new Promise(async(resolve,reject)=>{
+   
+    let userMail= await db.get().collection(collections.ORDER_COLLECTION).find({_id:objectId(id)}).sort({date:-1}).toArray()
+      console.log(userMail,"admin-helper612");
       resolve(userMail)
   
     
 })}
-
-
 };

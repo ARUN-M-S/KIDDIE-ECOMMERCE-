@@ -184,7 +184,7 @@
                             
                             <li><a  class="add-to-wishlist pt-1" onclick="addToWishlist('{{this._id}}','{{../user._id}}')"><i
                                         class="fa fa-heart"></i></a></li>
-                            <li><a href="#"><i class="fa fa-search pt-1"></i></a></li>
+                            <li><a onclick="productDetail('{{this._id}}')"><i class="fa fa-search pt-1"></i></a></li>
                         </ul>
 
                         <button class="add-to-cart"  onclick="addToCart('{{this._id}}','{{this.productVariants.0.productPrice}}')"><a>Add to Cart</a></button>

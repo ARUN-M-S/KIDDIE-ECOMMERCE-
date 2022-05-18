@@ -6,9 +6,16 @@ const productHelper = require("../helpers/product-helper");
 var nodemailer = require('nodemailer');
 
 
+  const { promisify } = require('util');
+  
+  
+
+
 // file system
 const fs = require("fs");
 const { response, json } = require("express");
+const { getMaxListeners } = require("process");
+var readFile = promisify(fs.readFile);
 
 const adminData = {
   email: "arun@gmail.com",
@@ -693,46 +700,213 @@ router.post("/status-update", verifyLogin,async (req, res) => {
   console.log(orderId,"userMail is Here line 694 in admin.js");
   
   let userEmail= await adminHelper.userEmail(orderId);
- email=userEmail[0].deliveryDetails.email
-  
+ 
+  console.log(userEmail,"admin.js704");
   adminHelper.deliveryStatusUpdate(status, orderId, proId).then((resp) => {
     if (response) {
       res.json({ status: true });
 
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'arunmsudevan@gmail.com',
-      pass: 'MACBOOKm123456789'
-    }
-  });
-  
-  var mailOptions = {
-    from: 'arunmsudevan@gmail.com',
-    to: email,
-    subject: 'Delivery Status',
-    text: 'That was easy! poda'
-    
-  };
-  
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-
-
-
-
-
-
-    } else {
-      res.json({ status: false });
-    }
-  });
-});
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+         user: 'arunmsudevan@gmail.com',
+         pass: 'MACBOOKm123456789'
+        }
+       });
+       
+           transporter.sendMail({
+             
+             from:"sajeevpraveen2@gmail.com",
+             to: userEmail[0].deliveryDetails.email,
+             subject:"Kiddie",
+         html:`<!DOCTYPE html>
+         <html>
+         
+         <head>
+         
+           <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+           <meta name="viewport" content="width=device-width, initial-scale=1">
+           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+           <style type="text/css">
+             /* CLIENT-SPECIFIC STYLES */
+             body,
+             table,
+             td,
+             a {
+               -webkit-text-size-adjust: 100%;
+               -ms-text-size-adjust: 100%;
+             }
+         
+             table,
+             td {
+               mso-table-lspace: 0pt;
+               mso-table-rspace: 0pt;
+             }
+         
+             img {
+               -ms-interpolation-mode: bicubic;
+             }
+         
+             /* RESET STYLES */
+             img {
+               border: 0;
+               height: auto;
+               line-height: 100%;
+               outline: none;
+               text-decoration: none;
+             }
+         
+             table {
+               border-collapse: collapse !important;
+             }
+         
+             body {
+               height: 100% !important;
+               margin: 0 !important;
+               padding: 0 !important;
+               width: 100% !important;
+             }
+         
+             /* iOS BLUE LINKS */
+             a[x-apple-data-detectors] {
+               color: inherit !important;
+               text-decoration: none !important;
+               font-size: inherit !important;
+               font-family: inherit !important;
+               font-weight: inherit !important;
+               line-height: inherit !important;
+             }
+         
+             /* MEDIA QUERIES */
+             @media screen and (max-width: 480px) {
+               .mobile-hide {
+                 display: none !important;
+               }
+         
+               .mobile-center {
+                 text-align: center !important;
+               }
+         
+               .align-center {
+                 max-width: initial !important;
+               }
+         
+               h1 {
+                 display: inline-block;
+                 margin-right: auto !important;
+                 margin-left: auto !important;
+               }
+             }
+         
+             @media screen and (min-width: 480px) {
+               .mw-50 {
+                 max-width: 50%;
+               }
+             }
+         
+             /* ANDROID CENTER FIX */
+             div[style*="margin: 16px 0;"] {
+               margin: 0 !important;
+             }
+         
+             :root {
+               --purple: #5a3aa5;
+               --pink: #b91bab;
+               --blue: #2cbaef;
+               --green: #23c467;
+             }
+           </style>
+         </head>
+         
+         <body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
+         
+           <!-- HIDDEN PREHEADER TEXT -->
+           <div
+             style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Open Sans, Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+            MESSAGE FROM KIDDIE!
+           </div>
+         
+           <table border="0" cellpadding="0" cellspacing="0" width="100%">
+             <tr>
+               <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
+         
+                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:100%;">
+                   <tr>
+                     <td align="center" height="6"
+                       style="background-image: linear-gradient(to right, #b91bAb, #5a3aa5); background-color: #b91bAb;"
+                       bgcolor="#b91bAb"></td>
+                   </tr>
+                 </table>
+                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:800px;">
+                   <tr>
+                     <td align="center" valign="top" style="background-color: #ffffff; font-size:0; padding: 35px 35px 0;"
+                       bgcolor="#ffffff">
+         
+                       <div style=" text-align: center; max-width:50%;  vertical-align:top; width:100%;">
+                         <table class="align-center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                           style="max-width:800px;">
+                           <tr>
+                             <td align="left" height="48" valign="center"
+                               style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size:48px; font-weight: 800; line-height: 48px;"
+                               class="mobile-center">
+                               <div class="text-center">
+                                 <span style="color: #ff9500;">K <span style="color: #000;">IDDIE</span> </span>
+                               </div>
+                             </td>
+                           </tr>
+                         </table>
+                       </div>
+         
+                     </td>
+                   </tr>
+                   <tr>
+                     <td align="center" style="padding: 0 15px 20px 15px; background-color: #ffffff;" bgcolor="#ffffff">
+         
+                       <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                         <tr>
+                           <td align="center"
+                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
+                             <img src="http://healthplang.com/App_Themes/GHP/images/icon-check-mark.png" width="125" height="120"
+                               style="display: block; border: 0px;" /><br>
+                             <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
+                               Hey ${userEmail[0].deliveryDetails.name},Your order has been ${userEmail[0].products[0].status} Thank You For Your Order!
+                             </h2>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td align="center"
+                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
+                             <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777; padding: 0 30px;">
+         
+         
+                              
+                               Please keep in touch!
+         
+                              
+                             </p>
+                           </td>
+                         </tr>
+         
+         
+                   </tr>
+                 </table>
+         
+               </td>
+             </tr>
+             `
+         
+             
+            
+                 
+           
+           });
+         
+      
+       
+}else{
+  res.json({status:false})
+}
+})})
 
 router.get("/ordered-products", verifyLogin, (req, res, next) => {
   
@@ -972,9 +1146,330 @@ console.log(dailyAmt,"daily amount");
 
   res.json({daysOfWeek,dailyAmt,categoryName,catSaleAmount,montlyAmt, months,yearlyAmt,year})
 })
+// =================================ORDER CONFIRMATION======================
+router.get("/orderAlert",async(req,res)=>{
 
-router.get("/hello",(req,res)=>{
-  res.render("admin/emailStatus",{adin:false,user:false})
-})
+  let userOrder = await adminHelper.getOrderDeatils(req.session?.user._id);
+  let date = userOrder[0].date.toString()
+      
+      console.log(date,"order date");
+  
+  
+  var dt = new Date(date);
+  dt.setDate( dt.getDate() + 5 );
+  newDate=dt.toString();
+  
+//   var nodemailer = require('nodemailer');
+// var fs = require('fs');
+
+var transporter = nodemailer.createTransport({
+ service: 'gmail',
+ auth: {
+  user: process.env.SMPT_MAIL,
+         pass: process.env.SMPT_PASSWORD
+ }
+});
+
+fs.readFile('emailStatus.hbs', {encoding: 'utf-8'}, (err, data)=>{
+  
+ 
+ 
+
+  if(err){
+    console.warn("Error getting password reset template: " + err);
+  }else{
+    transporter.sendMail({
+      
+      from:"sajeevpraveen2@gmail.com",
+      to: userOrder[0].deliveryDetails.email,
+      subject:"Kiddie",
+  
+  html:`<!DOCTYPE html>
+  <html>
+  
+  <head>
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+      /* CLIENT-SPECIFIC STYLES */
+      body,
+      table,
+      td,
+      a {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+  
+      table,
+      td {
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+  
+      img {
+        -ms-interpolation-mode: bicubic;
+      }
+  
+      /* RESET STYLES */
+      img {
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+      }
+  
+      table {
+        border-collapse: collapse !important;
+      }
+  
+      body {
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+  
+      /* iOS BLUE LINKS */
+      a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+      }
+  
+      /* MEDIA QUERIES */
+      @media screen and (max-width: 480px) {
+        .mobile-hide {
+          display: none !important;
+        }
+  
+        .mobile-center {
+          text-align: center !important;
+        }
+  
+        .align-center {
+          max-width: initial !important;
+        }
+  
+        h1 {
+          display: inline-block;
+          margin-right: auto !important;
+          margin-left: auto !important;
+        }
+      }
+  
+      @media screen and (min-width: 480px) {
+        .mw-50 {
+          max-width: 50%;
+        }
+      }
+  
+      /* ANDROID CENTER FIX */
+      div[style*="margin: 16px 0;"] {
+        margin: 0 !important;
+      }
+  
+      :root {
+        --purple: #5a3aa5;
+        --pink: #b91bab;
+        --blue: #2cbaef;
+        --green: #23c467;
+      }
+    </style>
+  </head>
+  
+  <body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
+  
+    <!-- HIDDEN PREHEADER TEXT -->
+    <div
+      style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Open Sans, Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+     MESSAGE FROM KIDDIE!
+    </div>
+  
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
+  
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:100%;">
+            <tr>
+              <td align="center" height="6"
+                style="background-image: linear-gradient(to right, #b91bAb, #5a3aa5); background-color: #b91bAb;"
+                bgcolor="#b91bAb"></td>
+            </tr>
+          </table>
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:800px;">
+            <tr>
+              <td align="center" valign="top" style="background-color: #ffffff; font-size:0; padding: 35px 35px 0;"
+                bgcolor="#ffffff">
+  
+                <div style=" text-align: center; max-width:50%;  vertical-align:top; width:100%;">
+                  <table class="align-center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                    style="max-width:800px;">
+                    <tr>
+                      <td align="left" height="48" valign="center"
+                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size:48px; font-weight: 800; line-height: 48px;"
+                        class="mobile-center">
+                        <div class="text-center">
+                          <span style="color: #ff9500;">K <span style="color: #000;">IDDIE</span> </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+  
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding: 0 15px 20px 15px; background-color: #ffffff;" bgcolor="#ffffff">
+  
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                  <tr>
+                    <td align="center"
+                      style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
+                      <img src="http://healthplang.com/App_Themes/GHP/images/icon-check-mark.png" width="125" height="120"
+                        style="display: block; border: 0px;" /><br>
+                      <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
+                        Hey ${userOrder[0].deliveryDetails.name},Thank You For Your Order!
+                      </h2>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center"
+                      style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
+                      <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777; padding: 0 30px;">
+  
+  
+                        We're happy to let you know that your order has been ready to ship!
+                        Please keep in touch!
+  
+                       
+                      </p>
+                    </td>
+                  </tr>
+  
+  
+            </tr>
+          </table>
+  
+        </td>
+      </tr>
+      <tr>
+        <td align="center" height="100%" valign="top" width="100%"
+          style="padding: 0 15px 5px 15px; background-color: #ffffff;" bgcolor="#ffffff">
+  
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+            <tr>
+              <td align="center" valign="top" style="font-size:0;">
+  
+                <div class="mw-50" style="display:inline-block; padding-bottom: 15px; vertical-align:top; width:100%;">
+  
+                  <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                    <tr>
+                      <td align="left" valign="top"
+                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 0 10px;">
+                        <p style="font-weight: 800;">Delivery Address</p>
+                        <p>${userOrder[0].deliveryDetails.houseNumber}  ${userOrder[0].deliveryDetails.streetAddress}<br>${userOrder[0].deliveryDetails.pincode}, ${userOrder[0].deliveryDetails.locality},${userOrder[0].deliveryDetails.district}, ${userOrder[0].deliveryDetails.state}</p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+  
+                <div class="mw-50" style="display:inline-block; padding-bottom: 15px; vertical-align:top; width:100%;">
+                  <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
+                    <tr>
+                      <td align="left" valign="top"
+                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 0 10px;">
+                        <p style="font-weight: 800;">Estimated Delivery Date</p>
+                        <p>${newDate}</p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+  
+              </td>
+            </tr>
+          </table>
+  
+        </td>
+      </tr>
+  
+      <tr>
+        <td align="center" style=" padding: 35px; background-color: #000000cb;" bgcolor="#b91bAb">
+  
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:1000px;">
+            <tr>
+              <td align="center"
+                style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
+                <h2 style="font-size: 24px; font-weight: 800; line-height: 30px; color: #ffffff; margin: 0;">
+                  Get 25% off your next order.
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding: 25px 0 15px 0;">
+                <table border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="center" style="border-radius: 45px;" bgcolor="#66b3b7">
+                      <a href="#" target="_blank"
+                        style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-align: center; text-decoration: none; border-radius: 45px; background-color: #5a3aa5; padding: 20px 40px 25px; border: none; display: block;">Start
+                        Shopping</a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+  
+        </td>
+      </tr>
+      <tr>
+        <td align="center" style="padding: 35px 35px 15px; background-color: #ffffff;" bgcolor="#ffffff">
+  
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+  
+            <tr>
+              <td align="center"
+                style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;">
+                <p
+                  style="font-size: 14px; font-weight: 400; line-height: 20px; color: #666666; padding: 0 25px; max-width: 400px;">
+                  If you didn't create an account using this email address, please ignore this email or <a
+                    href="http://healthplang.com/specialpages/emailunsubscribe.aspx/" target="_blank"
+                    style="color: #000000;">unsusbscribe</a>.
+                  <span
+                    style="color: #888888; display: block; font-size: 90%; font-weight: 600; padding-top: 15px;">&copy;
+                    2022 KIDDIE. All rights reserved.</span>
+                </p>
+              </td>
+            </tr>
+          </table>
+  
+        </td>
+      </tr>
+    </table>
+  
+    </td>
+    </tr>
+    </table>
+  
+  </body>
+  
+  </html>`,
+      
+     
+          
+    
+    });
+  }
+});
+
+
+
+});
+
 
 module.exports = router;

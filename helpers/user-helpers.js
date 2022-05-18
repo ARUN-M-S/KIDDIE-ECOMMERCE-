@@ -10,8 +10,8 @@ const { resolve } = require("path");
 const productHelper = require("./product-helper");
 
 var instance = new Razorpay({
-  key_id: 'rzp_test_aScLPZGnWnxvJB',
-  key_secret:'lcaGOMaRalCTNEtBsNtQBGVj',
+  key_id: process.env.RAZORPAY_KEYID,
+  key_secret: process.env.RAZORPAY_KEYSECRET,
 });
 
 
@@ -579,18 +579,25 @@ module.exports = {
   },
 
 
-  verifyPayment:(details)=>{
-    return new Promise((resolve,reject)=>{
-      const crypto = require('crypto')
-      var hmac = crypto.createHmac('sha256',process.env.raz_key_secret)
-      hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]']);
-      hmac = hmac.digest('hex')
-      if(hmac==details['payment[razorpay_signature]']){
-        resolve()
-      }else{
-        reject()
+  verifyPayment: (details) => {
+    console.log(details);
+    return new Promise((resolve, reject) => {
+      const crypto = require("crypto");
+      let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEYSECRET);
+
+      hmac.update(
+        details["payment[razorpay_order_id]"] +
+          "|" +
+          details["payment[razorpay_payment_id]"]
+      );
+      hmac = hmac.digest("hex");
+      console.log(hmac);
+      if (hmac == details["payment[razorpay_signature]"]) {
+        resolve();
+      } else {
+        reject();
       }
-    })
+    });
   },
   getrelatedproducts: (relatedprod) => {
    

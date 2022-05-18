@@ -3,12 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const dotenv=require('dotenv')
+dotenv.config({path:"config/config.env"})
+
+
 
 // File Upload
 var fileUpload = require('express-fileupload')
 
 // setting ENV 
-require('dotenv').config();
+
 
 // express session
 var session = require('express-session')
@@ -62,6 +66,10 @@ db.connect((err) => {
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
+app.use((req, res, next) => {
+  res.status(404).render(
+      "../404")
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

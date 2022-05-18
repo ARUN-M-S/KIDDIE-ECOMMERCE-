@@ -9,9 +9,9 @@ var userHelper = require("../helpers/user-helpers");
 const paypal = require("paypal-rest-sdk");
 
 paypal.configure({
-  mode: "sandbox", //sandbox or live
-  client_id: process.env.CLIENT,
-  client_secret: process.env.SECRET,
+  'mode': 'sandbox', //sandbox or live
+  'client_id': process.env.PAYPAL_CLIENTID,
+  'client_secret': process.env.PAYPAL_CLIENTSECRET
 });
 
 var objectId = require("mongodb").ObjectId;
@@ -20,9 +20,9 @@ var objectId = require("mongodb").ObjectId;
 
 // twilio API
 
-const accountSid = "ACf10e011f8facf58eeae5bd2139c0be95"; ///// REMOVE THESE LINES BEFORE PUSING TO GIT
-const authToken = "0cd9b5aa1d12eb1a82e235622fea3eb4";
-const serviceSid = 'VA5440c48ff0e92ed96faf250b9359ce15';
+const accountSid = process.env.TWILIO_ACCSID; ///// REMOVE THESE LINES BEFORE PUSING TO GIT
+const authToken = process.env.TWILIO_AUTHTOKEN;
+const serviceSid = process.env.TWILIO_SERVICESID;
 const client = require("twilio")(accountSid, authToken);
 
 /*========================== GET home page.============================= */
@@ -206,10 +206,7 @@ router.post("/phone-verify", function (req, res, next) {
 
 //post otp verify
 router.get("/otp-verify", (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   let phoneNumber = req.query.phonenumber;
   let otpNumber = req.query.otpnumber;
   client.verify
@@ -237,10 +234,7 @@ router.get("/otp-verify", (req, res) => {
 
 // resend otp route
 router.get("/resendOtp", (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   client.verify
     .services(serviceSid)
     .verifications.create({
@@ -253,22 +247,16 @@ router.get("/resendOtp", (req, res) => {
     });
 });
 
-// GET FORGOT PASSWORD PAGE
+// ==========================GET FORGOT PASSWORD PAGE=================
 var forgotPassErr;
 router.get("/forgot-pass", (req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
-  res.render("forgot-pass", { forgotPassErr });
+  
+  res.render("user/forgot-pass", { forgotPassErr });
 });
 
 // forgot pass phone number page post
 router.post("/forgot-pass", function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   var phone = req.body.phone;
   phone = phone.toString();
   userHelper.phoneCheck(phone).then((response) => {
@@ -281,11 +269,11 @@ router.post("/forgot-pass", function (req, res, next) {
         })
         .then((ress) => {
           OtpPhone = phone;
-          res.render("forget-otp", { OtpPhone });
+          res.render("user/forget-otp", { OtpPhone });
         });
     } else {
       forgotPassErr = "No Account With This Phone Number";
-      res.redirect("/forgot-pass");
+      res.redirect("user/forgot-pass");
     }
   });
   forgotPassErr = null;
@@ -293,10 +281,7 @@ router.post("/forgot-pass", function (req, res, next) {
 
 // FORGET PASSWORD GET CHECK OTP and verify
 router.get("/forgot-otp", (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   let phoneNumber = req.query.phonenumber;
   req.session.mob = phoneNumber;
   let otpNumber = req.query.otpnumber;
@@ -319,10 +304,7 @@ router.get("/forgot-otp", (req, res) => {
 
 // resend otp route
 router.get("/resendotp", (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   client.verify
     .services(serviceSid)
     .verifications.create({
@@ -337,12 +319,9 @@ router.get("/resendotp", (req, res) => {
 
 // GET RESET PASSWORD PAGE
 router.get("/reset-password", function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   req.session.mob = null;
-  res.render("reset-password", { title: "KIDDIE", OtpPhone });
+  res.render("user/reset-password", { title: "KIDDIE", OtpPhone });
 });
 
 // post resetted password
@@ -358,10 +337,7 @@ router.post("/reset-pass", (req, res, next) => {
 // SignupOTP GET CHECK OTP and verify
 var signupSuccess;
 router.get("/signupOtp", (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   let phoneNumber = req.query.phonenumber;
   let otpNumber = req.query.otpnumber;
   client.verify
@@ -602,10 +578,7 @@ router.get("/checkout", verifyBlock, async function (req, res, next) {
 // view checkout page on buy now
 router.get("/buy-now", verifyBlock, async function (req, res, next) {
 
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
 
   var proId = req.query.proId
   let products = await productHelper.getOneProduct(proId)
@@ -619,10 +592,7 @@ router.get("/buy-now", verifyBlock, async function (req, res, next) {
 });
 
 router.post("/add-buynow-address", verifyBlock, function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+ 
   userHelper.addAddress(req.session.user, req.body).then((resp) => {
     if (resp?.addressExist) {
       checkoutAddressMsg = "Sorry, This Address Already Exists";
@@ -642,6 +612,7 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
   let discount
   code = req.query.code
   let grandTotal = await userHelper.getGrandTotal(req.session.user._id);
+  console.log(grandTotal,"user.js615");
   let products = await userHelper.getCartProductsList(req.session.user._id);
   let address = await userHelper.getOneAddress(
     req.query.addressId,
@@ -675,9 +646,12 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
 
       // If payment method is paypal
       else if (req.query.payment == "paypal") {
+        console.log( req.session.user._id,"user.js648paypal");
         req.session.orderDetails = resp;
-        dollarTotal = (grandTotal / 70).toFixed(2);
+        dollarTotal = grandTotal 
+
         dollarTotal = dollarTotal.toString();
+        console.log(dollarTotal,"user.js654");
         const create_payment_json = {
           intent: "sale",
           payer: {
@@ -701,7 +675,7 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
                 ],
               },
               amount: {
-                currency: "USD",
+                currency: "Inr",
                 total: dollarTotal,
               },
               description: "Thanks for shopping with KIDDIE",
@@ -797,8 +771,8 @@ router.get("/place-order-buynow", verifyBlock, async function (req, res, next) {
             payment_method: "paypal",
           },
           redirect_urls: {
-            return_url: "http://www.gadgetzone.site/success",
-            cancel_url: "http://www.gadgetzone.site/cancel",
+            return_url: "http://localhost:3000/success",
+            cancel_url: "http://localhost:3000/cancel",
           },
           transactions: [
             {
@@ -852,10 +826,7 @@ router.get("/place-order-buynow", verifyBlock, async function (req, res, next) {
 // if paypal is success
 var dollarTotal;
 router.get("/success", async (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   const execute_payment_json = {
@@ -886,10 +857,7 @@ router.get("/success", async (req, res) => {
 });
 
 router.get("/cancel", (req, res) => {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+  
   res.render('payment-cancel',{title: "KIDDIE", user: req.session.user})
 });
 
@@ -1023,10 +991,7 @@ router.post("/change-password", verifyBlock, function (req, res, next) {
 
 // add address get
 router.get("/add-address", verifyBlock, function (req, res, next) {
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
+
   res.render("user/add-address", {
     title: "KIDDIE",
     user: req.session.user,
