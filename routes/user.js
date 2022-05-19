@@ -5,6 +5,10 @@ const adminHelper = require("../helpers/admin-helper");
 const productHelper = require("../helpers/product-helper");
 var router = express.Router();
 var userHelper = require("../helpers/user-helpers");
+var nodemailer = require('nodemailer');
+
+
+  const { promisify } = require('util');
 
 const paypal = require("paypal-rest-sdk");
 
@@ -204,7 +208,7 @@ router.post("/phone-verify", function (req, res, next) {
   OtpPhone = null; //  changed to default value
 });
 
-//post otp verify
+//===============================post otp verify====================
 router.get("/otp-verify", (req, res) => {
  
   let phoneNumber = req.query.phonenumber;
@@ -232,7 +236,7 @@ router.get("/otp-verify", (req, res) => {
     });
 });
 
-// resend otp route
+// =============================resend otp route=========================
 router.get("/resendOtp", (req, res) => {
  
   client.verify
@@ -273,7 +277,7 @@ router.post("/forgot-pass", function (req, res, next) {
         });
     } else {
       forgotPassErr = "No Account With This Phone Number";
-      res.redirect("user/forgot-pass");
+      res.redirect("/forgot-pass");
     }
   });
   forgotPassErr = null;
@@ -302,7 +306,7 @@ router.get("/forgot-otp", (req, res) => {
     });
 });
 
-// resend otp route
+// ===============================resend otp route=======================
 router.get("/resendotp", (req, res) => {
  
   client.verify
@@ -317,7 +321,7 @@ router.get("/resendotp", (req, res) => {
     });
 });
 
-// GET RESET PASSWORD PAGE
+// =========================GET RESET PASSWORD PAGE=================
 router.get("/reset-password", function (req, res, next) {
  
   req.session.mob = null;
@@ -583,7 +587,7 @@ router.get("/buy-now", verifyBlock, async function (req, res, next) {
   var proId = req.query.proId
   let products = await productHelper.getOneProduct(proId)
     let addresses = await userHelper.getAddress(req.session.user._id);
-    res.render("buy-now", {
+    res.render("user/buy-now", {
       title: "KIDDIE",
       user: req.session.user,
       addresses,
@@ -1182,5 +1186,69 @@ router.get("/brand-view",async(req,res)=>{
 
   
 })
+  // ==============================Password Restteing email=================
+router.get("/emailreset",(req,res)=>{
+  res.render("user/email-reset",{ forgotEmailErr })
+})
+
+//======================= forgot password email page page post==================
+var forgotEmailErr;
+router.post("/getRestlink", function (req, res, next) {
+ 
+  var email = req.body.email;
+  console.log(email,"user.js1199");
   
+  userHelper.emailCheck(email).then((response) => {
+    if (response.userExist) {
+      console.log(response,"user.js1203");
+
+
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+   user: process.env.SMPT_MAIL,
+          pass: process.env.SMPT_PASSWORD
+  }
+ });
+ 
+
+     transporter.sendMail({
+       
+       from:"sajeevpraveen2@gmail.com",
+       to: email,
+       subject:"Kiddie Password Reset",
+      text:"http://localhost:3000/reset-passwordWemail"})
+   
+      
+       
+    } else {
+      console.log(response,"user.js1226");
+      forgotEmailErr = "No Account With This Email Id";
+      res.redirect("/emailreset");
+    }
+  });
+  forgotPassErr = null;
+});
+
+
+
+
+// =========================GET RESET PASSWORD PAGE=================
+router.get("/reset-passwordWemail", function (req, res, next) {
+ 
+  
+  res.render("user/reset-passwithmail", { title: "KIDDIE" });
+});
+
+// ===========================post resetted password
+router.post("/reset-passwordemail", (req, res, next) => {
+  userHelper.resetPassemail(req.body).then((response) => {
+    if (response) {
+      signupSuccess = "Password Reset Success";
+      res.redirect("/login");
+    }
+  });
+});
+
 module.exports = router;

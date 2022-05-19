@@ -70,6 +70,22 @@ module.exports = {
       }
     });
   },
+  // =================checking Email details of user on database===================
+  emailCheck: (userEmail) => {
+    return new Promise(async (resolve, reject) => {
+      let user = await db
+        .get()
+        .collection(collections.USER_COLLECTION)
+        .find({ email: userEmail }).toArray();
+        console.log(user,"userhelper80");
+      if (user) {
+        resolve({ userExist: true, user });
+      } else {
+        resolve({ userExist: false });
+      }
+    });
+  },
+
 
   // checking duplication of User details on database
   userCheck: (userData) => {
@@ -91,7 +107,7 @@ module.exports = {
     });
   },
 
-  // Reset password
+  // ==============================Reset password
   resetPass: (resetData) => {
     return new Promise(async (resolve, reject) => {
       resetData.newPass = await bcrypt.hash(resetData.newPass, 10);
@@ -112,6 +128,29 @@ module.exports = {
         });
     });
   },
+
+  // =========================reset pass with emaillink===============
+   
+    resetPassemail: (resetData) => {
+      return new Promise(async (resolve, reject) => {
+        resetData.newPass = await bcrypt.hash(resetData.newPass, 10);
+        
+        
+        db.get()
+          .collection(collections.USER_COLLECTION)
+          .updateOne(
+            { email: resetData.email },
+            {
+              $set: {
+                password: resetData.newPass,
+              },
+            }
+          )
+          .then((data) => {
+            resolve({ status: true });
+          });
+      });
+    },
 
   addToCart: (proId, userId, total) => {
     total = parseInt(total)

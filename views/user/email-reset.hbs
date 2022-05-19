@@ -4,19 +4,19 @@
     <div class="row">
       <div class="col px-auto">
         <h6 class="coupon__code text-center fs-4">FORGOT PASSWORD?</h6>
-        <form action="/forgot-pass" id="forgetPassForm" method="post" class="mb-5">
+        <form action="/getRestlink" id="forgetPassForm" method="post" class="mb-5">
           <div class="row px-lg-5">
               
-            {{#if forgotPassErr}}
-              <p class="alert alert-danger text-center">{{forgotPassErr}}</p>
+            {{#if  forgotEmailErr}}
+              <p class="alert alert-danger text-center">{{forgotEmailErr}}</p>
             {{/if}}
             <div class="col text-center">
               <div class="signup__input">
-                <p>Phone<span>*</span></p>
+                <p>Email<span>*</span></p>
                 <input
-                  type="text"
-                  id="phoneNumber2"
-                  name="phone"
+                  type="email"
+                  id="email"
+                  name="email"
                 />
               </div>
             </div>
@@ -25,11 +25,10 @@
               <button
                 type="submit"
                 class="btn btn-secondary req_otp_btn"
-              >Reguest OTP</button>
+              >Reguest Reset link</button>
               <p class="signup__links"><a href="/signup">Don't Have an
                   Account?</a></p>
-                  <p class="signup__links"><a href="/emailreset">Your Phone not With you? Reset with Email
-                  </a></p>
+                 
             </div>
 
           </div>
@@ -68,7 +67,3 @@ function setInputFilter(textbox, inputFilter) {
   });
 } 
 
-setInputFilter(document.getElementById("phoneNumber2"), function (value) {
-  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
-});
-</script>
