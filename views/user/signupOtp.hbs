@@ -21,6 +21,8 @@
                 <input type="text" maxlength="1" id="num4" onkeyup="clickevent(event,'num3','num4','')"/>
               </div>
                <input class="m-2 text-center form-control rounded" type="text" id="phonenumber2" name="phonenumber" value="{{signupPhone}}" hidden />
+               <input class="m-2 text-center form-control rounded" type="text" id="referedBy" name="referedBy" value="{{refereUser}}" />
+
                 
             </div>
           </div>
@@ -49,9 +51,13 @@
 
     var otpnumber = `${first}${second}${third}${fourth}`
     var phoneNumber = document.getElementById("phonenumber2").value;
+    var refered = document.getElementById("referedBy").value;
+
+  
+
 
 $.ajax({
-    url:'/signupOtp?phonenumber='+phoneNumber+'&otpnumber='+otpnumber,
+    url:'/signupOtp?phonenumber='+phoneNumber+'&otpnumber='+otpnumber+'&referedby='+refered,
     method:'get',
     success:(response)=>{
         if(response){

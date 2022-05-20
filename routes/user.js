@@ -1,16 +1,19 @@
-var express = require("express");
+let express = require("express");
 const session = require("express-session");
 const { response } = require("../app");
 const adminHelper = require("../helpers/admin-helper");
 const productHelper = require("../helpers/product-helper");
-var router = express.Router();
-var userHelper = require("../helpers/user-helpers");
-var nodemailer = require('nodemailer');
+let router = express.Router();
+let userHelper = require("../helpers/user-helpers");
+let nodemailer = require('nodemailer');
+
+
 
 
   const { promisify } = require('util');
 
 const paypal = require("paypal-rest-sdk");
+const { route } = require("./admin");
 
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
@@ -101,10 +104,12 @@ function verifyBlock(req, res, next) {
 }
 
 //==================================== signup get==============================
-router.get("/signup", (req, res, next) => {
-  
+let referel;
+router.get("/signup",async (req, res, next) => {
+  let referel = await req.query.referel
+  console.log(referel,"user.js110");
   if (!req.session?.user?.loggedIn) {
-    res.render("user/signup", { title: "KIDDIE" });
+    res.render("user/signup", { title: "KIDDIE",referel });
   } else {
     res.redirect("/");
   }
@@ -112,13 +117,19 @@ router.get("/signup", (req, res, next) => {
 
 //=========================== signup post=================================
 var userSignup;
-router.post("/signup", (req, res, next) => {
-  userHelper.userCheck(req.body).then((ress) => {
-    let errorMsg = ress.msg;
-    if (ress.userExist) {
-      res.render("user/signup", { errorMsg });
-    } else {
-      userSignup = req.body;
+router.post("/signup",async (req, res, next) => {
+  refereUser=req.body.referedBy
+  userHelper.verifyReferel(req.body.referedBy).then((resss)=> {
+   
+    if(resss.userIs){
+      userHelper.userCheck(req.body).then((ress)=>{
+        let errorMsg = ress.msg;
+        if (ress.userExist) {
+          res.render("user/signup", { errorMsg });
+        } else {
+          
+          
+          userSignup = req.body;
 
       //============================= sent OTP==============================
       client.verify
@@ -129,10 +140,17 @@ router.post("/signup", (req, res, next) => {
         })
         .then((ress) => {
           let signupPhone = req.body.phone;
-          res.render("user/signupOtp", { signupPhone });
+          res.render("user/signupOtp", { signupPhone,refereUser});
         });
+      }
+      })
+    }else{
+      let errorMsg = resss.msg;
+      res.render("user/signup", { errorMsg });
+
     }
-  });
+  }
+  );
 });
 
 //==================================== login get=========================
@@ -338,12 +356,17 @@ router.post("/reset-pass", (req, res, next) => {
   });
 });
 
-// SignupOTP GET CHECK OTP and verify
+// ========================= Otp and Phone Verification==================
 var signupSuccess;
-router.get("/signupOtp", (req, res) => {
+router.get("/signupOtp",async (req, res) => {
   
   let phoneNumber = req.query.phonenumber;
   let otpNumber = req.query.otpnumber;
+  let referedBy= req.query.referedby;
+ 
+  
+
+
   client.verify
     .services(serviceSid)
     .verificationChecks.create({
@@ -352,11 +375,25 @@ router.get("/signupOtp", (req, res) => {
     })
     .then((resp) => {
       if (resp.valid) {
+
         userHelper.addUser(userSignup).then((response) => {
+          let newuser=response.data.insertedId
           if (response.status) {
-            let valid = true;
-            signupSuccess = "Welcome and Happy Shopping, Signup Success";
-            res.send(valid);
+            if(referedBy){
+              let Amount=100;
+              userHelper.wallet(referedBy,newuser,Amount).then(()=>{
+
+              let valid = true;
+              signupSuccess = "Welcome and Happy Shopping, Signup Success and ₹100 Added to your Wallet";
+              res.send(valid); })
+              
+            }else{
+              let valid = true;
+              signupSuccess = "Welcome and Happy Shopping, Signup Success";
+              res.send(valid); 
+              
+            }
+            
           } else {
             let valid = false;
             res.send(valid);
@@ -1250,5 +1287,15 @@ router.post("/reset-passwordemail", (req, res, next) => {
     }
   });
 });
+// ===========================referalcode generator=================
+// router.get("/referal",(req,res)=>{
+//    referel=referralCodeGenerator.alphaNumeric('uppercase', 2, 3)
+//   // console.log(referel,   "user.js1259");
+//   res.redirect('/arunmsg')
+// })
+// router.get("/arunmsg",(req,res)=>{
+
+//   res.render("../arun",{referel})
+// })
 
 module.exports = router;
