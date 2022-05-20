@@ -201,7 +201,21 @@
                   <button type="button" onclick="checkCoupon()">Apply</button>
                 </form>
                 
-            </div>
+           
+            {{!-- =================================WalletAMount================ --}}
+
+ 
+                <h6 class="mt-3">Walletamount </h6>
+                <div id="walletMsg"></div>
+                <form action="" id="walletForm">
+                  <input type="text" id="walletAmount" style="text-transform:uppercase" placeholder="wallet" />
+                  <button type="button" onclick="checkWallet()">Apply</button>
+                </form>
+                
+             </div>
+
+            {{!-- =================================WalletAMount================ --}}
+
             <div class="checkout__order">
               <h4 class="order__title">Your order</h4>
               <div class="checkout__order__products fw-bold">Product
@@ -217,7 +231,11 @@
                     class="discount__price"
                     id="couponDiscount"
                   > 0 </span><span class="discount__price">₹</span></li>
-                <li class="fs-4">Total <span id="totalPrice">{{grandTotal}}</span> <span>₹</span></li>
+                   <li>Wallet Amount<span
+                    class="discount__price"
+                    id="walletDiscount"
+                  > 0 </span><span class="discount__price">₹</span></li>
+                <li class="fs-4">Total <span  id="totalPrice">{{grandTotal}}</span> <span>₹</span></li>
               </ul>
 
               <div class="form-check">
@@ -515,6 +533,58 @@ addAddressForm2.validate({
     });
   }
   
+
+  //-- =============================checkWallet================================== --}}
+   function checkWallet(){
+  code = document.getElementById('walletAmount').value
+ 
+  if(grandTotal>code){
+    
+  
+  
+  
+  $.ajax({
+    url: "/check-wallet",
+    method: "post",
+    data:{code},
+    success:(res)=>{
+    
+
+      if(!res){
+       
+       document.getElementById('walletForm').reset()
+        code = 'undefined'
+        document.getElementById('walletMsg').innerHTML = "Enter Amount is Wrong"
+        document.getElementById('walletMsg').style.color = "Red"
+        document.getElementById('walletDiscount').innerHTML = 0
+        discount = 0
+        document.getElementById('totalPrice').innerHTML = grandTotal
+        
+        
+      }
+      else  {
+         document.getElementById('walletMsg').innerHTML = "Wallet Amount Added Successfully"
+        document.getElementById('walletMsg').style.color = "green"
+        document.getElementById('walletDiscount').innerHTML = code
+        document.getElementById('totalPrice').innerHTML = grandTotal-code
+
+
+
+
+      }
+    }
+  })}else{
+      document.getElementById('walletForm').reset()
+        code = 'undefined'
+        document.getElementById('walletMsg').innerHTML = "Enter Amount is Grater Than Total Amount"
+        document.getElementById('walletMsg').style.color = "Red"
+        document.getElementById('walletDiscount').innerHTML = 0
+        discount = 0
+        document.getElementById('totalPrice').innerHTML = grandTotal
+
+  }
+
+  }
   
   
   

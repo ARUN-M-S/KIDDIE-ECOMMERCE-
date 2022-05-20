@@ -9,6 +9,7 @@ let referralCodeGenerator = require('referral-code-generator')
 const Razorpay = require("razorpay");
 const { resolve } = require("path");
 const productHelper = require("./product-helper");
+const collection = require("../config/collection");
 
 var instance = new Razorpay({
   key_id: process.env.RAZORPAY_KEYID,
@@ -1098,4 +1099,22 @@ return new Promise(async (resolve,reject)=>{
         }
       });
   },
+
+  updatedwallet:(id,amount)=>{
+
+    
+    return new Promise(async(resolve,reject)=>{
+     let arun= await db.get().collection(collections.USER_COLLECTION).find({_id:objectId(id)}).toArray()
+     let remaining=parseInt (arun[0].walletAmount)-amount
+     console.log(arun[0].walletAmount);
+     let arunms= await db.get().collection(collections.USER_COLLECTION).updateOne({_id:objectId(id)},{
+       $set:{
+        walletAmount:remaining
+       }
+     })
+       
+      console.log(arun,"userhelpers1107");
+      resolve()
+    })
+  }
 };

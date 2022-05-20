@@ -14,6 +14,8 @@ let nodemailer = require('nodemailer');
 
 const paypal = require("paypal-rest-sdk");
 const { route } = require("./admin");
+const { Db } = require("mongodb");
+const collection = require("../config/collection");
 
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
@@ -590,6 +592,23 @@ router.post("/check-coupon", verifyLogin,async (req, res, next) => {
   })
 });
 
+// ===========================WalletAMount==================================
+var couponMsg
+router.post("/check-wallet", verifyLogin,async (req, res, next) => {
+  await productHelper.checkWallet(req.body.code,req.session.user._id).then((resp)=>{
+    console.log(resp.cash,"user.js599");
+    req.session.amount=resp.cash
+    if(resp.status){
+      res.json(resp)
+    }
+   
+    else{
+      resp = false
+      res.json(resp)
+    }
+  })
+});
+
 // View Checkout page 
 router.get("/checkout", verifyBlock, async function (req, res, next) {
   
@@ -689,7 +708,7 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
       else if (req.query.payment == "paypal") {
         console.log( req.session.user._id,"user.js648paypal");
         req.session.orderDetails = resp;
-        dollarTotal = grandTotal 
+        dollarTotal = (grandTotal /74).toFixed(2)
 
         dollarTotal = dollarTotal.toString();
         console.log(dollarTotal,"user.js654");
@@ -716,7 +735,7 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
                 ],
               },
               amount: {
-                currency: "Inr",
+                currency: "USD",
                 total: dollarTotal,
               },
               description: "Thanks for shopping with KIDDIE",
@@ -750,7 +769,7 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
 });
 
 
-// place order in buynow page
+// ====================================place order in buynow page=====================
 var isBuyNow
 router.get("/place-order-buynow", verifyBlock, async function (req, res, next) {
   
@@ -1288,14 +1307,9 @@ router.post("/reset-passwordemail", (req, res, next) => {
   });
 });
 // ===========================referalcode generator=================
-// router.get("/referal",(req,res)=>{
-//    referel=referralCodeGenerator.alphaNumeric('uppercase', 2, 3)
-//   // console.log(referel,   "user.js1259");
-//   res.redirect('/arunmsg')
-// })
-// router.get("/arunmsg",(req,res)=>{
-
-//   res.render("../arun",{referel})
-// })
+router.get("/walletAlert",(req,res)=>{
+  let amount=req.session.amount
+ userHelper.updatedwallet(req.session.user._id,amount)
+})
 
 module.exports = router;
