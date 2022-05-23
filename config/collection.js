@@ -11,4 +11,5 @@ module.exports = {
     COUPON_OFFER: 'couponOffer',
     USER_WISHLIST: 'wishlist',
     CAROUSEL_COLLECTION:'carousel',
+    MULTER_COLLECTION:"multer"
 }

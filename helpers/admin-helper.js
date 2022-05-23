@@ -623,5 +623,54 @@ userEmail:(id)=>{
       resolve(userMail)
   
     
+})},
+addmulter:(id)=>{
+  return new Promise(async(resolve,reject)=>{
+    // let filenames = id.map((info, index) => {
+    //   console.log(JSON.stringify(info));
+    //   return id[index].filename;
+    // });
+    // let filename=[];
+    // let sss=id.length
+    for(i=0;i<id.length;i++){
+      id[i]._id=new objectId()
+    }
+    
+   console.log(id);
+    let userMail= await db.get().collection(collections.MULTER_COLLECTION).findOne({_id: { $exists: true }})
+    if(userMail){
+      db.get()
+      .collection(collections.MULTER_COLLECTION)
+      .updateOne(
+        
+        {
+          $push: {
+           id
+          },
+        }
+      )
+      .then(() => {
+        resolve()
+      });
+    }else{
+      db.get()
+      .collection(collections.MULTER_COLLECTION)
+      .insertOne(
+        
+        {
+          
+          id
+         
+        }
+      )
+      .then(() => {
+        resolve()
+      });
+    }
+      console.log(userMail,"admin-helper612");
+      resolve(userMail)
+  
+
 })}
+
 };

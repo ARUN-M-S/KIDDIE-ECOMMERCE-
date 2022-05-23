@@ -1,7 +1,7 @@
-var db = require("../config/connection");
-var collections = require("../config/collection");
+let db = require("../config/connection");
+let collections = require("../config/collection");
 const bcrypt = require("bcrypt");
-var objectId = require("mongodb").ObjectId;
+let objectId = require("mongodb").ObjectId;
 const { response } = require("express");
 let referralCodeGenerator = require('referral-code-generator')
 
@@ -21,6 +21,7 @@ module.exports = {
   // Add user data to Database
   addUser: (userData) => {
     return new Promise(async (resolve, reject) => {
+if(userData.referel){
       userData.password = await bcrypt.hash(userData.password, 10);
       userData.confirmPass = await bcrypt.hash(userData.password, 10);
       let today = Date(Date.now());
@@ -35,7 +36,31 @@ module.exports = {
         .insertOne(userData)
         .then((data) => {
           resolve({ status: true,data });
-        });
+        });}else{
+          userData.password = await bcrypt.hash(userData.password, 10);
+          userData.confirmPass = await bcrypt.hash(userData.password, 10);
+          let today = Date(Date.now());
+          let date = today.toString();
+          referel=referralCodeGenerator.alphaNumeric('uppercase', 2, 3)
+          userData.date = date;
+          userData.referel=referel;
+          
+          
+          db.get()
+            .collection(collections.USER_COLLECTION)
+            .insertOne(userData)
+            .then((data) => {
+              resolve({ status: true,data });
+            });
+
+
+
+        }
+
+
+
+
+
     });
   },
 // ==========================ReferelLink Checking================================

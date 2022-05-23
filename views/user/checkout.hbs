@@ -203,7 +203,7 @@
                 
            
             {{!-- =================================WalletAMount================ --}}
-
+             {{#if user.walletAmount}}
  
                 <h6 class="mt-3">Walletamount </h6>
                 <div id="walletMsg"></div>
@@ -211,6 +211,14 @@
                   <input type="text" id="walletAmount" style="text-transform:uppercase" placeholder="wallet" />
                   <button type="button" onclick="checkWallet()">Apply</button>
                 </form>
+
+                
+                {{else}}
+
+
+                {{/if}}
+
+
                 
              </div>
 

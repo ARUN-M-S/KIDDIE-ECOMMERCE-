@@ -4,6 +4,8 @@ let session = require("express-session");
 const adminHelper = require("../helpers/admin-helper");
 const productHelper = require("../helpers/product-helper");
 var nodemailer = require('nodemailer');
+let upload = require("../middleware/multer");
+
 
 
   const { promisify } = require('util');
@@ -241,19 +243,22 @@ router.get("/brand", verifyLogin, function (req, res, next) {
 });
 
 // add Brand
-router.post("/addBrand", verifyLogin, function (req, res, next) {
+router.post("/addBrand", verifyLogin,upload.array("brandLogo", 10), function (req, res, next) {
   adminHelper.addBrand(req.body).then((response) => {
     brandMsg = response;
     if (brandMsg.status && brandMsg.result) {
-      let brandLogo = req.files.brandLogo;
-      let id = response.result.insertedId;
-      brandLogo.mv("./public/images/brand-logo/" + id + ".png", (err, done) => {
-        if (!err) {
-          res.redirect("/admin/brand");
-        } else {
-          res.redirect("/admin/brand");
-        }
-      });
+      // let brandLogo = req.files.brandLogo;
+      // let id = response.result.insertedId;
+       upload.array("brandLogo", 10), (req, res) => {
+        console.log(req.files, "user.js1322");
+      };
+      // brandLogo.mv("./public/images/brand-logo/" + id + ".png", (err, done) => {
+      //   if (!err) {
+      //     res.redirect("/admin/brand");
+      //   } else {
+      //     res.redirect("/admin/brand");
+      //   }
+      // });
     } else {
       res.redirect("/admin/brand");
     }

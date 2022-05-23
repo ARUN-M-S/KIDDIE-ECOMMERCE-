@@ -1,12 +1,13 @@
 <div class="container col-5 mt-3 mb-5 justify-content-center">
   <div class="signup__form row">
-    <form
+    {{!-- <form
       action="/admin/addBrand"
       class="col"
       enctype="multipart/form-data"
       id="addBrandForm"
       method="post"
-    >
+    > --}}
+    <form action="/admin/addBrand" method="post" enctype="multipart/form-data">
       <div class="row">
         <div class="col">
           <p
@@ -23,7 +24,11 @@
             <div class="col">
               <div class="signup__input">
                 <p>Brand Logo: </p>
-                <input type="file" name="brandLogo" accept="image/*" id="logoInput" />
+                {{!-- <input type="file" name="brandLogo" accept="image/*" id="logoInput" /> --}}
+               
+  <input type="file" name="brandLogo" multiple />
+ 
+
                 <div class="image-preview" id="imagePreview">
                   <img src="" alt="Image Preview" class="image-preview-image">
                   <span class="image-preview-text">Image Preview</span>
