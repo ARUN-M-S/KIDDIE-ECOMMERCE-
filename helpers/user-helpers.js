@@ -4,7 +4,9 @@ const bcrypt = require("bcrypt");
 let objectId = require("mongodb").ObjectId;
 const { response } = require("express");
 let referralCodeGenerator = require('referral-code-generator')
-
+const sharp = require("sharp");
+const multer = require("multer")
+  const multerStorage = multer.memoryStorage();
 
 const Razorpay = require("razorpay");
 const { resolve } = require("path");
@@ -1141,5 +1143,70 @@ return new Promise(async (resolve,reject)=>{
       console.log(arun,"userhelpers1107");
       resolve()
     })
-  }
+  },
+
+
+  
+   multerFilter : (req, file, cb) => {
+    if (file.mimetype.startsWith("image")) {
+      cb(null, true);
+    } else {
+      cb("Please upload only images.", false);
+    }
+  },
+  
+ 
+  uploadImages : (req, res, next) => {
+    uploadFiles:(upload.array("images", 10),(req, res, err) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_UNEXPECTED_FILE") {
+          return res.send("Too many files to upload.");
+        }
+      } else if (err) {
+        return res.send(err);
+      }
+      next();
+    });
+  },
+   resizeImages:(req) => async (req, res, next) => {
+    if (!req.files) return next();
+    req.body.images = [];
+    await Promise.all(
+      req.files.map(async file => {
+        const filename = file.originalname.replace(/\..+$/, "");
+        const newFilename = `bezkoder-${filename}-${Date.now()}.jpeg`;
+        await sharp(file.buffer)
+          .resize(640, 320)
+          .toFormat("jpeg")
+          .jpeg({ quality: 90 })
+          .toFile(`upload/${newFilename}`);
+        req.body.images.push(newFilename);
+      })
+    );
+    next();
+  },
+   getResult:(image) => async (req, res) => {
+    //  console.log(req.body.images.length,"hello");
+     console.log(image,"world");
+    if (req.body.images.length <= 0) {
+      return res.send(`You must select at least 1 image.`);
+    }
+    const images = req.body.images
+      .map(image => "" + image + "")
+      .join("");
+    return res.send(`Images were uploaded:${images}`);
+  },
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
 };

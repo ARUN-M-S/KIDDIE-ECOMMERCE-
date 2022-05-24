@@ -130,38 +130,11 @@
                 <div class="mt-5">
                   <label for="">Product Image 1</label>
                   <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview1">
-                  {{!-- <div id="preview1"></div> --}}
-                  <input type="file" name="product_Image_1" id="file1" class="form-control"
-                      onchange="return fileValidation1()">
+                  
+                      <input type="file" name="product_Image_1" id="file1" class="form-control" onchange="fileValidation1()"  multiple />
                 </div>
               </div>
-              <div class="col">
-                <div class="mt-5">
-                  <label for="">Product Image 2</label>
-                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview2">
-                  {{!-- <div id="preview1"></div> --}}
-                  <input type="file" name="product_Image_2" id="file2" class="form-control"
-                      onchange="return fileValidation2()">
-                </div>
-              </div>
-              <div class="col">
-                <div class="mt-5">
-                  <label for="">Product Image 3</label>
-                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview3">
-                  {{!-- <div id="preview1"></div> --}}
-                  <input type="file" name="product_Image_3" id="file3" class="form-control"
-                      onchange="return fileValidation3()">
-                </div>
-            </div>
-            <div class="col">
-              <div class="mt-5">
-                  <label for="">Product Image 4</label>
-                  <img src="/images/miscellaneous/add_image.png" alt="" style="width: 100px; height:auto" id="imgview4">
-                  {{!-- <div id="preview1"></div> --}}
-                  <input type="file" name="product_Image_4" id="file4" class="form-control"
-                      onchange="return fileValidation4()">
-              </div>
-            </div>
+             
             <div class="row text-center border-top my-5">
               <div class="signup__input">
                 <p> </p>
@@ -261,7 +234,9 @@ setInputFilter(document.getElementById("productQuantity"), function (value) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
 
 <script>
-
+ let filesAmount = input.files.length;
+ for(i=0;i<filesAmount;i++){
+  console.log("hello")
     function fileValidation1() {
         const imagebox = document.getElementById('image-box')
         const crop_btn = document.getElementById('crop-btn')
@@ -311,7 +286,7 @@ setInputFilter(document.getElementById("productQuantity"), function (value) {
                 },'image/webp',0.8);
             });
         }
-    }
+    }}
     function fileValidation2() {
         const imagebox = document.getElementById('image-box')
         const crop_btn = document.getElementById('crop-btn')

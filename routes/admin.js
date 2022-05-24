@@ -238,27 +238,23 @@ router.get("/brand", verifyLogin, function (req, res, next) {
       brandMsg,
       allBrand,
     });
+    console.log(allBrand,"all barnd is here admin.js 241");
     brandMsg = null;
   });
 });
 
 // add Brand
-router.post("/addBrand", verifyLogin,upload.array("brandLogo", 10), function (req, res, next) {
-  adminHelper.addBrand(req.body).then((response) => {
+router.post("/addBrand", verifyLogin,upload.single("brandLogo"), function (req, res, next) {
+  adminHelper.addBrand(req.body,req.file).then((response) => {
     brandMsg = response;
     if (brandMsg.status && brandMsg.result) {
       // let brandLogo = req.files.brandLogo;
       // let id = response.result.insertedId;
-       upload.array("brandLogo", 10), (req, res) => {
-        console.log(req.files, "user.js1322");
-      };
-      // brandLogo.mv("./public/images/brand-logo/" + id + ".png", (err, done) => {
-      //   if (!err) {
-      //     res.redirect("/admin/brand");
-      //   } else {
-      //     res.redirect("/admin/brand");
-      //   }
-      // });
+      //  upload.array("brandLogo", 10), (req, res) => {
+        
+      // };
+      res.redirect("/admin/brand");
+     
     } else {
       res.redirect("/admin/brand");
     }
@@ -316,7 +312,7 @@ router.post("/delete-brand/", verifyLogin, function (req, res, next) {
 });
 
 // get Add product page
-router.get("/add-product", verifyLogin, function (req, res, next) {
+router.get("/add-product",verifyLogin, function (req, res, next) {
   adminHelper.getCategory().then((allCategory) => {
     if (allCategory) {
       adminHelper.getBrand().then((allBrand) => {
@@ -340,75 +336,76 @@ router.get("/add-product", verifyLogin, function (req, res, next) {
 
 // add Product
 var productAddMsg;
-router.post("/add-product", verifyLogin, function (req, res, next) {
+router.post("/add-product", verifyLogin,  upload.array("product_Image_1", 10),function (req, res, next) {
   req.body.productQuantity = parseInt(req.body.productQuantity);
   req.body.landingCost = parseInt(req.body.landingCost);
   req.body.productPrice = parseInt(req.body.productPrice);
-  productHelper.addProduct(req.body).then((response) => {
+  productHelper.addProduct(req.body,req.files).then((response) => {
     if (response) {
       productAddMsg = response;
       if (response.status) {
-        let prodImg1 = req.files?.product_Image_1;
-        let prodImg2 = req.files?.product_Image_2;
-        let prodImg3 = req.files?.product_Image_3;
-        let prodImg4 = req.files?.product_Image_4;
-        let variantId = response.variantid;
-        let proid = response.result.insertedId;
+        // let prodImg1 = req.files?.product_Image_1;
+        // let prodImg2 = req.files?.product_Image_2;
+        // let prodImg3 = req.files?.product_Image_3;
+        // let prodImg4 = req.files?.product_Image_4;
+        // let variantId = response.variantid;
+        // let proid = response.result.insertedId;
 
-        const path = `./public/images/product-images/${proid}`;
+        // const path = `./public/images/product-images/${proid}`;
 
-        fs.mkdir(path, (err) => {
-          if (err) {
-            throw err;
-          }
-        });
+        // fs.mkdir(path, (err) => {
+        //   if (err) {
+        //     throw err;
+        //   }
+        // });
 
         // Moving Image 1
-        prodImg1.mv(
-          `./public/images/product-images/${proid}/${variantId}_1.webp`,
-          (err, done) => {
-            if (!err) {
-              // Moving Image 2
-              prodImg2.mv(
-                `./public/images/product-images/${proid}/${variantId}_2.webp`,
-                (err, done) => {
-                  if (!err) {
-                    // Moving Image 3
-                    prodImg3.mv(
-                      `./public/images/product-images/${proid}/${variantId}_3.webp`,
-                      (err, done) => {
-                        if (!err) {
-                          // Moving Image 4
-                          prodImg4.mv(
-                            `./public/images/product-images/${proid}/${variantId}_4.webp`,
-                            (err, done) => {
-                              if (!err) {
-                                productAddMsg.status = true;
-                                res.redirect("/admin/add-product");
-                              }
-                            }
-                          );
-                        } else {
-                          productAddMsg.status = false;
-                          productAddMsg.imageErr = "Image Upload Failed";
-                          res.redirect("/admin/add-product");
-                        }
-                      }
-                    );
-                  } else {
-                    productAddMsg.status = false;
-                    productAddMsg.imageErr = "Image Upload Failed";
-                    res.redirect("/admin/add-product");
-                  }
-                }
-              );
-            } else {
-              productAddMsg.status = false;
-              productAddMsg.imageErr = "Image Upload Failed";
-              res.redirect("/admin/add-product");
-            }
-          }
-        );
+        // prodImg1.mv(
+        //   `./public/images/product-images/${proid}/${variantId}_1.webp`,
+        //   (err, done) => {
+        //     if (!err) {
+        //       // Moving Image 2
+        //       prodImg2.mv(
+        //         `./public/images/product-images/${proid}/${variantId}_2.webp`,
+        //         (err, done) => {
+        //           if (!err) {
+        //             // Moving Image 3
+        //             prodImg3.mv(
+        //               `./public/images/product-images/${proid}/${variantId}_3.webp`,
+        //               (err, done) => {
+        //                 if (!err) {
+        //                   // Moving Image 4
+        //                   prodImg4.mv(
+        //                     `./public/images/product-images/${proid}/${variantId}_4.webp`,
+        //                     (err, done) => {
+        //                       if (!err) {
+        //                         productAddMsg.status = true;
+        //                         res.redirect("/admin/add-product");
+        //                       }
+        //                     }
+        //                   );
+        //                 } else {
+        //                   productAddMsg.status = false;
+        //                   productAddMsg.imageErr = "Image Upload Failed";
+        //                   res.redirect("/admin/add-product");
+        //                 }
+        //               }
+        //             );
+        //           } else {
+        //             productAddMsg.status = false;
+        //             productAddMsg.imageErr = "Image Upload Failed";
+        //             res.redirect("/admin/add-product");
+        //           }
+        //         }
+        //       );
+        //     } else {
+        //       productAddMsg.status = false;
+        //       productAddMsg.imageErr = "Image Upload Failed";
+        //       res.redirect("/admin/add-product");
+        //     }
+        //   }
+        // );
+        res.redirect("/admin/add-product");
       } else {
         res.redirect("/admin/add-product");
       }

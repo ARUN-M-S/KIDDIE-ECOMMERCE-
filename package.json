@@ -33,6 +33,7 @@
     "paypal-rest-sdk": "^1.8.1",
     "razorpay": "^2.8.0",
     "referral-code-generator": "^1.0.8",
+    "sharp": "^0.30.5",
     "twilio": "^3.71.1"
   }
 }

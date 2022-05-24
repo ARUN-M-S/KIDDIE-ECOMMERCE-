@@ -1224,9 +1224,36 @@ router.get("/arunmsssss", (req, res) => {
 });
 
 router.post("/multerprofile", upload.array("avatar", 10), (req, res) => {
+ 
   adminHelper.addmulter(req.files).then((resp)=>{
-    console.log(resp,"user.js1228");
+    res.redirect("/arunmsssss")
   })
 });
+
+
+
+router.get("/multer", (req,res)=>{
+  res.render("../arun")
+});
+
+
+
+router.post("/multiple-upload",(req,res)=>{
+  console.log(req.body.images,"user.js 1242");
+    userHelper.uploadImages(req.files),
+ userHelper.resizeImages(req.files),
+  userHelper.getResult(req.body)
+    res.redirect("/multer")
+
+
+  })
+
+  
+
+
+
+
+
+
 
 module.exports = router;

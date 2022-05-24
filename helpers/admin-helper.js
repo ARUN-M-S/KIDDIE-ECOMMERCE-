@@ -78,7 +78,9 @@ module.exports = {
   },
 
   //===================== Add product brand to Database===================
-  addBrand: (brandData) => {
+  addBrand: (brandData,images) => {
+    brandData.image=images.filename
+    
     return new Promise(async (resolve, reject) => {
       let isBrand = await db
         .get()
@@ -625,41 +627,40 @@ userEmail:(id)=>{
     
 })},
 addmulter:(id)=>{
+  // console.log(id[0].filename,"admin-helper.js 632");
+  img=[]
+  images={};
   return new Promise(async(resolve,reject)=>{
-    // let filenames = id.map((info, index) => {
-    //   console.log(JSON.stringify(info));
-    //   return id[index].filename;
-    // });
-    // let filename=[];
-    // let sss=id.length
-    for(i=0;i<id.length;i++){
-      id[i]._id=new objectId()
-    }
-    
-   console.log(id);
-    let userMail= await db.get().collection(collections.MULTER_COLLECTION).findOne({_id: { $exists: true }})
-    if(userMail){
+    let userMail= await db.get().collection(collections.MULTER_COLLECTION).findOne({_id: { $exists: true }}) 
+    if(!userMail){
+      for(i=0;i<id.length;i++){
+        images.filename=id[i].filename
+        // images._id=new objectId()
       db.get()
       .collection(collections.MULTER_COLLECTION)
       .updateOne(
-        
+        {_id:{$exists:true}},
         {
           $push: {
-           id
+          //  id:{$each:images},
+          images
           },
         }
       )
       .then(() => {
         resolve()
       });
-    }else{
+    }}else{
+      for(i=0;i<id.length;i++){
+        images.filename=id[i].filename
+        // images._id=new objectId()
       db.get()
       .collection(collections.MULTER_COLLECTION)
       .insertOne(
         
         {
           
-          id
+          images
          
         }
       )
@@ -667,10 +668,13 @@ addmulter:(id)=>{
         resolve()
       });
     }
-      console.log(userMail,"admin-helper612");
-      resolve(userMail)
+      // console.log(userMail,"admin-helper612");
+      resolve(userMail)}
   
 
-})}
+})},
+
+
+
 
 };
