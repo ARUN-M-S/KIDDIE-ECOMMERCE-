@@ -504,17 +504,17 @@ router.get("/getBrandProducts",(req,res)=>{
   res.json({status:true})
 })
 
-// searching for products
+// =========================searching for products====================
 router.post("/searchProduct",async (req,res)=>{
   let payload = req.body.payload.trim()
   let search = await userHelper.getSearchProduct(payload)
   
-  // Limit search result to 10
+  //=============================== Limit search result to 10==================
   search = search.slice(0,10)
   res.send({payload: search})
 })
 
-// cart view page
+// =========================cart view page=============================
 router.get("/cart", async (req, res, next) => {
   
   if (req.session?.user?.loggedIn) {
