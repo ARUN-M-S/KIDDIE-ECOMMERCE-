@@ -682,7 +682,9 @@ checkWallet:(cash,userId)=>{
               },
               {
                 $unset:{
-                  "productVariants.$[].offerPrice": ""
+                  "productVariants.$[].offerPrice": "",
+              "productVariants.$[].offer": ""
+
                 }
               })
 
@@ -714,7 +716,9 @@ checkWallet:(cash,userId)=>{
               },
               {
                 $unset:{
-                  "productVariants.$[].offerPrice": ""
+                  "productVariants.$[].offerPrice": "",
+              "productVariants.$[].offer": ""
+
                 }
               })
 
