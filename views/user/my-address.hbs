@@ -1,335 +1,261 @@
-<section style="background-color: antiquewhite;min-height:80vh">
+<div class="container my-5 py-5 vh-100" >
+   
 
-    <div class="container">
-        <div class="row">
-
-
-
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-                integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
-
-            <div class="col-md-12">
-                <div class="row mt-4">
-                    {{#each Address}}
-
-                    <div class="col-xl-4 col-lg-4 col-6">
-                        <div class="card l-bg-cherry">
-                            <a href="/add-address" class="btn btn-primary">Add address</a>
-
-
-
-                            <div class="card-statistic-3  pl-3 pt-2">
-
-                                <div class="mb-4">
-                                    <a href="/deleteadd/{{this.Address.Useraddress}}" class="fa-solid fa-trash-can"
-                                        style="color: #000;padding-left:19rem"></a>
-
-                                    <h6 class="card-title mb-0" style="color: rgb(0, 0, 0); font-size:1rem">
-                                        <p class="fw-bold"><span class="fw-bold"
-                                                style="text-decoration: solid; font-size: larger;">
-                                                Name:</span>{{this.address.name}}<span
-                                                style="text-decoration: solid; font-size: larger;padding-left: 30px;">
-                                                Phone:</span>{{this.address.phone}}</p>
-
-                                   <p class="fw-bold"><span class="fw-bold"
-                                                style="text-decoration: solid; font-size: larger;">
-                                                H No:</span>{{this.address.houseNumber}}<span
-                                                style="text-decoration: solid; font-size: larger;padding-left: 30px;">
-                                                Locality:</span>{{this.address.locality}}</p>
-                                            <p class="fw-bold "><span
-                                                    style="text-decoration: solid; font-size: larger;">
-                                                    District:</span>{{this.address.district}}<span
-                                                    style="text-decoration: solid; font-size: larger;padding-left: 30px;">
-                                                    State:</span>{{this.address.state}}</p>
-
-                                            <span class="card-title mb-0"
-                                                style="color: rgb(0, 0, 0);font-size:1rem">{{this.Address.city}}</span>
-                                            <h6 class="card-title mb-0" style="color: rgb(0, 0, 0); font-size:1rem ">
-                                                Contact:{{this.Address.phoneNumber}}</h6>
-
-
-
-
-                                            <div class="form-check form-switch ">
-                                                {{log this.Address.Useraddress}}
-                                                {{!--
-                                                <div class="col-sm-12">
-                                                    <p class="text-muted mb-0">{{profile.email}} <button type="button"
-                                                            style="border: 0;" class="fas fa-edit"
-                                                            data-bs-toggle="modal" data-bs-target="#myModal2"></button>
-                                                    <div class="modal" id="myModal2">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header"
-                                                                    style="background-color: #000;">
-                                                                    <h5 class="modal-title">Edit Address</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-
-
-
-                                                                    <div class="col-md-12 mb-4">
-                                                                        <div class="card mb-4" style="color: #000;">
-
-
-                                                                            <div class="card-body bg-light">
-                                                                                <form
-                                                                                    action="/editcurrentAddress/{{this.Address.Useraddress}}"
-                                                                                    method="post">
-                                                                                    <!-- 2 column grid layout with text inputs for the first and last names -->
-                                                                                    <div class="row mb-4">
-                                                                                        <div class="col">
-                                                                                            <div class="form-outline"
-                                                                                                style="color: #000;">
-                                                                                                <input type="text"
-                                                                                                    id="form7Example1"
-                                                                                                    name="name"
-                                                                                                    class="form-control"
-                                                                                                    value="{{this.Address.name}}"
-                                                                                                    required />
-                                                                                                <input type="text"
-                                                                                                    value="{{user._id}}"
-                                                                                                    name="userId"
-                                                                                                    class="form-control"
-                                                                                                    hidden />
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="form7Example1">Name</label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col">
-                                                                                            <div class="form-outline">
-                                                                                                <input type="text"
-                                                                                                    id="form7Example2"
-                                                                                                    name="phoneNumber"
-                                                                                                    class="form-control"
-                                                                                                    value="{{this.Address.phoneNumber}}"
-                                                                                                    required />
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="form7Example2">Phone
-                                                                                                    Number</label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Text input -->
-                                                                                    <div class="row mb-4">
-                                                                                        <div class="col">
-                                                                                            <div
-                                                                                                class="form-outline mb-4">
-                                                                                                <input type="text"
-                                                                                                    id="form7Example3"
-                                                                                                    name="state"
-                                                                                                    class="form-control"
-                                                                                                    value="{{this.Address.state}}"
-                                                                                                    required />
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="form7Example3">State</label>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <!-- Text input -->
-                                                                                        <div class="col">
-                                                                                            <div
-                                                                                                class="form-outline mb-4">
-                                                                                                <input type="text"
-                                                                                                    id="form7Example4"
-                                                                                                    name="pincode"
-                                                                                                    class="form-control"
-                                                                                                    value="{{this.Address.pincode}}"
-                                                                                                    required />
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="form7Example4">Pincode</label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Email input -->
-                                                                                    <div class="row mb-4">
-                                                                                        <div class="col">
-                                                                                            <div
-                                                                                                class="form-outline mb-4">
-                                                                                                <input type="text"
-                                                                                                    id="form7Example5"
-                                                                                                    name="city"
-                                                                                                    class="form-control"
-                                                                                                    value="{{this.Address.city}}"
-                                                                                                    required />
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="form7Example5">City</label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <!-- Number input -->
-                                                                                        <div class="col">
-                                                                                            <div
-                                                                                                class="form-outline mb-4">
-                                                                                                <input type="number"
-                                                                                                    id="form7Example6"
-                                                                                                    name="house"
-                                                                                                    class="form-control"
-                                                                                                    value="{{this.Address.house}}"
-                                                                                                    required />
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="form7Example6">House
-                                                                                                    No,Building
-                                                                                                    Name</label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Message input -->
-                                                                                    <div class="form-outline mb-4">
-                                                                                        <input class="form-control"
-                                                                                            id="form7Example7"
-                                                                                            name="address"
-                                                                                            value="{{this.Address.address}}"
-                                                                                            rows="4">
-                                                                                        <label class="form-label"
-                                                                                            for="form7Example7">Address
-                                                                                            information</label>
-                                                                                    </div>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-primary mt-3">Submit</button>
-
-                                                                                    <!-- Checkbox -->
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    </p>
-                                                </div>
-                                                --}}
-
-
-
-
-
-
-                                                {{!-- <input class="form-check-input" name="checkoutAddress"
-                                                    type="radio" id="exampleRadios1"
-                                                    value="{{this.Address.Useraddress}}" checked>
-                                                <label class="form-check-label" for="{{this.Address.Useraddress}}">
-                                                    {{this.Address.home}}
-                                                </label> --}}
-                                            </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    {{/each}}
-                </div>
+  <!--Section: Design Block-->
+  <section>
+      {{#if profileMsg}}
+            <div
+              class="alert alert-success alert-dismissible fade show"
+              role="alert"
+            >
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <strong>{{profileMsg}}</strong>
             </div>
 
+          {{/if}}
+         
+
+
+    <div class="row" >
+<div class="pb-5">
+     <a
+                class="btn btn-outline-primary btn-sm ms-3 px-1"
+                href="/add-address"
+                style="font-size: 13px;"
+              >ADD NEW ADDRESS</a>
+</div>
+           {{#each Address}} 
+      <div class="col-12 col-md-4 mb-4 position-static" >
+           
+        <div class="card mb-4 " >
+          <div class="card-header py-3">
+            <h5 class="mb-0 text-font">Address </h5>
+          </div>
+
+
+        
+        
+
+
+
+          
+           
+           
+            <div class="card mt-4" style="background-color: rgb(183, 230, 235);">
+             
+              
+              <div class="card-body px-1 my-0 py-0">
+                <p class="fw-bold">Name:{{this.address.name}} <br> Phone: {{this.address.phone}}</p>
+                <p class="" style="font-size: 15px;">
+                House no:  {{this.address.houseNumber}}<br> Street: {{this.address.streetAddress}}
+                  <br />
+                Pincode:  {{this.address.pincode}}
+                </p>
+               District: {{this.address.district}}<br>State:{{this.address.state}}
+                
+                <div class="text-center mt-0">
+                  <a href="/edit-address?id={{this.address.addressId}}" class="">
+                    <i class="fas fa-edit text-primary"></i>
+                  </a>
+                  <a onclick="deleteAddress('{{this.address.addressId}}')">
+                    <i class="fas fa-trash text-danger ms-4"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+          
+      
+            
+          </div>
+          
         </div>
-    </div>
-</section>
+        {{/each}}
+      </div>
+        
+
+     
+
+  </section>
+  <!--Section: Design Block-->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- JS Validator -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"
+    ></script>
+
+    <!-- form submission file -->
+    <script src="/javascripts/validator.js"> </script>
+
+
+
 <style>
-    {
-            {
-             !--======================popup=================--
-        }
-    }
-
-    .modal-header {
-        background: #F7941E;
-        color: #fff;
-    }
-
-    .required:after {
-        content: "*";
-        color: red;
-    }
-
-        {
-            {
-             !--======================popup=================--
-        }
-    }
-
-
-    .card {
-        background-color: #fff;
-        border-radius: 10px;
-        border: none;
-        position: relative;
-        margin-bottom: 30px;
-        box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1), 0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12), 0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
-    }
-
-    .l-bg-cherry {
-        background: linear-gradient(to right, #ffffff, rgb(240, 240, 240)) !important;
-        color: #fff;
-    }
-
-    .l-bg-blue-dark {
-        background: linear-gradient(to right, #373b44, #4286f4) !important;
-        color: #fff;
-    }
-
-    .l-bg-green-dark {
-        background: linear-gradient(to right, #0a504a, #38ef7d) !important;
-        color: #fff;
-    }
-
-    .l-bg-orange-dark {
-        background: linear-gradient(to right, #a86008, #ffba56) !important;
-        color: #fff;
-    }
-
-    .card .card-statistic-3 .card-icon-large .fas,
-    .card .card-statistic-3 .card-icon-large .far,
-    .card .card-statistic-3 .card-icon-large .fab,
-    .card .card-statistic-3 .card-icon-large .fal {
-        font-size: 70px;
-    }
-
-    .card .card-statistic-3 .card-icon {
-        text-align: center;
-        line-height: 50px;
-        margin-left: 15px;
-        color: #000;
-        position: absolute;
-        right: -5px;
-        top: 20px;
-        opacity: 0.1;
-    }
-
-    .l-bg-cyan {
-        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
-        color: #fff;
-    }
-
-    .l-bg-green {
-        background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
-        color: #fff;
-    }
-
-    .l-bg-orange {
-        background: linear-gradient(to right, #f9900e, #ffba56) !important;
-        color: #fff;
-    }
-
-    .l-bg-cyan {
-        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
-        color: #fff;
-    }
+    .text-font{
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-weight: 700;
+letter-spacing: .156rem;
+font-size: 1.125rem;
+}
+.text-price{
+padding: 0 .625rem;
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-style: normal;
+font-size: .75rem;
+font-weight: 700;
+line-height: .813rem;
+letter-spacing: 1.6px;
+}
+.text-descriptions{
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-style: normal;
+font-size: .75rem;
+font-weight: 400;
+line-height: 1.125rem;
+margin: .313rem 0 .938rem;
+padding: 0 .625rem;
+}
+.button-color{
+color: #4e4e4e ;
+border-color: #4e4e4e ;
+}
+.button-order{
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-style: normal;
+font-size: .75rem;
+font-weight: 700;
+background-color: hsl(90, 40%, 50%);
+color: white;
+}
 </style>
+
+
+
+    <style>
+  /* user profile */ body { background: rgba(255, 255, 255, 0.507) }
+  .form-control:focus { box-shadow: none; border-color: #BA68C8 }
+  .profile-button { background: rgb(99, 39, 120); box-shadow: none; border: none
+  } .profile-button:hover { background: #682773 } .profile-button:focus {
+  background: #682773; box-shadow: none } .profile-button:active { background:
+  #682773; box-shadow: none } .back:hover { color: #682773; cursor: pointer }
+  .labels { font-size: 16px } .add-experience:hover { background: #BA68C8;
+  color: #fff; cursor: pointer; border: solid 1px #BA68C8 } .profile-div{
+  background: rgba(46, 170, 160, 0.603); box-shadow: 2px 5px 10px;
+  border-radius: 30px; } .address-fields{ background-color: rgba(51, 139, 125,
+  0.589); padding: 40px 5px; box-shadow: 2px 5px 10px; } .profile-view {
+  background-color: rgba(51, 139, 125, 0.589); padding: 40px 5px; box-shadow:
+  2px 5px 10px; }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  //   FILTER INPUT FIELDS
+function setInputFilter(textbox, inputFilter) {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop",
+  ].forEach(function (event) {
+    textbox.addEventListener(event, function () {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+  // ONLY 10 NUMBERS IN PHONE FIELD
+setInputFilter(document.getElementById("phonenumber"), function (value) {
+  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999999999);
+});
+</script>
+
+
+
+<script>
+
+  // Check whether password and retype password is equal in reset password page
+
+var changePassForm = $("#changePassForm");
+changePassForm.validate({
+  rules: {
+    currPass: {
+      required: true,
+      minlength: 5,
+    },
+    newPass: {
+      required: true,
+      minlength: 5,
+    },
+    retryNewPass: {
+      minlength: 5,
+      equalTo: "#newPassword",
+    },
+  },
+});
+
+
+
+$(document).ready(function () {
+  $("#retryNewPass").on("keyup", function () {
+    var password = $("#newPass").val();
+    var confirmPassword = $("#retryNewPass").val();
+    if (password != confirmPassword)
+      $("#CheckPasswordMatch")
+        .html("Password does not match !")
+        .css("color", "red");
+    else
+      $("#CheckPasswordMatch").html("Password match !").css("color", "green");
+  });
+});
+
+
+
+</script>
