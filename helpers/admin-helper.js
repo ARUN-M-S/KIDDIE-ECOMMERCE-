@@ -78,9 +78,7 @@ module.exports = {
   },
 
   //===================== Add product brand to Database===================
-  addBrand: (brandData,images) => {
-    brandData.image=images.filename
-    
+  addBrand: (brandData) => {
     return new Promise(async (resolve, reject) => {
       let isBrand = await db
         .get()
@@ -625,56 +623,5 @@ userEmail:(id)=>{
       resolve(userMail)
   
     
-})},
-addmulter:(id)=>{
-  // console.log(id[0].filename,"admin-helper.js 632");
-  img=[]
-  images={};
-  return new Promise(async(resolve,reject)=>{
-    let userMail= await db.get().collection(collections.MULTER_COLLECTION).findOne({_id: { $exists: true }}) 
-    if(!userMail){
-      for(i=0;i<id.length;i++){
-        images.filename=id[i].filename
-        // images._id=new objectId()
-      db.get()
-      .collection(collections.MULTER_COLLECTION)
-      .updateOne(
-        {_id:{$exists:true}},
-        {
-          $push: {
-          //  id:{$each:images},
-          images
-          },
-        }
-      )
-      .then(() => {
-        resolve()
-      });
-    }}else{
-      for(i=0;i<id.length;i++){
-        images.filename=id[i].filename
-        // images._id=new objectId()
-      db.get()
-      .collection(collections.MULTER_COLLECTION)
-      .insertOne(
-        
-        {
-          
-          images
-         
-        }
-      )
-      .then(() => {
-        resolve()
-      });
-    }
-      // console.log(userMail,"admin-helper612");
-      resolve(userMail)}
-  
-
-})},
-
-
-
-
+})}
 };

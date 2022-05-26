@@ -1,19 +1,12 @@
 <div class="container col-5 mt-3 mb-5 justify-content-center">
   <div class="signup__form row">
-    {{!-- <form
+    <form
       action="/admin/addBrand"
       class="col"
       enctype="multipart/form-data"
       id="addBrandForm"
       method="post"
-    > --}}
-{{!-- <form action="/multerprofile" method="post" enctype="multipart/form-data">
-  <input type="file" name="avatar" multiple />
-  <button type="submit">submit</button>
-</form> --}}
-
-
-    <form action="/admin/addBrand" method="post" enctype="multipart/form-data">
+    >
       <div class="row">
         <div class="col">
           <p
@@ -30,11 +23,7 @@
             <div class="col">
               <div class="signup__input">
                 <p>Brand Logo: </p>
-                {{!-- <input type="file" name="brandLogo" accept="image/*" id="logoInput" /> --}}
-               
-  <input type="file" name="brandLogo" id="logoInput"  />
- 
-
+                <input type="file" name="brandLogo" accept="image/*" id="logoInput" />
                 <div class="image-preview" id="imagePreview">
                   <img src="" alt="Image Preview" class="image-preview-image">
                   <span class="image-preview-text">Image Preview</span>
@@ -92,7 +81,7 @@
           {{#each allBrand}}
             <tr>
               <td class="align-middle">{{@index}}</td>
-              <td class="align-middle"> <img src="/images/multerimages/product-Images/{{this.image}}" width="50px" height="50px"> </td>
+              <td class="align-middle"> <img src="/images/brand-logo/{{this._id}}.png" width="50px" height="50px"> </td>
               <td class="align-middle"> {{this.brandName}} </td>
               <td class="align-middle">
                       <a onclick="deleteBrand('{{this.brandName}}')"  class="text-danger"><i class="fas fa-trash-alt"></i></a>

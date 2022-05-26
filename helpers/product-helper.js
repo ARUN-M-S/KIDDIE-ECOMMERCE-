@@ -1,20 +1,13 @@
-let db = require("../config/connection");
-let collections = require("../config/collection");
+var db = require("../config/connection");
+var collections = require("../config/collection");
 const bcrypt = require("bcrypt");
- objectId = require("mongodb").ObjectId;
+var objectId = require("mongodb").ObjectId;
 const { response } = require("express");
 const { Collection } = require("mongodb");
 
 module.exports = {
      // Add product to Database
-  addProduct: (productData,images) => {
-    
-    // productImages=[];
-    for(i=0;i<images.length;i++){
-      // console.log("productimages14");
-      images[i]._id=new objectId()
-    }
-    // console.log(productImages[0].filename,"producthelper.js 15");
+  addProduct: (productData) => {
     productData.productQuantity = parseInt(productData.productQuantity);
     productData.landingCost = parseInt(productData.landingCost);
     productData.productPrice = parseInt(productData.productPrice);
@@ -44,7 +37,6 @@ module.exports = {
               productCategory:productData.productCategory,
               productSubcategory:productData.productSubcategory,
               Date:date,
-              images:images,
 
               productVariants: [{
                 variantId: variantid,
@@ -690,7 +682,9 @@ checkWallet:(cash,userId)=>{
               },
               {
                 $unset:{
-                  "productVariants.$[].offerPrice": ""
+                  "productVariants.$[].offerPrice": "",
+              "productVariants.$[].offer": ""
+
                 }
               })
 
@@ -722,7 +716,9 @@ checkWallet:(cash,userId)=>{
               },
               {
                 $unset:{
-                  "productVariants.$[].offerPrice": ""
+                  "productVariants.$[].offerPrice": "",
+              "productVariants.$[].offer": ""
+
                 }
               })
 

@@ -394,7 +394,7 @@
 
         fetch('searchProduct',{
           method: "post",
-          {{!-- headers: {'Content-Type': 'application/json'}, --}}
+          headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({payload: e.value})
         }).then(res => res.json()).then(data => {
           let payload = data.payload

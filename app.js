@@ -4,12 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const dotenv=require('dotenv')
-dotenv.config({path:"config/config.env"})
+dotenv.config({path:".env"})
 
 
 
 // File Upload
-// var fileUpload = require('express-fileupload')
+var fileUpload = require('express-fileupload')
 
 // setting ENV 
 
@@ -43,7 +43,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // File upload Middleware
-// app.use(fileUpload())
+app.use(fileUpload())
 
 // session middleware
 app.use(session({
