@@ -340,7 +340,7 @@ function deleteAddress(addressId){
         data:{addressId},
         success:(resp)=>{
           if(resp.status){
-            location.replace('/user-profile')
+            location.replace('/myaddress')
           }
         }
       })

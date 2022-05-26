@@ -718,8 +718,8 @@ router.get("/place-order", verifyBlock, async function (req, res, next) {
             payment_method: "paypal",
           },
           redirect_urls: {
-            return_url: "http://localhost:3000/success",
-            cancel_url: "http://localhost:3000/cancel",
+            return_url: "http://kiddiee.shop/success",
+            cancel_url: "http://kiddiee.shop/cancel",
           },
           transactions: [
             {
@@ -831,8 +831,8 @@ router.get("/place-order-buynow", verifyBlock, async function (req, res, next) {
             payment_method: "paypal",
           },
           redirect_urls: {
-            return_url: "http://localhost:3000/success",
-            cancel_url: "http://localhost:3000/cancel",
+            return_url: "http://kiddiee.shop/success",
+            cancel_url: "http://kiddiee.shop/cancel",
           },
           transactions: [
             {
@@ -1274,7 +1274,7 @@ var transporter = nodemailer.createTransport({
        from:"sajeevpraveen2@gmail.com",
        to: email,
        subject:"Kiddie Password Reset",
-      text:"http://localhost:3000/reset-passwordWemail"})
+      text:"http://kiddiee.shop/reset-passwordWemail"})
    
       
        
