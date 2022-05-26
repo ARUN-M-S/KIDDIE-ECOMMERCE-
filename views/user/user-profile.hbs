@@ -168,7 +168,7 @@
                 class="fas fa-user-edit mt-4"
               ></i></a>
         </span></h3>
-          <a style="color: blue;">http://localhost:3000/signup?referel={{user.referel}}</a>
+          <a style="color: blue;">http://kiddiee.shop/signup?referel={{user.referel}}</a>
 
                         <div class="d-flex justify-content-center mb-2">
                             <div class="container ">
@@ -205,39 +205,16 @@
 
                             {{!-- ===========================================password================= --}}
 
+
+                            {{!-- <span class="my-2">
+            <a href="" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">
+              Change Password <i class="fa fa-user-circle text-primary" aria-hidden="true"></i>
+            </a>
+          </span> --}}
+
                             <button type="button" class="btn btn-dark" data-bs-toggle="modal"
-                                data-bs-target="#myModal1">Change Password</button>
-                            <div class="modal" id="myModal1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Change Password</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="/changepassword" method="post">
-                                                <input name="userId" value="{{profile._id}}" hidden>
-                                                <div class="form-outline form-white mb-4">
-                                                    <input type="password" name="password" placeholder="Old password"
-                                                        id="password" class="form-control form-control-lg" required />
-                                                    <p id="Password-error" class="error text-danger"></p>
-                                                </div>
-                                                <div class="form-outline form-white mb-4">
-                                                    <input type="password" name="newPassword" placeholder="New Password"
-                                                        id="password" class="form-control form-control-lg" required />
-                                                    <p id="Password-error" class="error text-danger"></p>
-                                                </div>
-
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                data-bs-target="#exampleModal2">Change Password</button>
+                            
 
                             {{!-- ======================================password================= --}}
 
