@@ -204,14 +204,14 @@
            
             {{!-- =================================WalletAMount================ --}}
 
- 
-                <h6 class="mt-3">Walletamount </h6>
+ {{#if wallet}} 
+                <h6 class="mt-3">Walletamount:Rs{{wallet}} </h6>
                 <div id="walletMsg"></div>
                 <form action="" id="walletForm">
                   <input type="text" id="walletAmount" style="text-transform:uppercase" placeholder="wallet" />
                   <button type="button" onclick="checkWallet()">Apply</button>
                 </form>
-                
+                {{/if}} 
              </div>
 
             {{!-- =================================WalletAMount================ --}}

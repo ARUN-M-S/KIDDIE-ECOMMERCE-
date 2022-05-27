@@ -28,7 +28,7 @@ module.exports = {
       referel=referralCodeGenerator.alphaNumeric('uppercase', 2, 3)
       userData.date = date;
       userData.referel=referel;
-      userData.walletAmount=100;
+      // userData.walletAmount=0;
       
       db.get()
         .collection(collections.USER_COLLECTION)
@@ -1115,6 +1115,13 @@ return new Promise(async (resolve,reject)=>{
        
       console.log(arun,"userhelpers1107");
       resolve()
+    })
+  },
+  getwalletAmount:(id)=>{
+    return new Promise(async(resolve,reject)=>{
+      let wallet= await db.get().collection(collections.USER_COLLECTION).find({_id:objectId(id)}).toArray()
+      console.log(wallet);
+      resolve(wallet)
     })
   }
 };

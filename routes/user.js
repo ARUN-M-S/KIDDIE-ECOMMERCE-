@@ -618,6 +618,9 @@ router.get("/checkout", verifyBlock, async function (req, res, next) {
   if (products.length != 0) {
     let addresses = await userHelper.getAddress(req.session.user._id);
     let grandTotal = await userHelper.getGrandTotal(req.session.user._id);
+    let WalletAmount = await userHelper.getwalletAmount(req.session.user._id);
+    let wallet=await WalletAmount[0].walletAmount
+
     grandTotal = grandTotal[0]?.grandTotal;
     res.render("user/checkout", {
       title: "KIDDIE",
@@ -626,6 +629,7 @@ router.get("/checkout", verifyBlock, async function (req, res, next) {
       products,
       grandTotal,
       checkoutAddressMsg,
+      wallet
     });
     checkoutAddressMsg = null;
   }
